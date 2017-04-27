@@ -14,11 +14,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-import creeper_san.weather.BootActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private final String TAG = getClass().getSimpleName();
@@ -30,7 +33,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         inflater = LayoutInflater.from(this);
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     *      EventBus
+     */
+    protected void postEvent(Object event){
+        EventBus.getDefault().post(event);
+    }
+    protected void postStickyEvent(Object event){
+        EventBus.getDefault().postSticky(event);
+    }
+    @Subscribe
+    public void onEvent(String command){
+    }
+    /**
+     *      抽象方法
+     */
 
     protected abstract @LayoutRes int getLayout();
 
@@ -161,7 +187,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void registerReceiver(BroadcastReceiver receiver,List<String> filter){
         registerReceiver(receiver,(String[])filter.toArray());
     }
-
 
     /**
      *      Toast & Log
