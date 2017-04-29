@@ -8,8 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import creeper_san.weather.Application.WeatherApplication;
-
-import static creeper_san.weather.Helper.UrlHelper.Language.*;
+import static creeper_san.weather.Flag.LanguageCode.*;
 
 
 public class UrlHelper {
@@ -18,7 +17,8 @@ public class UrlHelper {
     private final static String URL_SUGGESTION = "https://free-api.heweather.com/v5/suggestion?";//生活指数
     private final static String URL_HOURLY = "https://free-api.heweather.com/v5/hourly?";//未来每小时
     private final static String URL_NOW = "https://free-api.heweather.com/v5/now?";//实况天气
-    private final static String URL_FORECAST = "https://free-api.heweather.com/v5/forecast?";//3天天气预拌
+    private final static String URL_FORECAST = "https://free-api.heweather.com/v5/forecast?";//3天天气
+    private final static String URL_WEATHER = "https://free-api.heweather.com/v5/weather?";//全部天气
 
     //用于计算标签
     public static String decodeHead(){
@@ -91,22 +91,17 @@ public class UrlHelper {
         return generateForecastUrl(cityName,CHINESE);
     }
 
-    @StringDef({CHINESE,ENGLISH})
-    @Retention(RetentionPolicy.SOURCE)
-    public @interface Language_{}
-    public class Language{
-        public static final String CHINESE = "zh";
-        public static final String ENGLISH = "en";
+    /**
+     *      此方法用于生成城市天气Url
+     * @param cityName  城市名字
+     * @param language  语言
+     * @return          URL
+     */
+    public static String generateWeatherUrl(String cityName,@Language_ String language){
+        return URL_WEATHER+"city="+cityName+"&lang="+language+"&"+decodeHead();
+    }
+    public static String generateWeatherUrl(String cityName){
+        return generateWeatherUrl(cityName,CHINESE);
     }
 
-    public class ErrorCode{
-        public final static String CODE_OK = "ok";//请求完成
-        public final static String CODE_KEY_INVALID = "invalid key";//Key错误
-        public final static String CODE_UNKNOWN_CITY = "unknown city";//城市没找到
-        public final static String CODE_OUT_OF_REQUEST = "no more requests";//超过访问次数
-        public final static String CODE_PARAM_INVALID = "param invalid";//参数错误
-        public final static String CODE_VIP_OVER = "vip over";//VIP账号到期
-        public final static String CODE_ANR = "anr";//请求处理超时
-        public final static String CODE_PERMISSION_DENIED = "permission denied";//无访问权限
-    }
 }

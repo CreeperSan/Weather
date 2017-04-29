@@ -24,6 +24,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
+    private final String EVENT_BUS_BASE_FINISH = "Finish";
+
     private final String TAG = getClass().getSimpleName();
     protected LayoutInflater inflater;
 
@@ -45,10 +47,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      *      EventBus
      */
-    protected void postEvent(Object event){
+    protected <T> void postEvent(T event){
         EventBus.getDefault().post(event);
     }
-    protected void postStickyEvent(Object event){
+    protected <T> void postStickyEvent(T event){
         EventBus.getDefault().postSticky(event);
     }
     @Subscribe
