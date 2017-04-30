@@ -15,21 +15,13 @@ import creeper_san.weather.Flag.ErrorCode;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
+import static creeper_san.weather.Flag.JsonKey.*;
 
 /**
  *      城市搜索返回的结果
  */
 
 public class SearchItem extends BaseItem{
-    private final static String KEY_HE_WEATHER5 = "HeWeather5";
-    private final static String KEY_BASIC = "basic";
-    private final static String KEY_CITY = "city";
-    private final static String KEY_CNTY = "cnty";
-    private final static String KEY_ID = "id";
-    private final static String KEY_LAT = "lat";
-    private final static String KEY_LON = "lon";
-    private final static String KEY_PROV = "prov";
-    private final static String KEY_STATUS = "status";
 
     private List<SearchSingleItem> searchSingleItemList;
 
@@ -53,6 +45,9 @@ public class SearchItem extends BaseItem{
             for (int i=0;i<array.length();i++){
                 try {
                     SearchSingleItem singleItem = new SearchSingleItem((JSONObject) array.get(i));
+                    if (singleItem==null){
+                        continue;
+                    }
                     searchSingleItemList.add(singleItem);
                 } catch (JSONException e) {
                     throw new JsonDecodeException(TYPE_MISS,"缺少城市节点信息",CODE_MISSING);
@@ -65,8 +60,8 @@ public class SearchItem extends BaseItem{
     }
 
     //获取数据的大小
-    public int getSize(){
-        return searchSingleItemList.size();
+    public int size(){
+        return searchSingleItemList==null?0:searchSingleItemList.size();
     }
     //获取数据
     public String getCity(int which){
@@ -93,7 +88,6 @@ public class SearchItem extends BaseItem{
      */
 
     private class SearchSingleItem extends BaseItem{
-
         private String city;//城市
         private String cnty;//所在国家
         private String id;//城市ID
@@ -162,7 +156,4 @@ public class SearchItem extends BaseItem{
         }
     }
 
-    private void log(String content){
-        Log.i("SearchItem",content);
-    }
 }

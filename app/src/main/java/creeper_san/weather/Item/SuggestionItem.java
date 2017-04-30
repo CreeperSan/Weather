@@ -14,29 +14,9 @@ import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
+import static creeper_san.weather.Flag.JsonKey.*;
 
 public class SuggestionItem extends BaseItem{
-    private final static String KEY_HE_WEATHER5 = "HeWeather5";
-    private final static String KEY_BASIC = "basic";
-    private final static String KEY_CITY = "city";
-    private final static String KEY_CNTY = "cnty";
-    private final static String KEY_ID = "id";
-    private final static String KEY_LAT = "lat";
-    private final static String KEY_LON = "lon";
-    private final static String KEY_UPDATE = "update";
-    private final static String KEY_LOC = "loc";
-    private final static String KEY_UTC = "utc";
-    private final static String KEY_STATUS = "status";
-    private final static String KEY_SUGGESTION = "suggestion";
-    private final static String KEY_COMF = "comf";
-    private final static String KEY_CW = "cw";
-    private final static String KEY_DRSG = "drsg";
-    private final static String KEY_FLU = "flu";
-    private final static String KEY_SPORT = "sport";
-    private final static String KEY_TRAV = "trav";
-    private final static String KEY_UV = "uv";
-    private final static String KEY_BRF = "brf";
-    private final static String KEY_TXT = "txt";
 
     private List<SuggestionSingleItem> suggestionSingleItemList;
 
@@ -69,8 +49,8 @@ public class SuggestionItem extends BaseItem{
         }
     }
 
-    public int getSize(){
-        return suggestionSingleItemList.size();
+    public int size(){
+        return suggestionSingleItemList==null?0:suggestionSingleItemList.size();
     }
 
     public String getCity(int which) {
@@ -348,7 +328,4 @@ public class SuggestionItem extends BaseItem{
     }
 
 
-    private void log(String content){
-        Log.i("SuggestionItem",content);
-    }
 }

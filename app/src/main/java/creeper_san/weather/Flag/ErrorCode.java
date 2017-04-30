@@ -1,5 +1,11 @@
 package creeper_san.weather.Flag;
 
+import android.support.annotation.StringDef;
+import android.support.annotation.StringRes;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public class ErrorCode {
     public final static String CODE_OK = "ok";//请求完成
     public final static String CODE_KEY_INVALID = "invalid key";//Key错误
@@ -12,4 +18,9 @@ public class ErrorCode {
 
     public final static String CODE_MISSING = "Miss";//缺少StatusCode
     public final static String CODE_DECODE_ERR = "DecodeErr";//数据解析错误
+
+    @StringDef({CODE_OK,CODE_KEY_INVALID,CODE_UNKNOWN_CITY,CODE_OUT_OF_REQUEST,CODE_PARAM_INVALID,CODE_VIP_OVER,
+            CODE_ANR,CODE_PERMISSION_DENIED,CODE_MISSING,CODE_DECODE_ERR})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface ErrorCode_{};
 }
