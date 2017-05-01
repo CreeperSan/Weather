@@ -48,6 +48,265 @@ public class WeatherItem extends BaseItem {
         }
     }
 
+    public int size(){
+        return singleItemList==null?0:singleItemList.size();
+    }
+    public int dailySize(int which){
+        if (singleItemList==null){
+            return 0;
+        }
+        if (which>=singleItemList.size()){
+            return 0;
+        }
+        if (singleItemList.get(which).dailyItemList == null){
+            return 0;
+        }
+        return singleItemList.get(which).dailyItemList.size();
+    }
+    public int hourlySize(int which){
+        if (singleItemList==null){
+            return 0;
+        }
+        if (which>=singleItemList.size()){
+            return 0;
+        }
+        if (singleItemList.get(which).hourlyItemList == null){
+            return 0;
+        }
+        return singleItemList.get(which).hourlyItemList.size();
+    }
+
+    public String getAqi(int which){
+        return singleItemList.get(which).getAqi();
+    }
+    public String getCo(int which){
+        return singleItemList.get(which).getCo();
+    }
+    public String getNo2(int which){
+        return singleItemList.get(which).getNo2();
+    }
+    public String getO3(int which){
+        return singleItemList.get(which).getO3();
+    }
+    public String getPm10(int which){
+        return singleItemList.get(which).getPm10();
+    }
+    public String getPm25(int which){
+        return singleItemList.get(which).getPm25();
+    }
+    public String getQlty(int which){
+        return singleItemList.get(which).getQlty();
+    }
+    public String getSo2(int which){
+        return singleItemList.get(which).getSo2();
+    }
+    public String getCity(int which){
+        return singleItemList.get(which).getCity();
+    }
+    public String getCountry(int which){
+        return singleItemList.get(which).getCnty();
+    }
+    public String getId(int which){
+        return singleItemList.get(which).getId();
+    }
+    public String getLat(int which){
+        return singleItemList.get(which).getLat();
+    }
+    public String getLon(int which){
+        return singleItemList.get(which).getLon();
+    }
+    public String getLoc(int which){
+        return singleItemList.get(which).getLoc();
+    }
+    public String getUtc(int which){
+        return singleItemList.get(which).getUtc();
+    }
+    public String getCode(int which){
+        return singleItemList.get(which).getCode();
+    }
+    public String getTxt(int which){
+        return singleItemList.get(which).getTxt();
+    }
+    public String getFl(int which){
+        return singleItemList.get(which).getFl();
+    }
+    public String getHum(int which){
+        return singleItemList.get(which).getHum();
+    }
+    public String getPcpn(int which){
+        return singleItemList.get(which).getPcpn();
+    }
+    public String getPres(int which){
+        return singleItemList.get(which).getPres();
+    }
+    public String getTmp(int which){
+        return singleItemList.get(which).getTmp();
+    }
+    public String getVis(int which){
+        return singleItemList.get(which).getVis();
+    }
+    public String getDeg(int which){
+        return singleItemList.get(which).getDeg();
+    }
+    public String getDir(int which){
+        return singleItemList.get(which).getDir();
+    }
+    public String getSc(int which){
+        return singleItemList.get(which).getSc();
+    }
+    public String getSpd(int which){
+        return singleItemList.get(which).getSpd();
+    }
+    public String getBrfAir(int which){
+        return singleItemList.get(which).getBrfAir();
+    }
+    public String getTxtAir(int which){
+        return singleItemList.get(which).getTxtAir();
+    }
+    public String getBrfComf(int which){
+        return singleItemList.get(which).getBrfComf();
+    }
+    public String getTxtComf(int which){
+        return singleItemList.get(which).getTxtComf();
+    }
+    public String getBrfCw(int which){
+        return singleItemList.get(which).getBrfCw();
+    }
+    public String getTxtCw(int which){
+        return singleItemList.get(which).getTxtCw();
+    }
+    public String getBrfDrsg(int which){
+        return singleItemList.get(which).getBrfDrsg();
+    }
+    public String getTxtDrsg(int which){
+        return singleItemList.get(which).getTxtDrsg();
+    }
+    public String getBrfFlu(int which){
+        return singleItemList.get(which).getBrfFlu();
+    }
+    public String getTxtFlu(int which){
+        return singleItemList.get(which).getTxtFlu();
+    }
+    public String getBrfSport(int which){
+        return singleItemList.get(which).getBrfSport();
+    }
+    public String getTxtSport(int which){
+        return singleItemList.get(which).getTxtSport();
+    }
+    public String getBrfTrav(int which){
+        return singleItemList.get(which).getBrfTrav();
+    }
+    public String getTxtTrav(int which){
+        return singleItemList.get(which).getTxtTrav();
+    }
+    public String getBrfUv(int which){
+        return singleItemList.get(which).getBrfUv();
+    }
+    public String getTxtUv(int which){
+        return singleItemList.get(which).getTxtUv();
+    }
+
+    public String getHourlyCode(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getCode();
+    }
+    public String getHourlyTxt(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getTxt();
+    }
+    public String getHourlyDate(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getDate();
+    }
+    public String getHourlyHum(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getHum();
+    }
+    public String getHourlyPop(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getPop();
+    }
+    public String getHourlyPres(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getPres();
+    }
+    public String getHourlyTmp(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getTmp();
+    }
+    public String getHourlyDeg(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getDeg();
+    }
+    public String getHourlyDir(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getDir();
+    }
+    public String getHourlySc(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getSc();
+    }
+    public String getHourlySpd(int which,int when){
+        return singleItemList.get(which).hourlyItemList.get(when).getSpd();
+    }
+
+    public String getDailyMr(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getMr();
+    }
+    public String getDailyMs(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getMs();
+    }
+    public String getDailySr(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getSr();
+    }
+    public String getDailySs(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getSs();
+    }
+    public String getDailyCodeD(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getCodeD();
+    }
+    public String getDailyCodeN(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getCodeN();
+    }
+    public String getDailyTxtD(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getTxtD();
+    }
+    public String getDailyTxtN(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getTxtN();
+    }
+    public String getDailyDate(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getDate();
+    }
+    public String getDailyHum(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getHum();
+    }
+    public String getDailyPcpn(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getPcpn();
+    }
+    public String getDailyPop(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getPop();
+    }
+    public String getDailyPres(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getPres();
+    }
+    public String getDailyTmpMax(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getTmpMax();
+    }
+    public String getDailyTmpMin(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getTmpMin();
+    }
+    public String getDailyUv(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getUv();
+    }
+    public String getDailyVis(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getVis();
+    }
+    public String getDailyDeg(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getDeg();
+    }
+    public String getDailyDir(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getDir();
+    }
+    public String getDailySc(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getSc();
+    }
+    public String getDailySpd(int which,int when){
+        return singleItemList.get(which).dailyItemList.get(when).getSpd();
+    }
+
+
+
+
     private class WeatherSingleItem extends BaseItem{
         private List<DailyItem> dailyItemList;
         private List<HourlyItem> hourlyItemList;
@@ -95,10 +354,10 @@ public class WeatherItem extends BaseItem {
         private String brfUv;
         private String txtUv;
 
-        public WeatherSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private WeatherSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        public WeatherSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private WeatherSingleItem(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -111,15 +370,15 @@ public class WeatherItem extends BaseItem {
             //解析basic
             JSONObject basicJson = jsonObject.optJSONObject(KEY_BASIC);
             if (basicJson!=null){
-                city = basicJson.optString(KEY_CITY,KEY_CITY);
-                cnty = basicJson.optString(KEY_CNTY,KEY_CNTY);
-                id = basicJson.optString(KEY_ID,KEY_ID);
-                lat = basicJson.optString(KEY_LAT,KEY_LAT);
-                lon = basicJson.optString(KEY_LON,KEY_LON);
+                city = basicJson.optString(KEY_CITY);
+                cnty = basicJson.optString(KEY_CNTY);
+                id = basicJson.optString(KEY_ID);
+                lat = basicJson.optString(KEY_LAT);
+                lon = basicJson.optString(KEY_LON);
                 JSONObject updateJson = basicJson.optJSONObject(KEY_UPDATE);
                 if (updateJson!=null){
-                    loc = updateJson.optString(KEY_LOC,KEY_LOC);
-                    utc = updateJson.optString(KEY_UTC,KEY_UTC);
+                    loc = updateJson.optString(KEY_LOC);
+                    utc = updateJson.optString(KEY_UTC);
                 }
             }
             //解析Now
@@ -127,60 +386,80 @@ public class WeatherItem extends BaseItem {
             if (nowJson!=null){
                 JSONObject condJson = nowJson.optJSONObject(KEY_COND);
                 if (condJson!=null){
-                    code = condJson.optString(KEY_CODE,KEY_CODE);
-                    txt = condJson.optString(KEY_TXT,KEY_TXT);
+                    code = condJson.optString(KEY_CODE);
+                    txt = condJson.optString(KEY_TXT);
                 }
-                fl = nowJson.optString(KEY_FL,KEY_FL);
-                hum = nowJson.optString(KEY_HUM,KEY_HUM);
-                pcpn = nowJson.optString(KEY_PCPN,KEY_PCPN);
-                pres = nowJson.optString(KEY_PRES,KEY_PRES);
-                tmp = nowJson.optString(KEY_TMP,KEY_TMP);
-                vis = nowJson.optString(KEY_VIS,KEY_VIS);
+                fl = nowJson.optString(KEY_FL);
+                hum = nowJson.optString(KEY_HUM);
+                pcpn = nowJson.optString(KEY_PCPN);
+                pres = nowJson.optString(KEY_PRES);
+                tmp = nowJson.optString(KEY_TMP);
+                vis = nowJson.optString(KEY_VIS);
                 JSONObject windJson = nowJson.optJSONObject(KEY_WIND);
                 if (windJson!=null){
-                    deg = windJson.optString(KEY_DEG,KEY_DEG);
-                    dir = windJson.optString(KEY_DIR,KEY_DIR);
-                    sc = windJson.optString(KEY_SC,KEY_SC);
-                    spd = windJson.optString(KEY_SPD,KEY_SPD);
+                    deg = windJson.optString(KEY_DEG);
+                    dir = windJson.optString(KEY_DIR);
+                    sc = windJson.optString(KEY_SC);
+                    spd = windJson.optString(KEY_SPD);
+                }
+            }
+            //解析aqi
+            JSONObject aqiJson = jsonObject.optJSONObject(KEY_AQI);
+            if (aqiJson!=null){
+                JSONObject aqiCityJson = aqiJson.optJSONObject(KEY_CITY);
+                if (aqiCityJson!=null){
+                    aqi = aqiCityJson.optString(KEY_AQI);
+                    co = aqiCityJson.optString(KEY_CO);
+                    no2 = aqiCityJson.optString(KEY_NO2);
+                    o3 = aqiCityJson.optString(KEY_O3);
+                    pm10 = aqiCityJson.optString(KEY_PM10);
+                    pm25 = aqiCityJson.optString(KEY_PM25);
+                    qlty = aqiCityJson.optString(KEY_QLTY);
+                    so2 = aqiCityJson.optString(KEY_SO2);
                 }
             }
             //解析Suggestion
             JSONObject suggestionJson = jsonObject.optJSONObject(KEY_SUGGESTION);
             if (suggestionJson!=null){
+                JSONObject airJson = suggestionJson.optJSONObject(KEY_COMF);
+                if (airJson!=null){
+                    brfAir = airJson.optString(KEY_BRF);
+                    txtAir = airJson.optString(KEY_TXT);
+                }
                 JSONObject comfJson = suggestionJson.optJSONObject(KEY_COMF);
                 if (comfJson!=null){
-                    brfComf = comfJson.optString(KEY_BRF,KEY_BRF);
-                    txtComf = comfJson.optString(KEY_TXT,KEY_TXT);
+                    brfComf = comfJson.optString(KEY_BRF);
+                    txtComf = comfJson.optString(KEY_TXT);
                 }
                 JSONObject cwJson = suggestionJson.optJSONObject(KEY_CW);
                 if (cwJson!=null){
-                    brfCw = cwJson.optString(KEY_BRF,KEY_BRF);
-                    txtCw = cwJson.optString(KEY_TXT,KEY_TXT);
+                    brfCw = cwJson.optString(KEY_BRF);
+                    txtCw = cwJson.optString(KEY_TXT);
                 }
                 JSONObject drsgJson = suggestionJson.optJSONObject(KEY_DRSG);
                 if (drsgJson!=null){
-                    brfDrsg = drsgJson.optString(KEY_BRF,KEY_BRF);
-                    txtDrsg = drsgJson.optString(KEY_TXT,KEY_TXT);
+                    brfDrsg = drsgJson.optString(KEY_BRF);
+                    txtDrsg = drsgJson.optString(KEY_TXT);
                 }
                 JSONObject fluJson = suggestionJson.optJSONObject(KEY_FLU);
                 if (fluJson!=null){
-                    brfFlu = fluJson.optString(KEY_BRF,KEY_BRF);
-                    txtFlu = fluJson.optString(KEY_TXT,KEY_TXT);
+                    brfFlu = fluJson.optString(KEY_BRF);
+                    txtFlu = fluJson.optString(KEY_TXT);
                 }
                 JSONObject sportJson = suggestionJson.optJSONObject(KEY_SPORT);
                 if (sportJson!=null){
-                    brfSport = sportJson.optString(KEY_BRF,KEY_BRF);
-                    txtSport = sportJson.optString(KEY_TXT,KEY_TXT);
+                    brfSport = sportJson.optString(KEY_BRF);
+                    txtSport = sportJson.optString(KEY_TXT);
                 }
                 JSONObject travJson = suggestionJson.optJSONObject(KEY_TRAV);
                 if (travJson!=null){
-                    brfTrav = travJson.optString(KEY_BRF,KEY_BRF);
-                    txtTrav = travJson.optString(KEY_TXT,KEY_TXT);
+                    brfTrav = travJson.optString(KEY_BRF);
+                    txtTrav = travJson.optString(KEY_TXT);
                 }
                 JSONObject uvJson = suggestionJson.optJSONObject(KEY_UV);
                 if (uvJson!=null){
-                    brfUv = uvJson.optString(KEY_BRF,KEY_BRF);
-                    txtUv = uvJson.optString(KEY_TXT,KEY_TXT);
+                    brfUv = uvJson.optString(KEY_BRF);
+                    txtUv = uvJson.optString(KEY_TXT);
                 }
             }
             //解析hourly
@@ -214,6 +493,180 @@ public class WeatherItem extends BaseItem {
                 }
             }
         }
+
+
+
+        private String getAqi() {
+            return aqi;
+        }
+
+        private String getCo() {
+            return co;
+        }
+
+        private String getNo2() {
+            return no2;
+        }
+
+        private String getO3() {
+            return o3;
+        }
+
+        private String getPm10() {
+            return pm10;
+        }
+
+        private String getPm25() {
+            return pm25;
+        }
+
+        private String getQlty() {
+            return qlty;
+        }
+
+        private String getSo2() {
+            return so2;
+        }
+
+        private String getCity() {
+            return city;
+        }
+
+        private String getCnty() {
+            return cnty;
+        }
+
+        private String getId() {
+            return id;
+        }
+
+        private String getLat() {
+            return lat;
+        }
+
+        private String getLon() {
+            return lon;
+        }
+
+        private String getLoc() {
+            return loc;
+        }
+
+        private String getUtc() {
+            return utc;
+        }
+
+        private String getCode() {
+            return code;
+        }
+
+        private String getTxt() {
+            return txt;
+        }
+
+        private String getFl() {
+            return fl;
+        }
+
+        private String getHum() {
+            return hum;
+        }
+
+        private String getPcpn() {
+            return pcpn;
+        }
+
+        private String getPres() {
+            return pres;
+        }
+
+        private String getTmp() {
+            return tmp;
+        }
+
+        private String getVis() {
+            return vis;
+        }
+
+        private String getDeg() {
+            return deg;
+        }
+
+        private String getDir() {
+            return dir;
+        }
+
+        private String getSc() {
+            return sc;
+        }
+
+        private String getSpd() {
+            return spd;
+        }
+
+        private String getBrfAir() {
+            return brfAir;
+        }
+
+        private String getTxtAir() {
+            return txtAir;
+        }
+
+        private String getBrfComf() {
+            return brfComf;
+        }
+
+        private String getTxtComf() {
+            return txtComf;
+        }
+
+        private String getBrfCw() {
+            return brfCw;
+        }
+
+        private String getTxtCw() {
+            return txtCw;
+        }
+
+        private String getBrfDrsg() {
+            return brfDrsg;
+        }
+
+        private String getTxtDrsg() {
+            return txtDrsg;
+        }
+
+        private String getBrfFlu() {
+            return brfFlu;
+        }
+
+        private String getTxtFlu() {
+            return txtFlu;
+        }
+
+        private String getBrfSport() {
+            return brfSport;
+        }
+
+        private String getTxtSport() {
+            return txtSport;
+        }
+
+        private String getBrfTrav() {
+            return brfTrav;
+        }
+
+        private String getTxtTrav() {
+            return txtTrav;
+        }
+
+        private String getBrfUv() {
+            return brfUv;
+        }
+
+        private String getTxtUv() {
+            return txtUv;
+        }
     }
 
     private class DailyItem extends BaseItem{
@@ -239,10 +692,10 @@ public class WeatherItem extends BaseItem {
         private String sc;
         private String spd;
 
-        public DailyItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private DailyItem(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        public DailyItem(JSONObject jsonObject) throws JsonDecodeException {
+        private DailyItem(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -250,23 +703,23 @@ public class WeatherItem extends BaseItem {
         protected void analyze(JSONObject jsonObject) throws JsonDecodeException {
             JSONObject astroJson = jsonObject.optJSONObject(KEY_ASTRO);
             if (astroJson!=null){
-                mr = astroJson.optString(KEY_MR,KEY_MR);
-                ms = astroJson.optString(KEY_MS,KEY_MS);
-                sr = astroJson.optString(KEY_SR,KEY_SR);
-                ss = astroJson.optString(KEY_SS,KEY_SS);
+                mr = astroJson.optString(KEY_MR);
+                ms = astroJson.optString(KEY_MS);
+                sr = astroJson.optString(KEY_SR);
+                ss = astroJson.optString(KEY_SS);
             }
             JSONObject condJson = jsonObject.optJSONObject(KEY_COND);
             if (condJson!=null){
-                codeD = condJson.optString(KEY_CODE_D,KEY_CODE_D);
-                codeN = condJson.optString(KEY_CODE_N,KEY_CODE_N);
-                txtD = condJson.optString(KEY_TXT_D,KEY_TXT_D);
-                txtN = condJson.optString(KEY_TXT_D,KEY_TXT_D);
+                codeD = condJson.optString(KEY_CODE_D);
+                codeN = condJson.optString(KEY_CODE_N);
+                txtD = condJson.optString(KEY_TXT_D);
+                txtN = condJson.optString(KEY_TXT_D);
             }
-            date = jsonObject.optString(KEY_DATE,KEY_DATE);
-            hum = jsonObject.optString(KEY_HUM,KEY_HUM);
-            pcpn = jsonObject.optString(KEY_PCPN,KEY_PCPN);
-            pop = jsonObject.optString(KEY_POP,KEY_POP);
-            pres = jsonObject.optString(KEY_PRES,KEY_PRES);
+            date = jsonObject.optString(KEY_DATE);
+            hum = jsonObject.optString(KEY_HUM);
+            pcpn = jsonObject.optString(KEY_PCPN);
+            pop = jsonObject.optString(KEY_POP);
+            pres = jsonObject.optString(KEY_PRES);
             JSONObject tmpJson = jsonObject.optJSONObject(KEY_TMP);
             if (tmpJson!=null){
                 tmpMax = tmpJson.optString(KEY_MAX);
@@ -275,7 +728,96 @@ public class WeatherItem extends BaseItem {
             uv = jsonObject.optString(KEY_UV);
             vis = jsonObject.optString(KEY_VIS);
             JSONObject windJson = jsonObject.optJSONObject(KEY_WIND);
-            //!!!!!!!!!!!!!!!!!!
+            if(windJson!=null){
+                deg = windJson.optString(KEY_DEG);
+                dir = windJson.optString(KEY_DIR);
+                sr = windJson.optString(KEY_SR);
+                spd = windJson.optString(KEY_SPD);
+            }
+        }
+
+        private String getMr() {
+            return mr;
+        }
+
+        private String getMs() {
+            return ms;
+        }
+
+        private String getSr() {
+            return sr;
+        }
+
+        private String getSs() {
+            return ss;
+        }
+
+        private String getCodeD() {
+            return codeD;
+        }
+
+        private String getCodeN() {
+            return codeN;
+        }
+
+        private String getTxtD() {
+            return txtD;
+        }
+
+        private String getTxtN() {
+            return txtN;
+        }
+
+        private String getDate() {
+            return date;
+        }
+
+        private String getHum() {
+            return hum;
+        }
+
+        private String getPcpn() {
+            return pcpn;
+        }
+
+        private String getPop() {
+            return pop;
+        }
+
+        private String getPres() {
+            return pres;
+        }
+
+        private String getTmpMax() {
+            return tmpMax;
+        }
+
+        private String getTmpMin() {
+            return tmpMin;
+        }
+
+        private String getUv() {
+            return uv;
+        }
+
+        private String getVis() {
+            return vis;
+        }
+
+        private String getDeg() {
+            return deg;
+        }
+
+        private String getDir() {
+            return dir;
+        }
+
+        private String getSc() {
+            return sc;
+        }
+
+        private String getSpd() {
+            return spd;
         }
     }
 
@@ -292,10 +834,10 @@ public class WeatherItem extends BaseItem {
         private String sc;
         private String spd;
 
-        public HourlyItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private HourlyItem(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        public HourlyItem(JSONObject jsonObject) throws JsonDecodeException {
+        private HourlyItem(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -303,21 +845,65 @@ public class WeatherItem extends BaseItem {
         protected void analyze(JSONObject jsonObject) throws JsonDecodeException {
             JSONObject condJson = jsonObject.optJSONObject(KEY_COND);
             if (condJson!=null){
-                code = condJson.optString(KEY_CODE,KEY_CODE);
-                txt = condJson.optString(KEY_TXT,KEY_TXT);
+                code = condJson.optString(KEY_CODE);
+                txt = condJson.optString(KEY_TXT);
             }
-            date = jsonObject.optString(KEY_DATE,KEY_DATE);
-            hum = jsonObject.optString(KEY_HUM,KEY_HUM);
-            pop = jsonObject.optString(KEY_POP,KEY_POP);
-            pres = jsonObject.optString(KEY_PRES,KEY_PRES);
-            tmp = jsonObject.optString(KEY_TMP,KEY_TMP);
+            date = jsonObject.optString(KEY_DATE);
+            hum = jsonObject.optString(KEY_HUM);
+            pop = jsonObject.optString(KEY_POP);
+            pres = jsonObject.optString(KEY_PRES);
+            tmp = jsonObject.optString(KEY_TMP);
             JSONObject windJson = jsonObject.optJSONObject(KEY_WIND);
             if (windJson!=null){
-                deg = windJson.optString(KEY_DEG,KEY_DEG);
-                dir = windJson.optString(KEY_DIR,KEY_DIR);
-                sc = windJson.optString(KEY_SC,KEY_SC);
-                spd = windJson.optString(KEY_SPD,KEY_SPD);
+                deg = windJson.optString(KEY_DEG);
+                dir = windJson.optString(KEY_DIR);
+                sc = windJson.optString(KEY_SC);
+                spd = windJson.optString(KEY_SPD);
             }
+        }
+
+        private String getCode() {
+            return code;
+        }
+
+        private String getTxt() {
+            return txt;
+        }
+
+        private String getDate() {
+            return date;
+        }
+
+        private String getHum() {
+            return hum;
+        }
+
+        private String getPop() {
+            return pop;
+        }
+
+        private String getPres() {
+            return pres;
+        }
+
+        private String getTmp() {
+            return tmp;
+        }
+
+        private String getDeg() {
+            return deg;
+        }
+
+        private String getDir() {
+            return dir;
+        }
+
+        private String getSc() {
+            return sc;
+        }
+
+        private String getSpd() {
+            return spd;
         }
     }
 }

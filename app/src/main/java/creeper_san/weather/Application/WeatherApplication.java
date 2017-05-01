@@ -1,11 +1,14 @@
 package creeper_san.weather.Application;
 
 import android.app.Application;
+import android.content.Context;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import creeper_san.weather.Event.ErrorCodeEvent;
+import creeper_san.weather.Item.WeatherItem;
+
 import static creeper_san.weather.Flag.ErrorCode.*;
 
 

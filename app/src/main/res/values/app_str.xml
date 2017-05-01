@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="weatherCode100Sunny">Sunny</string>
+    <string name="weatherCode101Cloudy">Cloudy</string>
+    <string name="weatherCode102FewClouds">Few Clouds</string>
+    <string name="weatherCode103PartlyClouds">Partly Clouds</string>
+    <string name="weatherCode104Overcast">Overcast</string>
+    <string name="weatherCode200Windy">Windy</string>
+    <string name="weatherCode201Calm">Calm</string>
+    <string name="weatherCode202LightBreeze">Light Breeze</string>
+    <string name="weatherCode203GentleBreeze">Gentle Breeze</string>
+    <string name="weatherCode204FreshBreeze">Fresh Breeze</string>
+    <string name="weatherCode205StrongBreeze">Strong Breeze</string>
+    <string name="weatherCode206NearGale">Near Gale</string>
+    <string name="weatherCode207Gale">Gale</string>
+    <string name="weatherCode208StrongGale">Strong Gale</string>
+    <string name="weatherCode209Storm">Storm</string>
+    <string name="weatherCode210ViolentStorm">Violent Storm</string>
+    <string name="weatherCode211Hurricane">Hurricane</string>
+    <string name="weatherCode212Tornado">Tornado</string>
+    <string name="weatherCode213TropicalStorm">Tropical Storm</string>
+    <string name="weatherCode300ShowerRain">Shower Rain</string>
+    <string name="weatherCode301HeavyShowerRain">Heavy Shower Rain</string>
+    <string name="weatherCode302ThunderShower">Thunder Shower</string>
+    <string name="weatherCode303HeavyThunderstorm">Heavy Thunderstorm</string>
+    <string name="weatherCode304Hail">Hail</string>
+    <string name="weatherCode305LightRain">Light Rain</string>
+    <string name="weatherCode306ModerateRain">Moderate Rain</string>
+    <string name="weatherCode307HeavyRain">Heavy Rain</string>
+    <string name="weatherCode308ExtremeRain">Extreme Rain</string>
+    <string name="weatherCode309DrizzleRain">Drizzle Rain</string>
+    <string name="weatherCode310Storm">Storm</string>
+    <string name="weatherCode311HeavyStorm">Heavy Storm</string>
+    <string name="weatherCode312SevereStorm">Severe Storm</string>
+    <string name="weatherCode313FreezingRain">Freezing Rain</string>
+    <string name="weatherCode400LightSnow">Light Snow</string>
+    <string name="weatherCode401ModerateSnow">Moderate Snow</string>
+    <string name="weatherCode402HeavySnow">Heavy Snow</string>
+    <string name="weatherCode403Snowstorm">Snowstorm</string>
+    <string name="weatherCode404Sleet">Sleet</string>
+    <string name="weatherCode405RainAndSnow">Rain And Snow</string>
+    <string name="weatherCode406ShowerShow">Shower Snow</string>
+    <string name="weatherCode407SnowFlurry">Snow Flurry</string>
+    <string name="weatherCode500Mist">Mist</string>
+    <string name="weatherCode501Foggy">Foggy</string>
+    <string name="weatherCode502Haze">Haze</string>
+    <string name="weatherCode503Sand">Sand</string>
+    <string name="weatherCode504Dust">Dust</string>
+    <string name="weatherCode507DustStorm">Dust Storm</string>
+    <string name="weatherCode508SandStorm">Sand Storm</string>
+    <string name="weatherCode900Hot">Hot</string>
+    <string name="weatherCode901Cold">Cold</string>
+    <string name="weatherCode999Unknown">Unknown</string>
+
+</resources>

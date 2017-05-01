@@ -56,5 +56,14 @@ public class JsonKey {
     public final static String KEY_TXT_N = "txt_n";
     public final static String KEY_MAX = "max";
     public final static String KEY_MIN = "min";
+    public final static String KEY_AQI = "aqi";
+    public final static String KEY_CO = "co";
+    public final static String KEY_NO2 = "no2";
+    public final static String KEY_O3 = "o3";
+    public final static String KEY_PM10 = "pm10";
+    public final static String KEY_PM25 = "pm25";
+    public final static String KEY_QLTY = "qlty";
+    public final static String KEY_SO2 = "so2";
+
 
 }

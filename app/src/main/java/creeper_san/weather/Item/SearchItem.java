@@ -112,12 +112,12 @@ public class SearchItem extends BaseItem{
                     if (jsonObject.has(KEY_BASIC)){
                         try {
                             JSONObject basicJson = jsonObject.getJSONObject(KEY_BASIC);
-                            city = basicJson.optString(KEY_CITY,KEY_CITY);
-                            cnty = basicJson.optString(KEY_CNTY,KEY_CNTY);
-                            id = basicJson.optString(KEY_ID,KEY_ID);
-                            lat = basicJson.optString(KEY_LAT,KEY_LAT);
-                            lon = basicJson.optString(KEY_LON,KEY_LON);
-                            prov = basicJson.optString(KEY_PROV,KEY_PROV);
+                            city = basicJson.optString(KEY_CITY);
+                            cnty = basicJson.optString(KEY_CNTY);
+                            id = basicJson.optString(KEY_ID);
+                            lat = basicJson.optString(KEY_LAT);
+                            lon = basicJson.optString(KEY_LON);
+                            prov = basicJson.optString(KEY_PROV);
 //                            log("城市名称 "+city);
 //                            log("国家 "+cnty);
 //                            log("ID "+id);

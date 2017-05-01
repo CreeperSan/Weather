@@ -21,7 +21,7 @@ public class HttpHelper {
         httpClient = new OkHttpClient();
     }
 
-    public static HttpHelper getInstance() {
+    private static HttpHelper getInstance() {
         synchronized (HttpHelper.class){
             if (mInstance == null){
                 mInstance = new HttpHelper();

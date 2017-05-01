@@ -266,16 +266,16 @@ public class SuggestionItem extends BaseItem{
                     //解析basic
                     JSONObject basicJson = jsonObject.optJSONObject(KEY_BASIC);
                     if (basicJson!=null){
-                        city = basicJson.optString(KEY_CITY,KEY_CITY);
-                        cnty = basicJson.optString(KEY_CNTY,KEY_CNTY);
-                        id = basicJson.optString(KEY_ID,KEY_ID);
-                        lat = basicJson.optString(KEY_LAT,KEY_LAT);
-                        lon = basicJson.optString(KEY_LON,KEY_LON);
+                        city = basicJson.optString(KEY_CITY);
+                        cnty = basicJson.optString(KEY_CNTY);
+                        id = basicJson.optString(KEY_ID);
+                        lat = basicJson.optString(KEY_LAT);
+                        lon = basicJson.optString(KEY_LON);
                         //Update
                         JSONObject updateJson = basicJson.optJSONObject(KEY_UPDATE);
                         if (updateJson!=null){
-                            loc = updateJson.optString(KEY_LOC,KEY_LOC);
-                            utc = updateJson.optString(KEY_UTC,KEY_UTC);
+                            loc = updateJson.optString(KEY_LOC);
+                            utc = updateJson.optString(KEY_UTC);
                         }
                     }
                     //Suggestion
@@ -289,35 +289,34 @@ public class SuggestionItem extends BaseItem{
                         JSONObject travJson = suggestionJson.optJSONObject(KEY_TRAV);
                         JSONObject uvJson = suggestionJson.optJSONObject(KEY_UV);
                         if (comfJson!=null){
-                            brf_comf = comfJson.optString(KEY_BRF,KEY_BRF);
-                            txt_comf = comfJson.optString(KEY_TXT,KEY_TXT);
+                            brf_comf = comfJson.optString(KEY_BRF);
+                            txt_comf = comfJson.optString(KEY_TXT);
                         }
                         if (cwJson!=null){
-                            brf_cw = cwJson.optString(KEY_BRF,KEY_BRF);
-                            txt_cw = cwJson.optString(KEY_TXT,KEY_TXT);
+                            brf_cw = cwJson.optString(KEY_BRF);
+                            txt_cw = cwJson.optString(KEY_TXT);
                         }
                         if (drsgJson!=null){
-                            brf_drsg = drsgJson.optString(KEY_BRF,KEY_BRF);
-                            txt_drsg = drsgJson.optString(KEY_TXT,KEY_TXT);
+                            brf_drsg = drsgJson.optString(KEY_BRF);
+                            txt_drsg = drsgJson.optString(KEY_TXT);
                         }
                         if (fluJson!=null){
-                            brf_flu = fluJson.optString(KEY_BRF,KEY_BRF);
-                            txt_flu = fluJson.optString(KEY_TXT,KEY_TXT);
+                            brf_flu = fluJson.optString(KEY_BRF);
+                            txt_flu = fluJson.optString(KEY_TXT);
                         }
                         if (sportJson!=null){
-                            brf_sport = sportJson.optString(KEY_BRF,KEY_BRF);
-                            txt_sport = sportJson.optString(KEY_TXT,KEY_TXT);
+                            brf_sport = sportJson.optString(KEY_BRF);
+                            txt_sport = sportJson.optString(KEY_TXT);
                         }
                         if (travJson!=null){
-                            brf_trav = travJson.optString(KEY_BRF,KEY_BRF);
-                            txt_trav = travJson.optString(KEY_TXT,KEY_TXT);
+                            brf_trav = travJson.optString(KEY_BRF);
+                            txt_trav = travJson.optString(KEY_TXT);
                         }
                         if (uvJson!=null){
-                            brf_uv = uvJson.optString(KEY_BRF,KEY_BRF);
-                            txt_uv = uvJson.optString(KEY_TXT,KEY_TXT);
+                            brf_uv = uvJson.optString(KEY_BRF);
+                            txt_uv = uvJson.optString(KEY_TXT);
                         }
                     }
-
                 }else {
                     throw new JsonDecodeException(TYPE_DECODE_ERR,"状态关键字不成功",status);
                 }

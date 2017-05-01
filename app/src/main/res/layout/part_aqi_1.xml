@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content" android:layout_marginBottom="@dimen/partDistance">
+
+    <ImageView
+        android:src="#909090"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:layout_marginTop="@dimen/partDistance"
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiTitle"
+        android:layout_marginStart="16dp"
+        android:textSize="16sp"
+        android:textColor="#000000"
+        android:text="空气质量 优"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiCo"
+        android:text="一氧化碳"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_below="@id/partAqiTitle"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiNo2"
+        android:text="二氧化氮"
+        android:layout_below="@id/partAqiCo"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:text="臭氧"
+        android:id="@+id/partAqiO3"
+        android:layout_below="@id/partAqiNo2"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiSo2"
+        android:text="二氧化硫"
+        android:layout_below="@id/partAqiO3"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiPm10"
+        android:text="PM10"
+        android:layout_below="@id/partAqiSo2"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiPm25"
+        android:text="PM25"
+        android:layout_below="@id/partAqiPm10"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_alignParentStart="true"
+        android:id="@+id/partAqiAqi"
+        android:text="空气污染指数"
+        android:layout_below="@id/partAqiPm25"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_width="@dimen/partAqiSubTitleWidth"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="1"
+        android:id="@+id/partAqiValueCo"
+        android:layout_alignTop="@id/partAqiCo"
+        android:layout_toEndOf="@id/partAqiCo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="35"
+        android:id="@+id/partAqiValueNo2"
+        android:layout_alignTop="@id/partAqiNo2"
+        android:layout_toEndOf="@id/partAqiNo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="71"
+        android:id="@+id/partAqiValueO3"
+        android:layout_alignTop="@id/partAqiO3"
+        android:layout_toEndOf="@id/partAqiO3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="8"
+        android:id="@+id/partAqiValueSo2"
+        android:layout_alignTop="@id/partAqiSo2"
+        android:layout_toEndOf="@id/partAqiSo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="44"
+        android:id="@+id/partAqiValuePm10"
+        android:layout_alignTop="@id/partAqiPm10"
+        android:layout_toEndOf="@id/partAqiPm10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="28"
+        android:id="@+id/partAqiValuePm25"
+        android:layout_alignTop="@id/partAqiPm25"
+        android:layout_toEndOf="@id/partAqiPm25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:text="44"
+        android:id="@+id/partAqiValueAqi"
+        android:layout_alignTop="@id/partAqiAqi"
+        android:layout_toEndOf="@id/partAqiAqi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>
