@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:src="#909090"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:text="风力信息"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/partWindDeg"
+            android:text="角度"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_toEndOf="@id/partWindDeg"
+            android:layout_alignTop="@id/partWindDeg"
+            android:id="@+id/partWindDegTxt"
+            android:text="190"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/partWindDir"
+            android:text="风向"
+            android:layout_below="@id/partWindDeg"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"  />
+
+        <TextView
+            android:id="@+id/partWindDirTxt"
+            android:layout_toEndOf="@id/partWindDir"
+            android:layout_alignTop="@id/partWindDir"
+            android:text="东风"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/partWindSc"
+            android:text="风力"
+            android:layout_below="@id/partWindDir"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"  />
+        <TextView
+            android:id="@+id/partWindScTxt"
+            android:layout_toEndOf="@id/partWindSc"
+            android:layout_alignTop="@id/partWindSc"
+            android:text="微风"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/partWindSpd"
+            android:text="风速"
+            android:layout_below="@id/partWindSc"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"  />
+        <TextView
+            android:id="@+id/partWindSpdTxt"
+            android:layout_toEndOf="@id/partWindSpd"
+            android:layout_alignTop="@id/partWindSpd"
+            android:text="9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+</LinearLayout>
