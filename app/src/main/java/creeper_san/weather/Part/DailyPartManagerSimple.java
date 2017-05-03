@@ -10,7 +10,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseDailyPartManager;
-import creeper_san.weather.Item.WeatherItem;
+import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.R;
 import tech.linjiang.suitlines.SuitLines;
 import tech.linjiang.suitlines.Unit;
@@ -23,7 +23,7 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
     }
 
     @Override
-    public void setData(WeatherItem weatherItem) {
+    public void setData(WeatherItem weatherItem,int which) {
 
     }
 

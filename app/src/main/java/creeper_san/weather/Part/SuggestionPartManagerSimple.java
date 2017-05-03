@@ -55,7 +55,7 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setCwBrf(String content) {
-        cwTitle.setText("紫外线指数  "+content);
+        cwTitle.setText("洗车指数  "+content);
     }
 
     @Override

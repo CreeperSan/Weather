@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="creeper_san.weather.AddCityActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/addCityToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/addCityToolbar"
+        android:id="@+id/addCityEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputEditText
+            android:hint="搜索城市"
+            android:id="@+id/addCityEditText"
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:id="@+id/addCityNoResult"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_below="@id/addCityEditTextLayout"
+        android:drawableTop="@drawable/ic_location_city_gray_64dp"
+        android:text="没有搜索到城市"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_below="@id/addCityEditTextLayout"
+        android:id="@+id/addCityList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/addCityProgressBar"
+        android:layout_marginTop="8dp"
+        android:layout_below="@id/addCityEditTextLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

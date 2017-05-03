@@ -4,10 +4,11 @@ import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import static creeper_san.weather.Flag.PartCode.*;
 
 
 public abstract class BaseHeaderPartManager extends BasePartManager {
-    private final int TYPE = 0;
+    private final int TYPE = PART_HEAD;
 
     public BaseHeaderPartManager(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);

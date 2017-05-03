@@ -4,9 +4,10 @@ import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import static creeper_san.weather.Flag.PartCode.*;
 
 public abstract class BaseSuggestionPartManager extends BasePartManager {
-    private final static int TYPE = 4;
+    private final static int TYPE = PART_SUGGESTION;
 
     public BaseSuggestionPartManager(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);

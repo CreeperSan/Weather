@@ -3,10 +3,11 @@ package creeper_san.weather.Base;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import static creeper_san.weather.Flag.PartCode.*;
 
 
 public abstract class BaseWindPartManager extends BasePartManager {
-    private final static int TYPE = 3;
+    private final static int TYPE = PART_WIND;
 
     public BaseWindPartManager(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);

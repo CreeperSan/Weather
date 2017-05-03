@@ -1,11 +1,17 @@
 package creeper_san.weather;
 
+import android.content.ComponentName;
+import android.content.ServiceConnection;
 import android.os.Handler;
+import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,12 +20,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.view.ViewGroup;
 
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +35,15 @@ import java.util.List;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.SwipeRefreshLayoutEvent;
+import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
+import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Helper.UrlHelper;
+import creeper_san.weather.Helper.WeatherDatabaseHelper;
+import creeper_san.weather.Item.CityItem;
+import creeper_san.weather.Json.WeatherItem;
 
-public class MainActivity extends BaseActivity{
+public class MainActivity extends BaseActivity implements ServiceConnection,SwipeRefreshLayout.OnRefreshListener{
     @BindView(R.id.mainToolbar)Toolbar toolbar;
     @BindView(R.id.mainNavigationBar)NavigationView navigationView;
     @BindView(R.id.mainViewPager)ViewPager viewPager;
@@ -38,6 +51,8 @@ public class MainActivity extends BaseActivity{
     @BindView(R.id.mainSwipeRefreshLayout)SwipeRefreshLayout swipeRefreshLayout;
 
     private List<WeatherFragment> weatherFragmentList;
+    private WeatherService weatherService;
+    private WeatherFragmentStatePagerAdapter adapter;
 
     private int touchX;
     private int touchY;
@@ -47,13 +62,24 @@ public class MainActivity extends BaseActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initData();
+        initService();
         initToolbar();
+        initNavigation();
         initViewPager();
         initSwipeRefreshLayout();
         log(UrlHelper.generateWeatherUrl("Shenzhen"));
     }
 
+    private void initService() {
+        bindService(WeatherService.class,this);
+        startService(WeatherService.class);
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(this);
+    }
 
     /**
      *      初始化
@@ -73,10 +99,21 @@ public class MainActivity extends BaseActivity{
         }
     }
     private void initViewPager() {
-        weatherFragmentList.add(new WeatherFragment());
-        weatherFragmentList.add(new WeatherFragment());
-        weatherFragmentList.add(new WeatherFragment());
-        viewPager.setAdapter(new TestFragmentStatePagerAdapter(getSupportFragmentManager()));
+        List<CityItem> cityItemList = WeatherDatabaseHelper.getCityList(this);
+        for (CityItem cityItem:cityItemList){
+            WeatherFragment fragment = new WeatherFragment();
+            fragment.setCityName(cityItem.getCity());
+            fragment.setID(cityItem.getId());
+            weatherFragmentList.add(fragment);
+        }
+        if (cityItemList.size()>0){
+            setTitle(weatherFragmentList.get(0).getCityName());
+        }else {
+            setTitle("添加一个城市...");
+        }
+        //初始画列表数据
+        adapter = new WeatherFragmentStatePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
         viewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -99,25 +136,17 @@ public class MainActivity extends BaseActivity{
             @Override
             public void onPageSelected(int position) {
                 refreshSwipeRefreshLayoutState();
+                setTitle(weatherFragmentList.get(position).getCityName());
             }
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
+        viewPager.setOffscreenPageLimit(cityItemList.size());
     }
     private void initSwipeRefreshLayout() {
         log("--------------");
         swipeRefreshLayout.requestDisallowInterceptTouchEvent(true);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                },2000);
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -128,7 +157,7 @@ public class MainActivity extends BaseActivity{
                         break;
                     case MotionEvent.ACTION_MOVE:
                         if (isDrafting){
-                            log("isdrafting");
+//                            log("isdrafting");
                             return false;
                         }else {
                             int xDistance = (int) Math.abs(event.getX() - touchX);
@@ -148,6 +177,20 @@ public class MainActivity extends BaseActivity{
             }
         });
     }
+    private void initNavigation() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.menuMainNavigationCityManager:
+                        startActivity(CityManageActivity.class);
+                        break;
+                }
+                drawerLayout.closeDrawer(Gravity.START);
+                return true;
+            }
+        });
+    }
 
     /**
      *      响应事件
@@ -161,6 +204,10 @@ public class MainActivity extends BaseActivity{
                 }else {
                     drawerLayout.openDrawer(Gravity.START);
                 }
+                break;
+            case R.id.menuMainToolbarAddCity:
+                startActivity(AddCityActivity.class);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -174,13 +221,53 @@ public class MainActivity extends BaseActivity{
             }
         }
     }
-
-
+    /**
+     *      Event事件
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWeatherResultEvent(WeatherResultEvent event){
+        swipeRefreshLayout.setRefreshing(false);
+        if (event.isSuccess()){
+            if (event.getWeatherItem()==null){
+                toast("网络数据解析失败");
+            }else {
+                WeatherItem item = event.getWeatherItem();
+                //离线缓存到文件
+                OfflineCacheHelper.saveCityOfflineData(MainActivity.this,item.getId(0));
+                for (int i=0;i<item.size();i++){
+                    for (WeatherFragment fragment:weatherFragmentList){
+                        if (fragment.getID().equals(item.getId(i))){
+                            fragment.setWeatherData(item,i);
+                        }
+                    }
+                }
+            }
+        }else {
+            toast("连接到服务器失败，请检查你的网络连接。");
+        }
+    }
 
     /**
      *      接口以及回调
      */
-
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder binder) {
+        weatherService = ((WeatherService.WeatherServiceBinder)binder).getService();
+    }
+    @Override
+    public void onServiceDisconnected(ComponentName name) {}
+    @Override
+    public void onRefresh() {
+        if (weatherService==null){
+            swipeRefreshLayout.setRefreshing(false);
+            return;
+        }
+        if (weatherFragmentList.size()>0){
+            weatherService.getWeather(weatherFragmentList.get(viewPager.getCurrentItem()).getID());
+        }else {
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
     /**
      *      View状态刷新
      */
@@ -202,13 +289,16 @@ public class MainActivity extends BaseActivity{
         }
     }
 
+
+
+
     /**
      *      内部类
      */
 
-    private class TestFragmentStatePagerAdapter extends FragmentStatePagerAdapter{
+    private class WeatherFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
-        TestFragmentStatePagerAdapter(FragmentManager fm) {
+        WeatherFragmentStatePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -225,6 +315,15 @@ public class MainActivity extends BaseActivity{
 
     }
 
+    /**
+     *      设置方法
+     */
     @Override
     protected int getLayout() {return R.layout.activity_main;}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_toolbar,menu);
+        return true;
+    }
 }

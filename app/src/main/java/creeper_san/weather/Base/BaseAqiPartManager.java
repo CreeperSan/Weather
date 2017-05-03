@@ -4,9 +4,11 @@ import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import static creeper_san.weather.Flag.PartCode.*;
+
 
 public abstract class BaseAqiPartManager extends BasePartManager {
-    private final static int TYPE = 1;
+    private final static int TYPE = PART_AQI;
 
     public BaseAqiPartManager(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);

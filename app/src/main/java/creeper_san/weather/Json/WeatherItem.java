@@ -1,4 +1,4 @@
-package creeper_san.weather.Item;
+package creeper_san.weather.Json;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +17,7 @@ import static creeper_san.weather.Flag.JsonKey.*;
 
 public class WeatherItem extends BaseItem {
     private List<WeatherSingleItem> singleItemList;
+    private JSONObject jsonObject;
 
     public WeatherItem(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
@@ -27,6 +28,7 @@ public class WeatherItem extends BaseItem {
 
     @Override
     protected void analyze(JSONObject jsonObject) throws JsonDecodeException {
+        this.jsonObject = jsonObject;
         if (singleItemList==null){
             singleItemList = new ArrayList<>();
         }else {
@@ -46,6 +48,10 @@ public class WeatherItem extends BaseItem {
         }else {
             throw new JsonDecodeException(TYPE_MISS,"缺少HeWeather5键",CODE_MISSING);
         }
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
     }
 
     public int size(){
@@ -421,7 +427,7 @@ public class WeatherItem extends BaseItem {
             //解析Suggestion
             JSONObject suggestionJson = jsonObject.optJSONObject(KEY_SUGGESTION);
             if (suggestionJson!=null){
-                JSONObject airJson = suggestionJson.optJSONObject(KEY_COMF);
+                JSONObject airJson = suggestionJson.optJSONObject(KEY_AIR);
                 if (airJson!=null){
                     brfAir = airJson.optString(KEY_BRF);
                     txtAir = airJson.optString(KEY_TXT);

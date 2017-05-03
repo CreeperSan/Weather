@@ -1,6 +1,4 @@
-package creeper_san.weather.Item;
-
-import android.util.Log;
+package creeper_san.weather.Json;
 
 import org.json.JSONArray;
 import org.json.JSONException;

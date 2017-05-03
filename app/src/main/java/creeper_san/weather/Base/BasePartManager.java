@@ -7,10 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import static creeper_san.weather.Flag.PartCode.*;
 
 public abstract class BasePartManager {
     private final String TAG = getClass().getSimpleName();
-    private final int TYPE = -1;
+    private final int TYPE = PART_BASE;
     protected View partRootView;
 
     public BasePartManager(LayoutInflater inflater, ViewGroup container) {

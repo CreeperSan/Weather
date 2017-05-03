@@ -64,6 +64,7 @@ public class JsonKey {
     public final static String KEY_PM25 = "pm25";
     public final static String KEY_QLTY = "qlty";
     public final static String KEY_SO2 = "so2";
+    public final static String KEY_AIR = "air";
 
 
 }
