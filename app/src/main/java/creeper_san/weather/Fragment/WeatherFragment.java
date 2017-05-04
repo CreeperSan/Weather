@@ -28,6 +28,7 @@ import creeper_san.weather.Base.BasePartManager;
 import creeper_san.weather.Base.BaseSuggestionPartManager;
 import creeper_san.weather.Base.BaseWindPartManager;
 import creeper_san.weather.Event.SwipeRefreshLayoutEvent;
+import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.Part.AqiPartManagerSimple;
 import creeper_san.weather.Part.CityPartManagerSimple;
@@ -63,39 +64,60 @@ public class WeatherFragment extends BaseFragment implements OnScrollListener{
         partManagerList.add(new CityPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
         partManagerList.add(new DailyPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
         partManagerList.add(new OtherPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        //添加Parthg
+        //添加Parth
         for (BasePartManager manager:partManagerList){
             linearLayout.addView(manager.getView());
         }
+        //装载离线数据
+        WeatherItem offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
+        if (offlineItem!=null){
+            for (int i=0;i<offlineItem.size();i++){
+                if (offlineItem.getId(i).equals(getID())){
+                    setWeatherData(offlineItem,i);
+                }
+            }
+        }
     }
 
-    public void setWeatherData(WeatherItem item,int which){
-        //首先是头部信息
-          for (BasePartManager basePartManager:partManagerList){
-              switch (basePartManager.getType()){
-                  case PART_HEAD:
-                      handleHeadPart(item, (BaseHeaderPartManager) basePartManager,which);
-                      break;
-                  case PART_AQI:
-                      handleAqiPart(item, (BaseAqiPartManager) basePartManager,which);
-                      break;
-                  case PART_DAILY:
-                      handleDailyPart(item, (BaseDailyPartManager) basePartManager,which);
-                      break;
-                  case PART_WIND:
-                      handleWindPart(item, (BaseWindPartManager) basePartManager,which);
-                      break;
-                  case PART_SUGGESTION:
-                      handleSuggestionPart(item, (BaseSuggestionPartManager) basePartManager,which);
-                      break;
-                  case PART_CITY:
-                      handleCityPart(item, (BaseCityPartManager) basePartManager,which);
-                      break;
-                  case PART_OTHER:
-                      handleOtherPart(item, (BaseOtherPartManager) basePartManager,which);
-                      break;
-              }
-          }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(rootView);
+    }
+
+    public void setWeatherData(WeatherItem item, int which){
+        for (BasePartManager basePartManager:partManagerList){
+            switch (basePartManager.getType()){
+                case PART_HEAD:
+                    handleHeadPart(item, (BaseHeaderPartManager) basePartManager,which);
+                    break;
+                case PART_AQI:
+                    handleAqiPart(item, (BaseAqiPartManager) basePartManager,which);
+                    break;
+                case PART_DAILY:
+                    handleDailyPart(item, (BaseDailyPartManager) basePartManager,which);
+                    break;
+                case PART_WIND:
+                    handleWindPart(item, (BaseWindPartManager) basePartManager,which);
+                    break;
+                case PART_SUGGESTION:
+                    handleSuggestionPart(item, (BaseSuggestionPartManager) basePartManager,which);
+                    break;
+                case PART_CITY:
+                    handleCityPart(item, (BaseCityPartManager) basePartManager,which);
+                    break;
+                case PART_OTHER:
+                    handleOtherPart(item, (BaseOtherPartManager) basePartManager,which);
+                    break;
+            }
+        }
     }
     private void handleHeadPart(WeatherItem item, BaseHeaderPartManager headerPartManager,int which){
         headerPartManager.setTmp(item.getTmp(which));
@@ -158,6 +180,7 @@ public class WeatherFragment extends BaseFragment implements OnScrollListener{
 
     private void clearPartManagerList(){
         if (partManagerList==null){
+            loge("List初始化");
             partManagerList = new ArrayList<>();
         }else {
             partManagerList.clear();

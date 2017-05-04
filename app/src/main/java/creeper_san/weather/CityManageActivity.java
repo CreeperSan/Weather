@@ -14,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseActivity;
+import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Helper.WeatherDatabaseHelper;
 import creeper_san.weather.Item.CityItem;
+import static creeper_san.weather.Event.CityEditEvent.*;
 
 public class CityManageActivity extends BaseActivity {
     @BindView(R.id.cityManagerRecycler)RecyclerView recyclerView;
@@ -47,7 +52,6 @@ public class CityManageActivity extends BaseActivity {
             }
         });
     }
-
     private void initToolbar()      {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -56,15 +60,32 @@ public class CityManageActivity extends BaseActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
-
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CityAdapter();
         recyclerView.setAdapter(adapter);
     }
-
     private void initData() {
         cityItemList = WeatherDatabaseHelper.getCityList(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCityEditEvent(CityEditEvent event){
+        if (event.getType() == TYPE_ADD){
+            CityItem item = event.getItem();
+            cityItemList.add(item);
+            adapter.notifyItemInserted(cityItemList.size()-1);
+        }else if (event.getType() == TYPE_DELETE){
+            for (int i=0;i<cityItemList.size();i++){
+                CityItem item = cityItemList.get(i);
+                if (item.getId().equals(event.getItem().getId())){
+                    cityItemList.remove(item);
+                    adapter.notifyItemRemoved(i);
+                }
+            }
+        }else if (event.getType() == TYPE_ORDER){
+
+        }
     }
 
     @Override
@@ -126,7 +147,7 @@ public class CityManageActivity extends BaseActivity {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    CityItem dialogItem = cityItemList.get(holder.getAdapterPosition());
+                    final CityItem dialogItem = cityItemList.get(holder.getAdapterPosition());
                     AlertDialog.Builder builder = new AlertDialog.Builder(CityManageActivity.this);
                     builder.setTitle("确认删除？");
                     builder.setMessage("确认删除 "+dialogItem.getCity()+" 吗？");
@@ -136,6 +157,7 @@ public class CityManageActivity extends BaseActivity {
                             WeatherDatabaseHelper.delete(CityManageActivity.this,cityItemList.get(holder.getAdapterPosition()));
                             cityItemList.remove(holder.getAdapterPosition());
                             adapter.notifyItemRemoved(holder.getAdapterPosition());
+                            postEvent(new CityEditEvent(TYPE_DELETE,dialogItem));
                         }
                     });
                     builder.setNegativeButton("取消",null);

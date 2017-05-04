@@ -27,6 +27,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseActivity;
+import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.SearchResultEvent;
 import creeper_san.weather.Helper.WeatherDatabaseHelper;
 import creeper_san.weather.Item.CityItem;
@@ -46,7 +47,6 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initData();
         initToolbar();
         initEditText();
         initRecyclerView();
@@ -70,9 +70,6 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
         recyclerView.setAdapter(adapter);
     }
 
-    private void initData() {
-
-    }
 
     private void initEditText() {
         editText.addTextChangedListener(this);
@@ -224,6 +221,7 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
                     CityItem insertItem = cityItemList.get(holder.getAdapterPosition());
                     if (WeatherDatabaseHelper.insert(AddCityActivity.this,insertItem)){
                         toast("添加城市成功");
+                        postEvent(new CityEditEvent(CityEditEvent.TYPE_ADD,insertItem));
                     }else {
                         toast("城市已存在");
                     }

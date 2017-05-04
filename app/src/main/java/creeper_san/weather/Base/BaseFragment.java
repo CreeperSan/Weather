@@ -39,7 +39,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(getLayout(),container,false);
         ButterKnife.bind(this,rootView);
-        initView(rootView);
+//        initView(rootView);
         return rootView;
     }
 

@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseOtherPartManager;
 import creeper_san.weather.R;
 
@@ -20,22 +21,22 @@ public class OtherPartManagerSimple extends BaseOtherPartManager {
 
     @Override
     public void setHum(String content) {
-        humText.setText(content);
+        humText.setText(content+WeatherApplication.getContext().getString(R.string.unitHum));
     }
 
     @Override
     public void setPcpn(String content) {
-        pcpnText.setText(content);
+        pcpnText.setText(content+WeatherApplication.getContext().getString(R.string.unitPcpn));
     }
 
     @Override
     public void setPres(String content) {
-        presText.setText(content);
+        presText.setText(content+WeatherApplication.getContext().getString(R.string.unitPres));
     }
 
     @Override
     public void setVis(String content) {
-        visText.setText(content);
+        visText.setText(content+ WeatherApplication.getContext().getString(R.string.unitVis));
     }
 
     @Override

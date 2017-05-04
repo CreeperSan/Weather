@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseAqiPartManager;
 import creeper_san.weather.R;
 
@@ -29,27 +30,27 @@ public class AqiPartManagerSimple extends BaseAqiPartManager {
 
     @Override
     public void setCo(String content) {
-        coTxt.setText(content);
+        coTxt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override
     public void setNo2(String content) {
-        no2Txt.setText(content);
+        no2Txt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override
     public void setO3(String content) {
-        o3Txt.setText(content);
+        o3Txt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override
     public void setPm10(String content) {
-        pm10Txt.setText(content);
+        pm10Txt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override
     public void setPm25(String content) {
-        pm25Txt.setText(content);
+        pm25Txt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override
@@ -59,7 +60,7 @@ public class AqiPartManagerSimple extends BaseAqiPartManager {
 
     @Override
     public void setSo2(String content) {
-        so2Txt.setText(content);
+        so2Txt.setText(content+WeatherApplication.getContext().getString(R.string.unitAqi));
     }
 
     @Override

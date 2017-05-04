@@ -31,7 +31,7 @@
         <TextView
             android:layout_toEndOf="@id/partCityCity"
             android:id="@+id/partCityCityTxt"
-            android:text="深圳"
+            android:text="--"
             android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

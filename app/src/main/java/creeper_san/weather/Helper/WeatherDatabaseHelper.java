@@ -71,7 +71,7 @@ public class WeatherDatabaseHelper {
      */
     public static List<CityItem> getCityList(Context context){
         List<CityItem> cityList = new ArrayList<>();
-        Cursor cursor = getInstance(context).query(TABLE_CITY,KEY_ID,null, (String[]) null);
+        Cursor cursor = getInstance(context).query(TABLE_CITY,null,null, (String[]) null);
         if (cursor!=null){
             while (cursor.moveToNext()){
                 String cityName = cursor.getString(cursor.getColumnIndex(KEY_CITY));
@@ -88,7 +88,7 @@ public class WeatherDatabaseHelper {
         return cityList;
     }
     public static boolean insert(Context context,CityItem item){
-        Cursor cursor = getInstance(context).query(TABLE_CITY,KEY_ID,KEY_ID+"=?",item.getId());
+        Cursor cursor = getInstance(context).query(TABLE_CITY,null,KEY_ID+"=?",item.getId());
         if (cursor.getCount()>0){
             return false;//已经有这个城市了
         }

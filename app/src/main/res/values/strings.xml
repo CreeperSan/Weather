@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Weather</string>
+
+    <string name="unitAqi" formatted="false">&#x0020;μg/m³</string>
+    <string name="unitDegree">°</string>
+    <string name="unitWindSpeed">km/h</string>
+    <string name="unitVis">km</string>
+    <string name="unitPcpn">mm</string>
+    <string name="unitPres">pa</string>
+    <string name="unitHum">%</string>
+    <string name="unitTemperature">°</string>
 </resources>

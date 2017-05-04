@@ -12,11 +12,9 @@ import butterknife.BindView;
 import creeper_san.weather.Base.BaseDailyPartManager;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.R;
-import tech.linjiang.suitlines.SuitLines;
-import tech.linjiang.suitlines.Unit;
 
 public class DailyPartManagerSimple extends BaseDailyPartManager {
-    @BindView(R.id.partDailySuitLines)SuitLines suitLines;
+//    @BindView(R.id.partDailySuitLines)SuitLines suitLines;
 
     public DailyPartManagerSimple(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);
@@ -29,12 +27,12 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
 
     @Override
     protected void initView(View partRootView, ViewGroup container) {
-        List<Unit> lines = new ArrayList<>();
-        for (int i = 0; i < 14; i++) {
-            lines.add(new Unit(new SecureRandom().nextInt(48), i + ""));
-        }
+//        List<Unit> lines = new ArrayList<>();
+//        for (int i = 0; i < 14; i++) {
+//            lines.add(new Unit(new SecureRandom().nextInt(48), i + ""));
+//        }
 //        log("kong "+(suitLines==null));
-        suitLines.feedWithAnim(lines);
+//        suitLines.feedWithAnim(lines);
     }
 
     @Override

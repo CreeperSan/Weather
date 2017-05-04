@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseWindPartManager;
 import creeper_san.weather.R;
 
@@ -20,7 +21,7 @@ public class WindPartManagerSimple extends BaseWindPartManager {
 
     @Override
     public void setDeg(String content) {
-        degreeTxt.setText(content);
+        degreeTxt.setText(content+ WeatherApplication.getContext().getString(R.string.unitDegree));
     }
 
     @Override
@@ -35,7 +36,7 @@ public class WindPartManagerSimple extends BaseWindPartManager {
 
     @Override
     public void setSpd(String content) {
-        speedTxt.setText(content);
+        speedTxt.setText(content+ WeatherApplication.getContext().getString(R.string.unitWindSpeed));
     }
 
     @Override

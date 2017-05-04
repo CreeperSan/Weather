@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseHeaderPartManager;
+import creeper_san.weather.Helper.ResHelper;
 import creeper_san.weather.R;
 
 
@@ -20,7 +22,7 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
     @BindView(R.id.partHeaderTmpFeeling)TextView temperatureFeelingTxt;
     @BindView(R.id.partHeaderUpdateTime)TextView updateTimeTxt;
     @BindView(R.id.partHeaderWeatherImage)ImageView weatherImage;
-    private  View tempContainer;
+    private View tempContainer;
 
     public HeaderPartManagerSimple(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);
@@ -29,27 +31,28 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
 
     @Override
     public void setTmp(String content) {
-        temperatureTxt.setText(content);
+        temperatureTxt.setText(content+ WeatherApplication.getContext().getString(R.string.unitTemperature));
     }
 
     @Override
     public void setLoc(String content) {
-        updateTimeTxt.setText(content);
+        updateTimeTxt.setText("更新于"+System.currentTimeMillis());
+//        updateTimeTxt.setText(content);
     }
 
     @Override
     public void setCondCode(String content) {
-        weatherImage.setImageResource(R.drawable.ic_sunny);
+        weatherImage.setImageResource(ResHelper.getWeatherImageWeatherCode(content));
     }
 
     @Override
     public void setCondTxt(String content) {
-        weatherTxt.setText(content);
+        weatherTxt.setText(WeatherApplication.getContext().getString(ResHelper.getStringIDFromWeatherCode(content)));
     }
 
     @Override
     public void setFl(String content) {
-        temperatureFeelingTxt.setText(content);
+        temperatureFeelingTxt.setText(content+WeatherApplication.getContext().getString(R.string.unitTemperature));
     }
 
     @Override
