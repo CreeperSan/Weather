@@ -52,7 +52,6 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
         initRecyclerView();
         initServiceConnection();
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -63,14 +62,11 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
         startService(WeatherService.class);
         bindService(WeatherService.class,this);
     }
-
     private void initRecyclerView() {
         adapter = new CityAdapter();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
     }
-
-
     private void initEditText() {
         editText.addTextChangedListener(this);
         editText.setOnClickListener(new View.OnClickListener() {
@@ -221,7 +217,7 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
                     CityItem insertItem = cityItemList.get(holder.getAdapterPosition());
                     if (WeatherDatabaseHelper.insert(AddCityActivity.this,insertItem)){
                         toast("添加城市成功");
-                        postEvent(new CityEditEvent(CityEditEvent.TYPE_ADD,insertItem));
+                        postEvent(new CityEditEvent(getClass().getSimpleName(), CityEditEvent.TYPE_ADD,insertItem));
                     }else {
                         toast("城市已存在");
                     }

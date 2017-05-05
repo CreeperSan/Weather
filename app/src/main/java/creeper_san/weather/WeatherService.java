@@ -5,12 +5,14 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import org.greenrobot.eventbus.Subscribe;
 import org.json.JSONException;
 
 import java.io.IOException;
 
 import creeper_san.weather.Base.BaseService;
 import creeper_san.weather.Event.SearchResultEvent;
+import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Exctption.JsonDecodeException;
 import creeper_san.weather.Flag.LanguageCode;
@@ -24,6 +26,14 @@ import okhttp3.Call;
 
 public class WeatherService extends BaseService {
 
+
+    /**
+     *      EventBus
+     */
+    @Subscribe()
+    public void onWeatherRequestEvent(WeatherRequestEvent event){
+        getWeather(event.getCityName());
+    }
 
     /**
      *      网络操作部分

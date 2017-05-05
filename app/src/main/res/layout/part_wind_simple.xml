@@ -34,7 +34,7 @@
             android:layout_toEndOf="@id/partWindDeg"
             android:layout_alignTop="@id/partWindDeg"
             android:id="@+id/partWindDegTxt"
-            android:text="190"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -51,7 +51,7 @@
             android:id="@+id/partWindDirTxt"
             android:layout_toEndOf="@id/partWindDir"
             android:layout_alignTop="@id/partWindDir"
-            android:text="东风"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/partWindScTxt"
             android:layout_toEndOf="@id/partWindSc"
             android:layout_alignTop="@id/partWindSc"
-            android:text="微风"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -83,7 +83,7 @@
             android:id="@+id/partWindSpdTxt"
             android:layout_toEndOf="@id/partWindSpd"
             android:layout_alignTop="@id/partWindSpd"
-            android:text="9"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

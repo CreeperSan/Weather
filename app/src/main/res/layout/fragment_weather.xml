@@ -2,11 +2,13 @@
 
 
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/fragmentWeatherSwipeRefreshLayout">
 
-    <creeper_san.weather.View.ListenableScrollView
+    <ScrollView
+        android:scrollbars="none"
         android:background="#ffffff"
         android:id="@+id/fragmentWeatherScrollView"
         android:layout_width="match_parent"
@@ -20,7 +22,6 @@
 
 
         </LinearLayout>
-    </creeper_san.weather.View.ListenableScrollView>
+    </ScrollView>
 
-
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>

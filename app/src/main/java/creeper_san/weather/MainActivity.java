@@ -2,17 +2,13 @@ package creeper_san.weather;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -23,11 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -37,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
-import creeper_san.weather.Event.SwipeRefreshLayoutEvent;
+import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
 import creeper_san.weather.Helper.OfflineCacheHelper;
@@ -46,20 +38,19 @@ import creeper_san.weather.Helper.WeatherDatabaseHelper;
 import creeper_san.weather.Item.CityItem;
 import creeper_san.weather.Json.WeatherItem;
 
-public class MainActivity extends BaseActivity implements ServiceConnection,SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainToolbar)Toolbar toolbar;
     @BindView(R.id.mainNavigationBar)NavigationView navigationView;
     @BindView(R.id.mainDrawerLayout)DrawerLayout drawerLayout;
-    @BindView(R.id.mainSwipeRefreshLayout)SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.mainViewPager)ViewPager viewPager;
 
     private int ppp=100;
 
     private WeatherFragment fragment;
     private WeatherService weatherService;
-
-    private int touchX;
-    private int touchY;
-    private boolean isDrafting = false;
+    private List<WeatherFragment> weatherFragmentList;
+    private WeatherAdapter adapter;
+    private boolean isOrderChange = false;
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
@@ -67,20 +58,54 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
         initService();
         initToolbar();
         initNavigation();
-        initSwipeRefreshLayout();
+        initFragmentList();
+        initViewPager();
         log(UrlHelper.generateWeatherUrl("Shenzhen"));
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(this);
         log("onDestroy();");
     }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isOrderChange){
+            isOrderChange =false;
+            initFragmentList();
+            adapter.notifyDataSetChanged();
+        }
+        setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
+    }
 
     /**
      *      初始化
      */
+    private void initFragmentList(){
+        weatherFragmentList = new ArrayList<>();
+        List<CityItem> cityItemList = WeatherDatabaseHelper.getCityList(this);
+        for (CityItem cityItem:cityItemList){
+            WeatherFragment fragment = new WeatherFragment();
+            fragment.setID(cityItem.getId());
+            fragment.setCityName(cityItem.getCity());
+            weatherFragmentList.add(fragment);
+        }
+    }
+    private void initViewPager() {
+        adapter = new WeatherAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override
+            public void onPageSelected(int position) {
+                setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
+            }
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+    }
     private void initToolbar() {
         setSupportActionBar(toolbar);
         setTitle("Title");
@@ -91,39 +116,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
             toggle.syncState();
             drawerLayout.addDrawerListener(toggle);
         }
-    }
-    private void initSwipeRefreshLayout() {
-        swipeRefreshLayout.requestDisallowInterceptTouchEvent(true);
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        touchX = (int) event.getX();
-                        touchY = (int) event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (isDrafting){
-//                            log("isdrafting");
-                            return false;
-                        }else {
-                            int xDistance = (int) Math.abs(event.getX() - touchX);
-                            int yDistance = (int) Math.abs(event.getY() - touchY);
-                            if (xDistance>yDistance && xDistance>8){
-                                swipeRefreshLayout.setEnabled(false);
-                                isDrafting = true;
-                            }
-                        }
-                        break;
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP:
-                        isDrafting = false;
-                        break;
-                }
-                return false;
-            }
-        });
     }
     private void initNavigation() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -144,6 +136,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
         startService(WeatherService.class);
     }
 
+
+
     /**
      *      响应事件
      */
@@ -161,8 +155,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
                 startActivity(AddCityActivity.class);
                 break;
             case R.id.menuMainToolbarRefreshWeather:
-                swipeRefreshLayout.setRefreshing(true);
-                refreshWeather();
+                WeatherFragment fragment = weatherFragmentList.get(viewPager.getCurrentItem());
+                postEvent(new WeatherRequestEvent(fragment.getID(),fragment.getCityName()));
                 break;
             case R.id.menuMainToolbarTest:
                 break;
@@ -173,33 +167,11 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
      *      Event事件
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onWeatherResultEvent(WeatherResultEvent event){
-//        log("收到天气结果！   "+Thread.currentThread().getName());
-        swipeRefreshLayout.setRefreshing(false);
-        if (event.isSuccess()){
-            if (event.getWeatherItem()==null){
-                toast("网络数据解析失败");
-            }else {
-
-            }
-        }else {
-            toast("连接到服务器失败，请检查你的网络连接。");
-        }
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSwipeRefreshLayoutEvent(SwipeRefreshLayoutEvent event){
-//        log("收到结果 swipeEvent");
-        if (!swipeRefreshLayout.isRefreshing()){
-            if (event.isEnable()){
-                swipeRefreshLayout.setEnabled(true);
-            }else {
-                swipeRefreshLayout.setEnabled(false);
-            }
-        }
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCityEditEvent(CityEditEvent event){
+        isOrderChange = true;
     }
+
+
     /**
      *      接口以及回调
      */
@@ -209,12 +181,31 @@ public class MainActivity extends BaseActivity implements ServiceConnection,Swip
     }
     @Override
     public void onServiceDisconnected(ComponentName name) {}
-    @Override
-    public void onRefresh() {
-        refreshWeather();
-    }
-    private void refreshWeather(){
 
+    /**
+     *      内部类
+     */
+
+    class WeatherAdapter extends FragmentStatePagerAdapter{
+
+        public WeatherAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return weatherFragmentList.get(position);
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+
+        @Override
+        public int getCount() {
+            return weatherFragmentList.size();
+        }
     }
 
     /**

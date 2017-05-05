@@ -13,7 +13,7 @@
         android:id="@+id/partSuggestionAir"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="空气质量   中"
+        android:text="空气质量   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -24,7 +24,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="气象条件对空气污染物稀释、扩散和清除无明显影响，易感人群应适当减少室外活动时间。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -32,7 +32,7 @@
         android:id="@+id/partSuggestionComf"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="体感指数   较不舒适"
+        android:text="体感指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -43,7 +43,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="白天天气晴好，并且空气湿度偏大，在这种天气条件下，您会感到有些闷热，不很舒适。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -51,7 +51,7 @@
         android:id="@+id/partSuggestionCw"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="洗车指数   较适宜"
+        android:text="洗车指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -62,7 +62,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="较适宜洗车，未来一天无雨，风力较小，擦洗一新的汽车至少能保持一天。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -70,7 +70,7 @@
         android:id="@+id/partSuggestionDrsg"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="穿衣指数   热"
+        android:text="穿衣指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -81,7 +81,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="天气热，建议着短裙、短裤、短薄外套、T恤等夏季服装。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -89,7 +89,7 @@
         android:id="@+id/partSuggestionFlu"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="感冒指数   较易发"
+        android:text="感冒指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -100,7 +100,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="天气转凉，空气湿度较大，较易发生感冒，体质较弱的朋友请注意适当防护。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -108,7 +108,7 @@
         android:id="@+id/partSuggestionSport"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="运动指数   较不宜"
+        android:text="运动指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -119,7 +119,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="天气较好，无雨水困扰，但考虑气温很高，请注意适当减少运动时间并降低运动强度，运动后及时补充水分。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -127,7 +127,7 @@
         android:id="@+id/partSuggestionTrav"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="出行指数   适宜"
+        android:text="出行指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
@@ -138,7 +138,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="天气较好，但丝毫不会影响您出行的心情。温度适宜又有微风相伴，适宜旅游。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
@@ -146,7 +146,7 @@
         android:id="@+id/partSuggestionUv"
         android:textColor="#000000"
         android:textSize="16sp"
-        android:text="紫外线指数   弱"
+        android:text="紫外线指数   -"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
@@ -157,7 +157,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="紫外线强度较弱，建议出门前涂擦SPF在12-15之间、PA+的防晒护肤品。"
+        android:text="-"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

@@ -20,6 +20,7 @@ public class WeatherDatabaseHelper {
     private final static String KEY_LAT = "Lat";
     private final static String KEY_LON = "Lon";
     private final static String KEY_ID = "ID";
+    private final static String KEY_NUM = "Num";
 
     private static WeatherDatabaseHelper instance;
     private SQLiteDatabase database;
@@ -39,8 +40,8 @@ public class WeatherDatabaseHelper {
         if (database!=null){
             //创建保存的城市表
             database.execSQL("create table if not exists "+TABLE_CITY+" (" +
-                    KEY_ID+" text not null,"+KEY_CITY+" text not null,"+KEY_COUNTRY+" text,"+
-                    KEY_PROV+" text,"+KEY_LAT+" text,"+KEY_LON+" text)");
+                    KEY_ID+" text not null,"+KEY_CITY+" text not null,"+ KEY_NUM +" text not null,"
+                    +KEY_COUNTRY+" text,"+KEY_PROV+" text,"+KEY_LAT+" text,"+KEY_LON+" text)");
         }
     }
     public void closeDatabaseHelper(){
@@ -65,13 +66,16 @@ public class WeatherDatabaseHelper {
     private void delete(String tableName,String selection,String... args){
         database.delete(tableName,selection,args);
     }
+    private void update(String tableName,ContentValues values,String selection,String... args){
+        database.update(tableName,values,selection,args);
+    }
 
     /**
-     *      城市搜索
+     *      城市操作
      */
     public static List<CityItem> getCityList(Context context){
         List<CityItem> cityList = new ArrayList<>();
-        Cursor cursor = getInstance(context).query(TABLE_CITY,null,null, (String[]) null);
+        Cursor cursor = getInstance(context).query(TABLE_CITY, KEY_NUM,null, (String[]) null);
         if (cursor!=null){
             while (cursor.moveToNext()){
                 String cityName = cursor.getString(cursor.getColumnIndex(KEY_CITY));
@@ -92,12 +96,17 @@ public class WeatherDatabaseHelper {
         if (cursor.getCount()>0){
             return false;//已经有这个城市了
         }
+        cursor.close();
+        cursor = getInstance(context).query(TABLE_CITY,null,null, (String[]) null);
         ContentValues value = new ContentValues();
+        value.put(KEY_NUM,cursor.getCount());
         value.put(KEY_CITY,item.getCity());
         value.put(KEY_COUNTRY,item.getCnty());
         value.put(KEY_ID,item.getId());
         value.put(KEY_LAT,item.getLat());
         value.put(KEY_LON,item.getLon());
+        cursor.close();
+        log("序号为 "+value.getAsString(KEY_NUM));
         if (item.getProv()!=null){
             if (!item.getProv().equals("")){
                 value.put(KEY_PROV,item.getProv());
@@ -109,6 +118,12 @@ public class WeatherDatabaseHelper {
     public static void delete(Context context,CityItem item){
         getInstance(context).delete(TABLE_CITY,KEY_ID+"=?",item.getId());
     }
+    public static void updateNum(Context context,String cityID,int order){
+        ContentValues values = new ContentValues();
+        values.put(KEY_NUM,order);
+        getInstance(context).update(TABLE_CITY,values,KEY_ID+"=?",cityID);
+    }
+
 
     public static WeatherDatabaseHelper getInstance(Context context){
         if (instance==null){

@@ -49,7 +49,7 @@
             android:layout_below="@id/partCityCity"
             android:layout_toEndOf="@id/partCityCnty"
             android:id="@+id/partCityCntyTxt"
-            android:text="中国"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -65,7 +65,7 @@
             android:layout_alignTop="@id/partCityID"
             android:layout_toEndOf="@id/partCityID"
             android:id="@+id/partCityIdTxt"
-            android:text="CN101280601"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -81,7 +81,7 @@
             android:layout_alignTop="@id/partCityLat"
             android:layout_toEndOf="@id/partCityLat"
             android:id="@+id/partCityLatTxt"
-            android:text="22.547"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -97,7 +97,7 @@
             android:layout_alignTop="@id/partCityLon"
             android:layout_toEndOf="@id/partCityLon"
             android:id="@+id/partCityLonTxt"
-            android:text="114.085947"
+            android:text="-"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </RelativeLayout>

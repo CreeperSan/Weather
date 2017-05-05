@@ -68,8 +68,12 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
 
     @Override
     public void onGlobalLayout() {
-        partRootView.setMinimumHeight(tempContainer.getHeight());
-        tempContainer = null;
+        try {
+            partRootView.setMinimumHeight(tempContainer.getHeight());
+            tempContainer = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         partRootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
     }
 

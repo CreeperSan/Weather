@@ -1,18 +1,17 @@
 package creeper_san.weather.Fragment;
 
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
-import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,8 @@ import creeper_san.weather.Base.BaseOtherPartManager;
 import creeper_san.weather.Base.BasePartManager;
 import creeper_san.weather.Base.BaseSuggestionPartManager;
 import creeper_san.weather.Base.BaseWindPartManager;
-import creeper_san.weather.Event.SwipeRefreshLayoutEvent;
+import creeper_san.weather.Event.WeatherRequestEvent;
+import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.Part.AqiPartManagerSimple;
@@ -38,23 +38,21 @@ import creeper_san.weather.Part.OtherPartManagerSimple;
 import creeper_san.weather.Part.SuggestionPartManagerSimple;
 import creeper_san.weather.Part.WindPartManagerSimple;
 import creeper_san.weather.R;
-import creeper_san.weather.View.ListenableScrollView;
-import creeper_san.weather.View.ListenableScrollView.OnScrollListener;
+
 import static creeper_san.weather.Flag.PartCode.*;
 
-public class WeatherFragment extends BaseFragment implements OnScrollListener{
-    @BindView(R.id.fragmentWeatherScrollView)ListenableScrollView scrollView;
+public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+    @BindView(R.id.fragmentWeatherScrollView)ScrollView scrollView;
     @BindView(R.id.fragmentWeatherLinearLayout)LinearLayout linearLayout;
-    private boolean isTop = true;
-    private int topY;
+    @BindView(R.id.fragmentWeatherSwipeRefreshLayout)SwipeRefreshLayout swipeRefreshLayout;
     private List<BasePartManager> partManagerList;
     private String cityName;
     private String ID;
 
     @Override
     protected void initView(View rootView) {
-        //ScrollView
-        scrollView.setOnScrollListener(this);
+        //下拉刷新
+        swipeRefreshLayout.setOnRefreshListener(this);
         //初始化各个Manager
         clearPartManagerList();
         partManagerList.add(new HeaderPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
@@ -79,6 +77,15 @@ public class WeatherFragment extends BaseFragment implements OnScrollListener{
         }
     }
 
+    @Override
+    protected void onCreateViewFinish() {
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -89,7 +96,6 @@ public class WeatherFragment extends BaseFragment implements OnScrollListener{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView(rootView);
     }
 
     public void setWeatherData(WeatherItem item, int which){
@@ -207,22 +213,30 @@ public class WeatherFragment extends BaseFragment implements OnScrollListener{
     }
 
     @Override
-    public void onScroll(int i, int t, int oldl, int oldt) {
-        topY = t;
-        if (topY<=0){
-            if (!isTop){
-                isTop = true;
-                EventBus.getDefault().post(new SwipeRefreshLayoutEvent(true));
-            }
-        }else {
-            if (isTop){
-                isTop = false;
-                EventBus.getDefault().post(new SwipeRefreshLayoutEvent(false));
-            }
-        }
+    public void onRefresh() {
+        postEvent(new WeatherRequestEvent(ID,cityName));
     }
 
-    public boolean isTop() {
-        return isTop;
+    /**
+     *      EventBus
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWeatherResultEvent(WeatherResultEvent event){
+        swipeRefreshLayout.setRefreshing(false);
+        if (event.isSuccess()){
+            if (event.getWeatherItem()==null){
+                loge("网络数据解析失败");
+            }else {
+                WeatherItem item = event.getWeatherItem();
+                for (int i=0;i<item.size();i++){
+                    if (item.getId(i).equals(ID)){
+                        OfflineCacheHelper.saveCityOfflineData(getContext(),ID,item.getJsonObject().toString());
+                        setWeatherData(item,i);
+                    }
+                }
+            }
+        }else {
+            loge("连接到服务器失败，请检查你的网络连接。");
+        }
     }
 }

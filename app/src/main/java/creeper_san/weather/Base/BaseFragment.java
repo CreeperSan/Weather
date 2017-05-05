@@ -31,17 +31,27 @@ public abstract class BaseFragment extends Fragment {
         EventBus.getDefault().unregister(this);
     }
 
+    protected <T> void postEvent(T event){
+        EventBus.getDefault().post(event);
+    }
+    protected <T> void postStickyEvent(T event){
+        EventBus.getDefault().postSticky(event);
+    }
     @Subscribe
     public void onEvent(String command){}
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(getLayout(),container,false);
         ButterKnife.bind(this,rootView);
-//        initView(rootView);
+        initView(rootView);
+        onCreateViewFinish();
         return rootView;
     }
+
+    protected void onCreateViewFinish() {}
 
     protected abstract @LayoutRes int getLayout();
 

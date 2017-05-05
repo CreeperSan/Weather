@@ -86,49 +86,49 @@
         android:layout_height="wrap_content" />
 
     <TextView
-        android:text="1"
+        android:text="-"
         android:id="@+id/partAqiValueCo"
         android:layout_alignTop="@id/partAqiCo"
         android:layout_toEndOf="@id/partAqiCo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="35"
+        android:text="-"
         android:id="@+id/partAqiValueNo2"
         android:layout_alignTop="@id/partAqiNo2"
         android:layout_toEndOf="@id/partAqiNo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="71"
+        android:text="-"
         android:id="@+id/partAqiValueO3"
         android:layout_alignTop="@id/partAqiO3"
         android:layout_toEndOf="@id/partAqiO3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="8"
+        android:text="-"
         android:id="@+id/partAqiValueSo2"
         android:layout_alignTop="@id/partAqiSo2"
         android:layout_toEndOf="@id/partAqiSo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="44"
+        android:text="-"
         android:id="@+id/partAqiValuePm10"
         android:layout_alignTop="@id/partAqiPm10"
         android:layout_toEndOf="@id/partAqiPm10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="28"
+        android:text="-"
         android:id="@+id/partAqiValuePm25"
         android:layout_alignTop="@id/partAqiPm25"
         android:layout_toEndOf="@id/partAqiPm25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <TextView
-        android:text="44"
+        android:text="-"
         android:id="@+id/partAqiValueAqi"
         android:layout_alignTop="@id/partAqiAqi"
         android:layout_toEndOf="@id/partAqiAqi"
