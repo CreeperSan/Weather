@@ -44,8 +44,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainDrawerLayout)DrawerLayout drawerLayout;
     @BindView(R.id.mainViewPager)ViewPager viewPager;
 
-    private int ppp=100;
-
     private WeatherFragment fragment;
     private WeatherService weatherService;
     private List<WeatherFragment> weatherFragmentList;
