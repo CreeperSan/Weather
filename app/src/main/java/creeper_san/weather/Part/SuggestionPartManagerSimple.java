@@ -117,4 +117,9 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
     protected int getLayout() {
         return R.layout.part_suggestion_simple;
     }
+
+    @Override
+    protected void setEmpty() {
+
+    }
 }

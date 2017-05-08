@@ -67,4 +67,9 @@ public class AqiPartManagerSimple extends BaseAqiPartManager {
     protected int getLayout() {
         return R.layout.part_aqi_simple;
     }
+
+    @Override
+    protected void setEmpty() {
+
+    }
 }

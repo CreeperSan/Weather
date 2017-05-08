@@ -26,6 +26,7 @@ public abstract class BasePartManager {
 
     protected void initView(View partRootView,ViewGroup container){};
     protected abstract @LayoutRes int getLayout();
+    protected abstract void setEmpty();
 
     public int getType() {
         return TYPE;

@@ -48,4 +48,9 @@ public class CityPartManagerSimple extends BaseCityPartManager {
     protected int getLayout() {
         return R.layout.part_city_simple;
     }
+
+    @Override
+    protected void setEmpty() {
+
+    }
 }

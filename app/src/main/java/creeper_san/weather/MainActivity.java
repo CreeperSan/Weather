@@ -74,7 +74,11 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             initFragmentList();
             adapter.notifyDataSetChanged();
         }
-        setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
+        if (weatherFragmentList.size()>0){
+            setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
+        }else {
+            setTitle("请先选择城市..");
+        }
     }
 
     /**

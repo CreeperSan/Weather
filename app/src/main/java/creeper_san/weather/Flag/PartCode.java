@@ -9,5 +9,6 @@ public class PartCode {
     public final static int PART_SUGGESTION = 4;
     public final static int PART_CITY = 5;
     public final static int PART_OTHER = 6;
+    public final static int PART_BACKGROUND = 7;
 
 }

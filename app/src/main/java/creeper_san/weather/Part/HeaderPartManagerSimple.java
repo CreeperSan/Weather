@@ -28,7 +28,6 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
         super(inflater, container);
     }
 
-
     @Override
     public void setTmp(String content) {
         temperatureTxt.setText(content+ WeatherApplication.getContext().getString(R.string.unitTemperature));
@@ -36,8 +35,7 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
 
     @Override
     public void setLoc(String content) {
-        updateTimeTxt.setText("更新于"+System.currentTimeMillis());
-//        updateTimeTxt.setText(content);
+        updateTimeTxt.setText("更新于"+content);
     }
 
     @Override
@@ -64,6 +62,11 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
     @Override
     protected int getLayout() {
         return R.layout.part_head_simple;
+    }
+
+    @Override
+    protected void setEmpty() {
+
     }
 
     @Override

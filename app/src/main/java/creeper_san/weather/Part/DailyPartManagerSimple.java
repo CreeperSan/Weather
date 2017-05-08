@@ -12,9 +12,10 @@ import butterknife.BindView;
 import creeper_san.weather.Base.BaseDailyPartManager;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.R;
+import creeper_san.weather.View.SimpleLineChartView;
 
 public class DailyPartManagerSimple extends BaseDailyPartManager {
-//    @BindView(R.id.partDailySuitLines)SuitLines suitLines;
+    @BindView(R.id.partDailySimpleLineChartView)SimpleLineChartView lineChartView;
 
     public DailyPartManagerSimple(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);
@@ -27,16 +28,23 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
 
     @Override
     protected void initView(View partRootView, ViewGroup container) {
-//        List<Unit> lines = new ArrayList<>();
-//        for (int i = 0; i < 14; i++) {
-//            lines.add(new Unit(new SecureRandom().nextInt(48), i + ""));
-//        }
-//        log("kong "+(suitLines==null));
-//        suitLines.feedWithAnim(lines);
+        List<SimpleLineChartView.PointData> pointDataList = new ArrayList<>();
+        for (int i=0;i<7;i++){
+            SimpleLineChartView.PointData pointData = new SimpleLineChartView.PointData((int) (Math.random()*10+15));
+//            SimpleLineChartView.PointData pointData = new SimpleLineChartView.PointData(50*i+100);
+            pointDataList.add(pointData);
+        }
+        SimpleLineChartView.LineData lineData = new SimpleLineChartView.LineData(pointDataList);
+        lineChartView.setData(lineData);
     }
 
     @Override
     protected int getLayout() {
         return R.layout.part_daily_simple;
+    }
+
+    @Override
+    protected void setEmpty() {
+
     }
 }

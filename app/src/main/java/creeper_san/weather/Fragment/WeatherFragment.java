@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -236,6 +237,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 }
             }
         }else {
+            toast("连接到服务器失败，请检查你的网络连接。");
             loge("连接到服务器失败，请检查你的网络连接。");
         }
     }

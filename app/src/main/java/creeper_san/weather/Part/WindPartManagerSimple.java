@@ -43,4 +43,9 @@ public class WindPartManagerSimple extends BaseWindPartManager {
     protected int getLayout() {
         return R.layout.part_wind_simple;
     }
+
+    @Override
+    protected void setEmpty() {
+
+    }
 }

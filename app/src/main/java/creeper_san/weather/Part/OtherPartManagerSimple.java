@@ -43,4 +43,9 @@ public class OtherPartManagerSimple extends BaseOtherPartManager {
     protected int getLayout() {
         return R.layout.part_other_simple;
     }
+
+    @Override
+    protected void setEmpty() {
+
+    }
 }

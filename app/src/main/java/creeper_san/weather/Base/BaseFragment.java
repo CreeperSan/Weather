@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -56,6 +57,13 @@ public abstract class BaseFragment extends Fragment {
     protected abstract @LayoutRes int getLayout();
 
     protected void initView(View rootView){}
+
+    protected void toast(String content){
+        Toast.makeText(getContext(),content,Toast.LENGTH_SHORT).show();
+    }
+    protected void toastLong(String content){
+        Toast.makeText(getContext(),content,Toast.LENGTH_LONG).show();
+    }
 
     protected void log(String content){
         Log.i(TAG,content);
