@@ -65,7 +65,7 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
     }
 
     @Override
-    protected void setEmpty() {
+    public void setEmpty() {
 
     }
 

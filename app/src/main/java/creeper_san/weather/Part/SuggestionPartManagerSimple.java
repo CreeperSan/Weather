@@ -1,6 +1,7 @@
 package creeper_san.weather.Part;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -35,6 +36,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setAirBrf(String content) {
+        if (content==null || content.equals("")){
+            airTxt.setVisibility(View.GONE);
+            airTitle.setVisibility(View.GONE);
+        }else {
+            airTxt.setVisibility(View.VISIBLE);
+            airTitle.setVisibility(View.VISIBLE);
+        }
         airTitle.setText("空气指数  "+content);
     }
 
@@ -45,6 +53,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setComfBrf(String content) {
+        if (content==null || content.equals("")){
+            comfTitle.setVisibility(View.GONE);
+            comfTxt.setVisibility(View.GONE);
+        }else {
+            comfTitle.setVisibility(View.VISIBLE);
+            comfTxt.setVisibility(View.VISIBLE);
+        }
         comfTitle.setText("体感温度  "+content);
     }
 
@@ -55,6 +70,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setCwBrf(String content) {
+        if (content==null || content.equals("")){
+            cwTxt.setVisibility(View.GONE);
+            cwTitle.setVisibility(View.GONE);
+        }else {
+            cwTxt.setVisibility(View.VISIBLE);
+            cwTitle.setVisibility(View.VISIBLE);
+        }
         cwTitle.setText("洗车指数  "+content);
     }
 
@@ -65,6 +87,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setDrsgBrf(String content) {
+        if (content==null || content.equals("")){
+            drsgTitle.setVisibility(View.GONE);
+            drsgTxt.setVisibility(View.GONE);
+        }else {
+            drsgTitle.setVisibility(View.VISIBLE);
+            drsgTxt.setVisibility(View.VISIBLE);
+        }
         drsgTitle.setText("穿衣指数  "+content);
     }
 
@@ -75,6 +104,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setFluBrf(String content) {
+        if (content==null || content.equals("")){
+            fluTxt.setVisibility(View.GONE);
+            fluTitle.setVisibility(View.GONE);
+        }else {
+            fluTxt.setVisibility(View.VISIBLE);
+            fluTitle.setVisibility(View.VISIBLE);
+        }
         fluTitle.setText("流感指数  "+content);
     }
 
@@ -85,6 +121,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setSportBrf(String content) {
+        if (content==null || content.equals("")){
+            sportTxt.setVisibility(View.GONE);
+            sportTitle.setVisibility(View.GONE);
+        }else {
+            sportTxt.setVisibility(View.VISIBLE);
+            sportTitle.setVisibility(View.VISIBLE);
+        }
         sportTitle.setText("运动指数  "+content);
     }
 
@@ -95,6 +138,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setTravBrf(String content) {
+        if (content==null || content.equals("")){
+            travTxt.setVisibility(View.GONE);
+            travTitle.setVisibility(View.GONE);
+        }else {
+            travTxt.setVisibility(View.VISIBLE);
+            travTitle.setVisibility(View.VISIBLE);
+        }
         travTitle.setText("出行指数  "+content);
     }
 
@@ -105,6 +155,13 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
 
     @Override
     public void setUvBrf(String content) {
+        if (content==null || content.equals("")){
+            uvTxt.setVisibility(View.GONE);
+            uvTitle.setVisibility(View.GONE);
+        }else {
+            uvTxt.setVisibility(View.VISIBLE);
+            uvTitle.setVisibility(View.VISIBLE);
+        }
         uvTitle.setText("紫外线指数  "+content);
     }
 
@@ -119,7 +176,24 @@ public class SuggestionPartManagerSimple extends BaseSuggestionPartManager {
     }
 
     @Override
-    protected void setEmpty() {
+    public void setEmpty() {
 
+        airTitle.setVisibility(View.VISIBLE);
+        airTitle.setText("所选择的地区没有提供生活建议数据");
+        airTxt.setVisibility(View.GONE);
+        comfTitle.setVisibility(View.GONE);
+        comfTxt.setVisibility(View.GONE);
+        cwTitle.setVisibility(View.GONE);
+        cwTxt.setVisibility(View.GONE);
+        drsgTitle.setVisibility(View.GONE);
+        drsgTxt.setVisibility(View.GONE);
+        fluTitle.setVisibility(View.GONE);
+        fluTxt.setVisibility(View.GONE);
+        sportTitle.setVisibility(View.GONE);
+        sportTxt.setVisibility(View.GONE);
+        travTitle.setVisibility(View.GONE);
+        travTxt.setVisibility(View.GONE);
+        uvTitle.setVisibility(View.GONE);
+        uvTxt.setVisibility(View.GONE);
     }
 }

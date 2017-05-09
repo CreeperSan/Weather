@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     private List<WeatherFragment> weatherFragmentList;
     private WeatherAdapter adapter;
     private boolean isOrderChange = false;
+    private boolean isShowing = false;
 
     @Override
     protected void onCreate(@Nullable Bundle bundle) {
@@ -79,6 +80,13 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         }else {
             setTitle("请先选择城市..");
         }
+        isShowing = true;
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        isShowing = false;
     }
 
     /**
@@ -170,7 +178,13 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCityEditEvent(CityEditEvent event){
-        isOrderChange = true;
+        if (isShowing){
+            isOrderChange =false;
+            initFragmentList();
+            adapter.notifyDataSetChanged();
+        }else {
+            isOrderChange = true;
+        }
     }
 
 

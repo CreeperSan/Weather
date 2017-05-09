@@ -45,7 +45,7 @@ public class OtherPartManagerSimple extends BaseOtherPartManager {
     }
 
     @Override
-    protected void setEmpty() {
+    public void setEmpty() {
 
     }
 }

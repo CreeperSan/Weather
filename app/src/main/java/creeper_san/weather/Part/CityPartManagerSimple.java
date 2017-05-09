@@ -50,7 +50,7 @@ public class CityPartManagerSimple extends BaseCityPartManager {
     }
 
     @Override
-    protected void setEmpty() {
+    public void setEmpty() {
 
     }
 }

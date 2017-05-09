@@ -134,6 +134,17 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         headerPartManager.setFl(item.getFl(which));
     }
     private void handleAqiPart(WeatherItem item, BaseAqiPartManager aqiPartManager, int which){
+        if (item.getAqi(which)==null &&
+                item.getCo(which)==null &&
+                item.getNo2(which)==null &&
+                item.getO3(which)==null &&
+                item.getPm10(which)==null &&
+                item.getPm25(which)==null &&
+                item.getQlty(which)==null &&
+                item.getSo2(which)==null){
+            aqiPartManager.setEmpty();
+            return;
+        }
         aqiPartManager.setAqi(item.getAqi(which));
         aqiPartManager.setCo(item.getCo(which));
         aqiPartManager.setNo2(item.getNo2(which));
@@ -153,6 +164,17 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         windPartManager.setSpd(item.getSpd(which));
     }
     private void handleSuggestionPart(WeatherItem item, BaseSuggestionPartManager suggestionPartManager, int which){
+        if (item.getBrfAir(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfComf(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfCw(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfDrsg(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfFlu(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfSport(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfTrav(which)== null || item.getBrfAir(which).equals("") &&
+                item.getBrfUv(which)== null || item.getBrfAir(which).equals("")){
+            suggestionPartManager.setEmpty();
+            return;
+        }
         suggestionPartManager.setAirBrf(item.getBrfAir(which));
         suggestionPartManager.setAirTxt(item.getTxtAir(which));
         suggestionPartManager.setComfBrf(item.getBrfComf(which));

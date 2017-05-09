@@ -45,7 +45,7 @@ public class WindPartManagerSimple extends BaseWindPartManager {
     }
 
     @Override
-    protected void setEmpty() {
+    public void setEmpty() {
 
     }
 }
