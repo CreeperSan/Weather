@@ -12,10 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_weather_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
-            android:name=".BootActivity"
-            android:theme="@style/AppThemeNoActionBar">
+            android:name=".BootActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,16 +21,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:name=".MainActivity" />
         <activity
-            android:name=".AddCityActivity"
-            android:theme="@style/AppThemeNoActionBar" />
+            android:name=".AddCityActivity"/>
 
         <service android:name=".WeatherService" />
 
-        <activity android:name=".CityManageActivity"
-            android:theme="@style/AppThemeNoActionBar"/>
+        <activity
+            android:name=".CityManageActivity"/>
+        <activity android:name=".PartManageActivity"></activity>
     </application>
 
 </manifest>

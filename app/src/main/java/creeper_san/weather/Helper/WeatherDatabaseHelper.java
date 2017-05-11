@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import creeper_san.weather.Item.CityItem;
+import creeper_san.weather.Item.PartItem;
 
 public class WeatherDatabaseHelper {
     private final static String DATABASE_NAME = "Weather.db";
     private final static String TABLE_CITY = "City";
+    private final static String TABLE_PART = "Part";
     private final static String KEY_CITY = "City";
     private final static String KEY_PROV = "Province";
     private final static String KEY_COUNTRY = "Country";
@@ -21,6 +23,7 @@ public class WeatherDatabaseHelper {
     private final static String KEY_LON = "Lon";
     private final static String KEY_ID = "ID";
     private final static String KEY_NUM = "Num";
+    private final static String KEY_TYPE = "Type";
 
     private static WeatherDatabaseHelper instance;
     private SQLiteDatabase database;
@@ -42,6 +45,9 @@ public class WeatherDatabaseHelper {
             database.execSQL("create table if not exists "+TABLE_CITY+" (" +
                     KEY_ID+" text not null,"+KEY_CITY+" text not null,"+ KEY_NUM +" text not null,"
                     +KEY_COUNTRY+" text,"+KEY_PROV+" text,"+KEY_LAT+" text,"+KEY_LON+" text)");
+            //创建保存天气部分的表
+            database.execSQL("create table if not exists "+TABLE_PART+" ("
+                    +KEY_NUM+" integer not null,"+KEY_TYPE+" integer not null)");
         }
     }
     public void closeDatabaseHelper(){
@@ -124,6 +130,25 @@ public class WeatherDatabaseHelper {
         getInstance(context).update(TABLE_CITY,values,KEY_ID+"=?",cityID);
     }
 
+    /**
+     *      天气部分管理
+     */
+    public static List<PartItem> getWeatherPartItemList(Context context){
+        List<PartItem> partItemList = new ArrayList<>();
+        Cursor cursor = getInstance(context).query(TABLE_PART,KEY_NUM,null, (String[]) null);
+        if (cursor==null){
+            return partItemList;
+        }
+        while(cursor.moveToNext()){
+            int order = cursor.getInt(cursor.getColumnIndex(KEY_NUM));
+            int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
+            PartItem partItem = new PartItem(order,type);
+            partItemList.add(partItem);
+        }
+        log("查询的游标大小 "+cursor.getCount());
+        cursor.close();
+        return partItemList;
+    }
 
     public static WeatherDatabaseHelper getInstance(Context context){
         if (instance==null){

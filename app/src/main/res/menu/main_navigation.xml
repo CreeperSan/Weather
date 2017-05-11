@@ -3,5 +3,7 @@
 
     <item android:title="城市管理"
         android:id="@+id/menuMainNavigationCityManager"/>
+    <item android:title="天气部件管理"
+        android:id="@+id/menuMainNavigationPartManager"/>
 
 </menu>

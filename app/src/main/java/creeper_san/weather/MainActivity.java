@@ -135,6 +135,9 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                     case R.id.menuMainNavigationCityManager:
                         startActivity(CityManageActivity.class);
                         break;
+                    case R.id.menuMainNavigationPartManager:
+                        startActivity(PartManageActivity.class);
+                        break;
                 }
                 drawerLayout.closeDrawer(Gravity.START);
                 return true;

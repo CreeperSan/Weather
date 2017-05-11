@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.Part.AqiPartManagerSimple;
+import creeper_san.weather.Part.BackgroundManagerSimple;
 import creeper_san.weather.Part.CityPartManagerSimple;
 import creeper_san.weather.Part.DailyPartManagerSimple;
 import creeper_san.weather.Part.HeaderPartManagerSimple;
@@ -46,6 +48,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     @BindView(R.id.fragmentWeatherScrollView)ScrollView scrollView;
     @BindView(R.id.fragmentWeatherLinearLayout)LinearLayout linearLayout;
     @BindView(R.id.fragmentWeatherSwipeRefreshLayout)SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragmentWeatherBackgroundLayout)FrameLayout frameLayout;
     private List<BasePartManager> partManagerList;
     private String cityName;
     private String ID;
@@ -56,6 +59,9 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         swipeRefreshLayout.setOnRefreshListener(this);
         //初始化各个Manager
         clearPartManagerList();
+        //此处装载背景
+        frameLayout.addView(new BackgroundManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView).getView());
+        //此处装载部分
         partManagerList.add(new HeaderPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
         partManagerList.add(new AqiPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
         partManagerList.add(new WindPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));

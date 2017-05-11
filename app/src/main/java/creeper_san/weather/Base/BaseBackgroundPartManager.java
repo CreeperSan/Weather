@@ -20,5 +20,7 @@ public abstract class BaseBackgroundPartManager extends BasePartManager {
         return TYPE;
     }
 
+    public abstract void setData(WeatherItem item,int which);
+
     public abstract void setWeather(int which, WeatherItem weatherItem);
 }

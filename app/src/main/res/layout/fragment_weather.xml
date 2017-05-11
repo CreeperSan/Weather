@@ -2,26 +2,40 @@
 
 
 
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/fragmentWeatherSwipeRefreshLayout">
+    android:layout_height="match_parent">
 
-    <ScrollView
-        android:scrollbars="none"
-        android:background="#ffffff"
-        android:id="@+id/fragmentWeatherScrollView"
+    <FrameLayout
+        android:id="@+id/fragmentWeatherBackgroundLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/fragmentWeatherLinearLayout"
+    </FrameLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/fragmentWeatherSwipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ScrollView
+            android:scrollbars="none"
+            android:id="@+id/fragmentWeatherScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/fragmentWeatherLinearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+</FrameLayout>
