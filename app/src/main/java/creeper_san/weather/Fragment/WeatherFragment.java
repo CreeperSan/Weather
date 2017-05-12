@@ -88,6 +88,11 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     protected void onCreateViewFinish() {
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
