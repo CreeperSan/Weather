@@ -142,7 +142,7 @@ public class WeatherDatabaseHelper {
         while(cursor.moveToNext()){
             int order = cursor.getInt(cursor.getColumnIndex(KEY_NUM));
             int type = cursor.getInt(cursor.getColumnIndex(KEY_TYPE));
-            PartItem partItem = new PartItem(order,type);
+            PartItem partItem = new PartItem(type);
             partItemList.add(partItem);
         }
         log("查询的游标大小 "+cursor.getCount());

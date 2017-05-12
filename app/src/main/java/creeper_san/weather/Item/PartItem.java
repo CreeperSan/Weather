@@ -1,23 +1,13 @@
 package creeper_san.weather.Item;
 
 public class PartItem {
-    private int order;
     private int type;
 
     public PartItem() {
     }
 
-    public PartItem(int order, int type) {
-        this.order = order;
+    public PartItem( int type) {
         this.type = type;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
     }
 
     public int getType() {
