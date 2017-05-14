@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.SearchResultEvent;
-import creeper_san.weather.Helper.WeatherDatabaseHelper;
+import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
 import creeper_san.weather.Json.SearchItem;
 
@@ -215,7 +215,7 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
                 @Override
                 public void onClick(View v) {
                     CityItem insertItem = cityItemList.get(holder.getAdapterPosition());
-                    if (WeatherDatabaseHelper.insert(AddCityActivity.this,insertItem)){
+                    if (DatabaseHelper.insertCityItem(AddCityActivity.this,insertItem)){
                         toast("添加城市成功");
                         postEvent(new CityEditEvent(getClass().getSimpleName(), CityEditEvent.TYPE_ADD,insertItem));
                     }else {

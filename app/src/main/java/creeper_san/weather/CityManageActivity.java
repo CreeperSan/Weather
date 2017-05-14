@@ -21,7 +21,6 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
-import creeper_san.weather.Helper.WeatherDatabaseHelper;
+import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
 import static creeper_san.weather.Event.CityEditEvent.*;
 
@@ -90,7 +89,7 @@ public class CityManageActivity extends BaseActivity {
                 if (source!=target){
                     for (int i=(source>target)?target:source;i<=((source<target)?target:source);i++){
                         CityItem item = cityItemList.get(i);
-                        WeatherDatabaseHelper.updateNum(CityManageActivity.this,item.getId(),i);
+                        DatabaseHelper.updateCityItemNum(CityManageActivity.this,item.getId(),i);
                     }
                     postEvent(new CityEditEvent(CityManageActivity.this.getClass().getSimpleName(),TYPE_ORDER,null));
                 }
@@ -140,7 +139,7 @@ public class CityManageActivity extends BaseActivity {
         recyclerView.setAdapter(adapter);
     }
     private void initData() {
-        cityItemList = WeatherDatabaseHelper.getCityList(this);
+        cityItemList = DatabaseHelper.getCityList(this);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -178,7 +177,7 @@ public class CityManageActivity extends BaseActivity {
             public void onDismissed(Snackbar transientBottomBar, int event) {
                 super.onDismissed(transientBottomBar, event);
                 if (event!=1){//如果不点击撤销
-                    WeatherDatabaseHelper.delete(CityManageActivity.this,item);
+                    DatabaseHelper.deleteCityItem(CityManageActivity.this,item);
                     postEvent(new CityEditEvent(CityManageActivity.this.getClass().getSimpleName(), TYPE_DELETE,item));
                 }
             }

@@ -53,4 +53,16 @@
     <string name="weatherCode901Cold">Cold</string>
     <string name="weatherCode999Unknown">Unknown</string>
 
+    <string name="partNameHeader">Header</string>
+    <string name="partNameAQI">AQI</string>
+    <string name="partNameDaily">Daily</string>
+    <string name="partNameWind">Wind</string>
+    <string name="partNameSuggestion">Suggestion</string>
+    <string name="partNameCity">City</string>
+    <string name="partNameOther">Other</string>
+    <string name="partNameBase">Base</string>
+    <string name="partNameBackground">Background</string>
+
+    <string name="unknown">Unknown</string>
+
 </resources>

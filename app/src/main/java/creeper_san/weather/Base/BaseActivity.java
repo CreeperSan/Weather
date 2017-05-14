@@ -1,6 +1,7 @@
 package creeper_san.weather.Base;
 
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -27,6 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     private final String EVENT_BUS_BASE_FINISH = "Finish";
 
     private final String TAG = getClass().getSimpleName();
+    protected Context context;
     protected LayoutInflater inflater;
 
     @Override
@@ -36,6 +38,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         inflater = LayoutInflater.from(this);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
+        context = this;
     }
 
     @Override

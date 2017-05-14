@@ -9,4 +9,5 @@
     <string name="unitPres">pa</string>
     <string name="unitHum">%</string>
     <string name="unitTemperature">°</string>
+
 </resources>

@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -30,13 +29,10 @@ import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
-import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
-import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Helper.UrlHelper;
-import creeper_san.weather.Helper.WeatherDatabaseHelper;
+import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
-import creeper_san.weather.Json.WeatherItem;
 
 public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainToolbar)Toolbar toolbar;
@@ -94,7 +90,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
      */
     private void initFragmentList(){
         weatherFragmentList = new ArrayList<>();
-        List<CityItem> cityItemList = WeatherDatabaseHelper.getCityList(this);
+        List<CityItem> cityItemList = DatabaseHelper.getCityList(this);
         for (CityItem cityItem:cityItemList){
             WeatherFragment fragment = new WeatherFragment();
             fragment.setID(cityItem.getId());

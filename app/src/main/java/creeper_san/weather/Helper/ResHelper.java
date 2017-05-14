@@ -118,4 +118,18 @@ public class ResHelper {
         }
     }
 
+    public static String getPartNameFromCode(Context context,int code){
+        switch (code){
+            case -1:return context.getString(R.string.partNameBase);
+            case 0:return context.getString(R.string.partNameHeader);
+            case 1:return context.getString(R.string.partNameAQI);
+            case 2:return context.getString(R.string.partNameDaily);
+            case 3:return context.getString(R.string.partNameWind);
+            case 4:return context.getString(R.string.partNameSuggestion);
+            case 5:return context.getString(R.string.partNameCity);
+            case 6:return context.getString(R.string.partNameOther);
+            case 7:return context.getString(R.string.partNameBackground);
+            default:return context.getString(R.string.unknown);
+        }
+    }
 }

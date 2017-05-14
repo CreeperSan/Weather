@@ -28,9 +28,12 @@ import creeper_san.weather.Base.BaseOtherPartManager;
 import creeper_san.weather.Base.BasePartManager;
 import creeper_san.weather.Base.BaseSuggestionPartManager;
 import creeper_san.weather.Base.BaseWindPartManager;
+import creeper_san.weather.Event.PartEditEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
+import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Helper.OfflineCacheHelper;
+import creeper_san.weather.Item.PartItem;
 import creeper_san.weather.Json.WeatherItem;
 import creeper_san.weather.Part.AqiPartManagerSimple;
 import creeper_san.weather.Part.BackgroundManagerSimple;
@@ -49,6 +52,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     @BindView(R.id.fragmentWeatherLinearLayout)LinearLayout linearLayout;
     @BindView(R.id.fragmentWeatherSwipeRefreshLayout)SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fragmentWeatherBackgroundLayout)FrameLayout frameLayout;
+    private boolean isNeedRefresh = false;
     private List<BasePartManager> partManagerList;
     private String cityName;
     private String ID;
@@ -62,13 +66,20 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         //此处装载背景
         frameLayout.addView(new BackgroundManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView).getView());
         //此处装载部分
-        partManagerList.add(new HeaderPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new AqiPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new WindPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new SuggestionPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new CityPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new DailyPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
-        partManagerList.add(new OtherPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+        List<PartItem> partItemList = DatabaseHelper.getPartItemList(getContext());
+        for (PartItem partItem:partItemList){
+            BasePartManager basePartManager = getPartManagerFromTypeCode(partItem.getType(),getActivity().getLayoutInflater(), (ViewGroup) rootView);
+            if (basePartManager!=null){
+                partManagerList.add(basePartManager);
+            }
+        }
+//        partManagerList.add(new HeaderPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new AqiPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new WindPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new SuggestionPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new CityPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new DailyPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
+//        partManagerList.add(new OtherPartManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView));
         //添加Parth
         for (BasePartManager manager:partManagerList){
             linearLayout.addView(manager.getView());
@@ -84,6 +95,27 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         }
     }
 
+    private BasePartManager getPartManagerFromTypeCode(int type,LayoutInflater inflater,ViewGroup viewGroup){
+        switch (type){
+            case PART_HEAD:
+                return new HeaderPartManagerSimple(inflater,viewGroup);
+            case PART_AQI:
+                return new AqiPartManagerSimple(inflater,viewGroup);
+            case PART_DAILY:
+                return new DailyPartManagerSimple(inflater,viewGroup);
+            case PART_WIND:
+                return new WindPartManagerSimple(inflater,viewGroup);
+            case PART_SUGGESTION:
+                return new SuggestionPartManagerSimple(inflater,viewGroup);
+            case PART_CITY:
+                return new CityPartManagerSimple(inflater,viewGroup);
+            case PART_OTHER:
+                return new OtherPartManagerSimple(inflater,viewGroup);
+            default:
+                return null;
+        }
+    }
+
     @Override
     protected void onCreateViewFinish() {
     }
@@ -91,6 +123,30 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     public void onResume() {
         super.onResume();
+        if (isNeedRefresh){
+            isNeedRefresh = false;
+            //清空数据
+            clearPartManagerList();
+            //重新加载数据
+            List<PartItem> partItemList = DatabaseHelper.getPartItemList(getContext());
+            for (PartItem partItem:partItemList){
+                BasePartManager basePartManager = getPartManagerFromTypeCode(partItem.getType(),getActivity().getLayoutInflater(), (ViewGroup) rootView);
+                if (basePartManager!=null){
+                    partManagerList.add(basePartManager);
+                }
+            }
+            for (BasePartManager manager:partManagerList){
+                linearLayout.addView(manager.getView());
+            }
+            WeatherItem offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
+            if (offlineItem!=null){
+                for (int i=0;i<offlineItem.size();i++){
+                    if (offlineItem.getId(i).equals(getID())){
+                        setWeatherData(offlineItem,i);
+                    }
+                }
+            }
+        }
     }
 
     @Nullable
@@ -217,7 +273,6 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         otherPartManager.setVis(item.getVis(which));
     }
 
-
     private void clearPartManagerList(){
         if (partManagerList==null){
             loge("List初始化");
@@ -273,5 +328,9 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
             toast("连接到服务器失败，请检查你的网络连接。");
             loge("连接到服务器失败，请检查你的网络连接。");
         }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTypeEditEvent(PartEditEvent event){
+        isNeedRefresh = true;
     }
 }
