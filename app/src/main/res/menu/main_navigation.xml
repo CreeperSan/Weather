@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="城市管理"
+        android:icon="@drawable/ic_part_city"
         android:id="@+id/menuMainNavigationCityManager"/>
     <item android:title="天气部件管理"
+        android:icon="@drawable/ic_part_header"
         android:id="@+id/menuMainNavigationPartManager"/>
+    <item android:title="设置"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:id="@+id/menuMainNavigationSetting"/>
 
 </menu>
