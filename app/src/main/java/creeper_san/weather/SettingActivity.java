@@ -11,6 +11,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
+import creeper_san.weather.Fragment.MainPrefFragment;
 
 public class SettingActivity extends BaseActivity {
     @BindView(R.id.settingToolbar)Toolbar toolbar;
@@ -20,6 +21,8 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolbar();
+        log("OnCreate()");
+        getFragmentManager().beginTransaction().add(R.id.settingLinearLayout,new MainPrefFragment().init()).commit();
     }
 
     private void initToolbar() {

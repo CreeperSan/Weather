@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 此处存放Preference的Key -->
+    <string name="prefMainPartColor">prefMainPartColor</string>
+    <string name="prefMainPartHeader">prefMainPartHeader</string>
+    <string name="prefMainPartAQI">prefMainPartAQI</string>
+    <string name="prefMainPartBackground">prefMainPartBackground</string>
+    <string name="prefMainPartCity">prefMainPartCity</string>
+    <string name="prefMainPartDaily">prefMainPartDaily</string>
+    <string name="prefMainPartOther">prefMainPartOther</string>
+    <string name="prefMainPartSuggestion">prefMainPartSuggestion</string>
+    <string name="prefMainPartWind">prefMainPartWind</string>
+
+</resources>
