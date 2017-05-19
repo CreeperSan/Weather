@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
@@ -15,14 +15,14 @@ import static creeper_san.weather.Flag.ErrorCode.*;
 import static creeper_san.weather.Flag.JsonKey.*;
 
 
-public class WeatherItem extends BaseItem {
-    private List<WeatherSingleItem> singleItemList;
+public class WeatherJson extends BaseJson {
+    private List<WeatherSingleJson> singleItemList;
     private JSONObject jsonObject;
 
-    public WeatherItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public WeatherJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public WeatherItem(JSONObject jsonObject) throws JsonDecodeException {
+    public WeatherJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -40,7 +40,7 @@ public class WeatherItem extends BaseItem {
                 throw new JsonDecodeException(TYPE_MISS,"缺少HeWeather5值",CODE_MISSING);
             }
             for (int i=0;i<heWeather5Json.length();i++){
-                WeatherSingleItem item = new WeatherSingleItem(heWeather5Json.optJSONObject(i));
+                WeatherSingleJson item = new WeatherSingleJson(heWeather5Json.optJSONObject(i));
                 if (item!=null){
                     singleItemList.add(item);
                 }
@@ -313,9 +313,9 @@ public class WeatherItem extends BaseItem {
 
 
 
-    private class WeatherSingleItem extends BaseItem{
-        private List<DailyItem> dailyItemList;
-        private List<HourlyItem> hourlyItemList;
+    private class WeatherSingleJson extends BaseJson {
+        private List<DailyJson> dailyItemList;
+        private List<HourlyJson> hourlyItemList;
         private String aqi;
         private String co;
         private String no2;
@@ -360,10 +360,10 @@ public class WeatherItem extends BaseItem {
         private String brfUv;
         private String txtUv;
 
-        private WeatherSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private WeatherSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private WeatherSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private WeatherSingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -477,7 +477,7 @@ public class WeatherItem extends BaseItem {
             JSONArray hourlyJsonArray = jsonObject.optJSONArray(KEY_HOURLY_FORECAST);
             if (hourlyJsonArray!=null){
                 for (int i=0;i<hourlyJsonArray.length();i++){
-                    HourlyItem item = new HourlyItem(hourlyJsonArray.optJSONObject(i));
+                    HourlyJson item = new HourlyJson(hourlyJsonArray.optJSONObject(i));
                     if (item!=null){
                         hourlyItemList.add(item);
                     }
@@ -492,7 +492,7 @@ public class WeatherItem extends BaseItem {
             JSONArray dailyJsonArray = jsonObject.optJSONArray(KEY_DAILY_FORECAST);
             if (dailyJsonArray!=null){
                 for (int i=0;i<dailyJsonArray.length();i++){
-                    DailyItem item = new DailyItem(dailyJsonArray.optJSONObject(i));
+                    DailyJson item = new DailyJson(dailyJsonArray.optJSONObject(i));
                     if (item!=null){
                         dailyItemList.add(item);
                     }
@@ -675,7 +675,7 @@ public class WeatherItem extends BaseItem {
         }
     }
 
-    private class DailyItem extends BaseItem{
+    private class DailyJson extends BaseJson {
         private String mr;
         private String ms;
         private String sr;
@@ -698,10 +698,10 @@ public class WeatherItem extends BaseItem {
         private String sc;
         private String spd;
 
-        private DailyItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private DailyJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private DailyItem(JSONObject jsonObject) throws JsonDecodeException {
+        private DailyJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -827,7 +827,7 @@ public class WeatherItem extends BaseItem {
         }
     }
 
-    private class HourlyItem extends BaseItem{
+    private class HourlyJson extends BaseJson {
         private String code;
         private String txt;
         private String date;
@@ -840,10 +840,10 @@ public class WeatherItem extends BaseItem {
         private String sc;
         private String spd;
 
-        private HourlyItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private HourlyJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private HourlyItem(JSONObject jsonObject) throws JsonDecodeException {
+        private HourlyJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

@@ -7,20 +7,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Flag.JsonKey.*;
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
 
-public class HourlyItem extends BaseItem{
-    private List<HourlySingleItem> hourlySingleItemList;
+public class HourlyJson extends BaseJson {
+    private List<HourlySingleJson> hourlySingleItemList;
 
-    public HourlyItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public HourlyJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public HourlyItem(JSONObject jsonObject) throws JsonDecodeException {
+    public HourlyJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -38,7 +38,7 @@ public class HourlyItem extends BaseItem{
             }else {
 //                log("长度 "+heWeather5JsonArray.length());
                 for (int i=0;i<heWeather5JsonArray.length();i++){
-                    HourlySingleItem item = new HourlySingleItem(heWeather5JsonArray.optJSONObject(i));
+                    HourlySingleJson item = new HourlySingleJson(heWeather5JsonArray.optJSONObject(i));
                     if (item==null){
                         continue;
                     }
@@ -123,8 +123,8 @@ public class HourlyItem extends BaseItem{
 
 
 
-    private class HourlySingleItem extends BaseItem{
-        private List<HourlySingleForecastItem> forecastItemList;
+    private class HourlySingleJson extends BaseJson {
+        private List<HourlySingleForecastJson> forecastItemList;
         private String city;
         private String cnty;
         private String id;
@@ -133,10 +133,10 @@ public class HourlyItem extends BaseItem{
         private String loc;
         private String utc;
 
-        private HourlySingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private HourlySingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private HourlySingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private HourlySingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -172,7 +172,7 @@ public class HourlyItem extends BaseItem{
                             if (forecastJson==null){
                                 continue;
                             }
-                            forecastItemList.add(new HourlySingleForecastItem(forecastJson));
+                            forecastItemList.add(new HourlySingleForecastJson(forecastJson));
                         }
                     }
                 }else {
@@ -218,7 +218,7 @@ public class HourlyItem extends BaseItem{
 
 
 
-    private class HourlySingleForecastItem extends BaseItem{
+    private class HourlySingleForecastJson extends BaseJson {
         private String code;
         private String txt;
         private String date;
@@ -231,10 +231,10 @@ public class HourlyItem extends BaseItem{
         private String sc;
         private String spd;
 
-        private HourlySingleForecastItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private HourlySingleForecastJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private HourlySingleForecastItem(JSONObject jsonObject) throws JsonDecodeException {
+        private HourlySingleForecastJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

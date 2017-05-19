@@ -1,12 +1,12 @@
 package creeper_san.weather.Event;
 
-import creeper_san.weather.Json.SearchItem;
+import creeper_san.weather.Json.SearchJson;
 
 public class SearchResultEvent {
     private final boolean isSucceed;
-    private final SearchItem searchItem;
+    private final SearchJson searchItem;
 
-    public SearchResultEvent(boolean isSucceed, SearchItem searchItem) {
+    public SearchResultEvent(boolean isSucceed, SearchJson searchItem) {
         this.isSucceed = isSucceed;
         this.searchItem = searchItem;
     }
@@ -15,7 +15,7 @@ public class SearchResultEvent {
         return isSucceed;
     }
 
-    public SearchItem getSearchItem() {
+    public SearchJson getSearchItem() {
         return searchItem;
     }
 }

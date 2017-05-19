@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import creeper_san.weather.Exctption.JsonDecodeException;
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 
 public class OfflineCacheHelper {
     private final static String FILE_PATH = "/Offline/";
@@ -60,7 +60,7 @@ public class OfflineCacheHelper {
             log("缓存文件写入失败");
         }
     }
-    public static WeatherItem getWeatherItemFromCache(Context context,String cityID){
+    public static WeatherJson getWeatherItemFromCache(Context context, String cityID){
         File file = new File(context.getApplicationContext().getFilesDir()+FILE_PATH+cityID);
         if (file.exists()){
             try {
@@ -69,7 +69,7 @@ public class OfflineCacheHelper {
                 byte[] buffer = new byte[(int) length];
                 fis.read(buffer);
                 fis.close();
-                return new WeatherItem(new String(buffer));
+                return new WeatherJson(new String(buffer));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 return null;

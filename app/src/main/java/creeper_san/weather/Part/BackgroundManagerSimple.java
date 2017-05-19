@@ -4,7 +4,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import creeper_san.weather.Base.BaseBackgroundPartManager;
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
 
 public class BackgroundManagerSimple extends BaseBackgroundPartManager {
@@ -14,12 +14,12 @@ public class BackgroundManagerSimple extends BaseBackgroundPartManager {
     }
 
     @Override
-    public void setData(WeatherItem item, int which) {
+    public void setData(WeatherJson item, int which) {
 
     }
 
     @Override
-    public void setWeather(int which, WeatherItem weatherItem) {
+    public void setWeather(int which, WeatherJson weatherJson) {
 
     }
 

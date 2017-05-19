@@ -7,20 +7,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Flag.JsonKey.*;
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
 
-public class ForecastItem extends BaseItem {
-    private List<ForecastSingleItem> singleItemList;
+public class ForecastJson extends BaseJson {
+    private List<ForecastSingleJson> singleItemList;
 
-    public ForecastItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public ForecastJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public ForecastItem(JSONObject jsonObject) throws JsonDecodeException {
+    public ForecastJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -35,7 +35,7 @@ public class ForecastItem extends BaseItem {
             JSONArray heWeatherArray = jsonObject.optJSONArray(KEY_HE_WEATHER5);
             if (heWeatherArray!=null){
                 for (int i=0;i<heWeatherArray.length();i++){
-                    ForecastSingleItem item = new ForecastSingleItem(heWeatherArray.optJSONObject(i));
+                    ForecastSingleJson item = new ForecastSingleJson(heWeatherArray.optJSONObject(i));
                     if (item!=null){
                         singleItemList.add(item);
                     }
@@ -148,8 +148,8 @@ public class ForecastItem extends BaseItem {
     }
 
     //----------------------------------------------------------------------------------------------
-    private class ForecastSingleItem extends BaseItem{
-        private List<ForecastSingleDailyItem> dailyItemList;
+    private class ForecastSingleJson extends BaseJson {
+        private List<ForecastSingleDailyJson> dailyItemList;
         private String city;
         private String cnty;
         private String id;
@@ -158,10 +158,10 @@ public class ForecastItem extends BaseItem {
         private String loc;
         private String utc;
 
-        public ForecastSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        public ForecastSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        public ForecastSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        public ForecastSingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 
@@ -194,7 +194,7 @@ public class ForecastItem extends BaseItem {
                     JSONArray dailyJsonArray = jsonObject.optJSONArray(KEY_DAILY_FORECAST);
                     if (dailyJsonArray!=null){
                         for (int i=0;i<dailyJsonArray.length();i++){
-                            ForecastSingleDailyItem item = new ForecastSingleDailyItem(dailyJsonArray.optJSONObject(i));
+                            ForecastSingleDailyJson item = new ForecastSingleDailyJson(dailyJsonArray.optJSONObject(i));
                             if (item!=null){
                                 dailyItemList.add(item);
                             }
@@ -240,7 +240,7 @@ public class ForecastItem extends BaseItem {
 
 
     //----------------------------------------------------------------------------------------------
-    private class ForecastSingleDailyItem extends BaseItem{
+    private class ForecastSingleDailyJson extends BaseJson {
         private String mr;
         private String ms;
         private String sr;
@@ -263,10 +263,10 @@ public class ForecastItem extends BaseItem {
         private String sc;
         private String spd;
 
-        public ForecastSingleDailyItem(String jsonStr) throws JSONException, JsonDecodeException {
+        public ForecastSingleDailyJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        public ForecastSingleDailyItem(JSONObject jsonObject) throws JsonDecodeException {
+        public ForecastSingleDailyJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

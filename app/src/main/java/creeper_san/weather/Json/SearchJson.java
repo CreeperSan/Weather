@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
@@ -18,14 +18,14 @@ import static creeper_san.weather.Flag.JsonKey.*;
  *      城市搜索返回的结果
  */
 
-public class SearchItem extends BaseItem{
+public class SearchJson extends BaseJson {
 
-    private List<SearchSingleItem> searchSingleItemList;
+    private List<SearchSingleJson> searchSingleItemList;
 
-    public SearchItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public SearchJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public SearchItem(JSONObject jsonObject) throws JsonDecodeException {
+    public SearchJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -41,7 +41,7 @@ public class SearchItem extends BaseItem{
             JSONArray array = jsonObject.optJSONArray(KEY_HE_WEATHER5);
             for (int i=0;i<array.length();i++){
                 try {
-                    SearchSingleItem singleItem = new SearchSingleItem((JSONObject) array.get(i));
+                    SearchSingleJson singleItem = new SearchSingleJson((JSONObject) array.get(i));
                     if (singleItem==null){
                         continue;
                     }
@@ -84,7 +84,7 @@ public class SearchItem extends BaseItem{
      *      单个数据
      */
 
-    private class SearchSingleItem extends BaseItem{
+    private class SearchSingleJson extends BaseJson {
         private String city;//城市
         private String cnty;//所在国家
         private String id;//城市ID
@@ -92,10 +92,10 @@ public class SearchItem extends BaseItem{
         private String lon;//经度（竖）
         private String prov;//省份
 
-        private SearchSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private SearchSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private SearchSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private SearchSingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

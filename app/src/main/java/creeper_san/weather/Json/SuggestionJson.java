@@ -7,21 +7,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
 import static creeper_san.weather.Flag.JsonKey.*;
 
-public class SuggestionItem extends BaseItem{
+public class SuggestionJson extends BaseJson {
 
-    private List<SuggestionSingleItem> suggestionSingleItemList;
+    private List<SuggestionSingleJson> suggestionSingleItemList;
 
-    public SuggestionItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public SuggestionJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public SuggestionItem(JSONObject jsonObject) throws JsonDecodeException {
+    public SuggestionJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -36,7 +36,7 @@ public class SuggestionItem extends BaseItem{
             JSONArray array = jsonObject.optJSONArray(KEY_HE_WEATHER5);
             for (int i=0;i<array.length();i++){
                 try {
-                    SuggestionSingleItem singleItem = new SuggestionSingleItem((JSONObject) array.get(i));
+                    SuggestionSingleJson singleItem = new SuggestionSingleJson((JSONObject) array.get(i));
                     suggestionSingleItemList.add(singleItem);
                 } catch (JSONException e) {
                     throw new JsonDecodeException(TYPE_MISS,"缺少城市节点信息",CODE_MISSING);
@@ -140,7 +140,7 @@ public class SuggestionItem extends BaseItem{
      *      单个Item
      */
 
-    private class SuggestionSingleItem extends BaseItem{
+    private class SuggestionSingleJson extends BaseJson {
         private String city;
         private String cnty;
         private String id;
@@ -163,10 +163,10 @@ public class SuggestionItem extends BaseItem{
         private String brf_uv;
         private String txt_uv;
 
-        private SuggestionSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private SuggestionSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private SuggestionSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private SuggestionSingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

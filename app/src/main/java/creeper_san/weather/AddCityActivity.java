@@ -31,7 +31,7 @@ import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.SearchResultEvent;
 import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
-import creeper_san.weather.Json.SearchItem;
+import creeper_san.weather.Json.SearchJson;
 
 public class AddCityActivity extends BaseActivity implements TextWatcher,ServiceConnection {
     @BindView(R.id.addCityToolbar)Toolbar toolbar;
@@ -116,7 +116,7 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
     public void onSearchResult(SearchResultEvent event){
         if (event.isSucceed()){
             hideLoading();
-            SearchItem item = event.getSearchItem();
+            SearchJson item = event.getSearchItem();
             if (item==null){
                 showNoResult();
             }else {

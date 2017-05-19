@@ -3,7 +3,7 @@ package creeper_san.weather.Base;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 import static creeper_san.weather.Flag.PartCode.*;
 
 
@@ -14,7 +14,7 @@ public abstract class BaseDailyPartManager extends BasePartManager {
         super(inflater, container);
     }
 
-    public abstract void setData(WeatherItem weatherItem,int which);
+    public abstract void setData(WeatherJson weatherJson, int which);
 
     @Override
     public int getType() {

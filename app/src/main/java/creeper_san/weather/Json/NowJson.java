@@ -7,20 +7,20 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import creeper_san.weather.Base.BaseItem;
+import creeper_san.weather.Base.BaseJson;
 import creeper_san.weather.Exctption.JsonDecodeException;
 
 import static creeper_san.weather.Exctption.JsonDecodeException.*;
 import static creeper_san.weather.Flag.ErrorCode.*;
 import static creeper_san.weather.Flag.JsonKey.*;
 
-public class NowItem extends BaseItem {
-    private List<NowSingleItem> nowSingleItemList;
+public class NowJson extends BaseJson {
+    private List<NowSingleJson> nowSingleItemList;
 
-    public NowItem(String jsonStr) throws JSONException, JsonDecodeException {
+    public NowJson(String jsonStr) throws JSONException, JsonDecodeException {
         super(jsonStr);
     }
-    public NowItem(JSONObject jsonObject) throws JsonDecodeException {
+    public NowJson(JSONObject jsonObject) throws JsonDecodeException {
         super(jsonObject);
     }
 
@@ -34,7 +34,7 @@ public class NowItem extends BaseItem {
         JSONArray heWeather5Json = jsonObject.optJSONArray(KEY_HE_WEATHER5);
         if (heWeather5Json!=null){
             for (int i=0;i<heWeather5Json.length();i++){
-                NowSingleItem item = new NowSingleItem(heWeather5Json.optJSONObject(i));
+                NowSingleJson item = new NowSingleJson(heWeather5Json.optJSONObject(i));
                 if (item!=null){
                     nowSingleItemList.add(item);
                 }
@@ -108,7 +108,7 @@ public class NowItem extends BaseItem {
 
 
 
-    private class NowSingleItem extends BaseItem{
+    private class NowSingleJson extends BaseJson {
         private String city;
         private String cnty;
         private String id;
@@ -129,10 +129,10 @@ public class NowItem extends BaseItem {
         private String sc;
         private String spd;
 
-        private NowSingleItem(String jsonStr) throws JSONException, JsonDecodeException {
+        private NowSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
-        private NowSingleItem(JSONObject jsonObject) throws JsonDecodeException {
+        private NowSingleJson(JSONObject jsonObject) throws JsonDecodeException {
             super(jsonObject);
         }
 

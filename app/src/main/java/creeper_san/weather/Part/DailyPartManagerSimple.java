@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseDailyPartManager;
 import creeper_san.weather.Helper.ResHelper;
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
 import creeper_san.weather.View.SimpleLineChartView;
 
@@ -30,16 +30,16 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
     }
 
     @Override
-    public void setData(WeatherItem weatherItem,int which) {
+    public void setData(WeatherJson weatherJson, int which) {
         List<SimpleLineChartView.PointData> pointMaxList = new ArrayList<>();
         List<SimpleLineChartView.PointData> pointMinList = new ArrayList<>();
         List<WeatherDataItem> weatherDataItemList = new ArrayList<>();
-        for (int i=0;i<weatherItem.dailySize(which);i++){
+        for (int i = 0; i< weatherJson.dailySize(which); i++){
             float max;
             float min;
             try {
-                max = Float.parseFloat(weatherItem.getDailyTmpMax(which,i));
-                min = Float.parseFloat(weatherItem.getDailyTmpMin(which,i));
+                max = Float.parseFloat(weatherJson.getDailyTmpMax(which,i));
+                min = Float.parseFloat(weatherJson.getDailyTmpMin(which,i));
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 max = 0;
@@ -50,7 +50,7 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
             pointMaxList.add(pointDataMax);
             pointMinList.add(pointDataMin);
             //天气预告列表
-            WeatherDataItem weatherDataItem = new WeatherDataItem(weatherItem.getDailyCodeD(which,i),weatherItem.getDailyTxtD(which,i));
+            WeatherDataItem weatherDataItem = new WeatherDataItem(weatherJson.getDailyCodeD(which,i), weatherJson.getDailyTxtD(which,i));
             weatherDataItemList.add(weatherDataItem);
         }
         SimpleLineChartView.LineData maxTempLineData = new SimpleLineChartView.LineData(pointMaxList).setGravityValue(SimpleLineChartView.LineData.GRAVITY_TOP);

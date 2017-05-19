@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -34,7 +33,7 @@ import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Helper.OfflineCacheHelper;
 import creeper_san.weather.Item.PartItem;
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.Part.AqiPartManagerSimple;
 import creeper_san.weather.Part.BackgroundManagerSimple;
 import creeper_san.weather.Part.CityPartManagerSimple;
@@ -85,7 +84,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
             linearLayout.addView(manager.getView());
         }
         //装载离线数据
-        WeatherItem offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
+        WeatherJson offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
         if (offlineItem!=null){
             for (int i=0;i<offlineItem.size();i++){
                 if (offlineItem.getId(i).equals(getID())){
@@ -138,7 +137,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
             for (BasePartManager manager:partManagerList){
                 linearLayout.addView(manager.getView());
             }
-            WeatherItem offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
+            WeatherJson offlineItem = OfflineCacheHelper.getWeatherItemFromCache(getContext(),getID());
             if (offlineItem!=null){
                 for (int i=0;i<offlineItem.size();i++){
                     if (offlineItem.getId(i).equals(getID())){
@@ -166,7 +165,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public void setWeatherData(WeatherItem item, int which){
+    public void setWeatherData(WeatherJson item, int which){
         for (BasePartManager basePartManager:partManagerList){
             switch (basePartManager.getType()){
                 case PART_HEAD:
@@ -193,14 +192,14 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
             }
         }
     }
-    private void handleHeadPart(WeatherItem item, BaseHeaderPartManager headerPartManager,int which){
+    private void handleHeadPart(WeatherJson item, BaseHeaderPartManager headerPartManager, int which){
         headerPartManager.setTmp(item.getTmp(which));
         headerPartManager.setLoc(item.getLoc(which));
         headerPartManager.setCondCode(item.getCode(which));
         headerPartManager.setCondTxt(item.getCode(which));
         headerPartManager.setFl(item.getFl(which));
     }
-    private void handleAqiPart(WeatherItem item, BaseAqiPartManager aqiPartManager, int which){
+    private void handleAqiPart(WeatherJson item, BaseAqiPartManager aqiPartManager, int which){
         if (item.getAqi(which)==null &&
                 item.getCo(which)==null &&
                 item.getNo2(which)==null &&
@@ -221,16 +220,16 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         aqiPartManager.setQlty(item.getQlty(which));
         aqiPartManager.setSo2(item.getSo2(which));
     }
-    private void handleDailyPart(WeatherItem item, BaseDailyPartManager dailyPartManager, int which){
+    private void handleDailyPart(WeatherJson item, BaseDailyPartManager dailyPartManager, int which){
         dailyPartManager.setData(item,which);
     }
-    private void handleWindPart(WeatherItem item, BaseWindPartManager windPartManager, int which){
+    private void handleWindPart(WeatherJson item, BaseWindPartManager windPartManager, int which){
         windPartManager.setDeg(item.getDeg(which));
         windPartManager.setDir(item.getDir(which));
         windPartManager.setSc(item.getSc(which));
         windPartManager.setSpd(item.getSpd(which));
     }
-    private void handleSuggestionPart(WeatherItem item, BaseSuggestionPartManager suggestionPartManager, int which){
+    private void handleSuggestionPart(WeatherJson item, BaseSuggestionPartManager suggestionPartManager, int which){
         if (item.getBrfAir(which)== null || item.getBrfAir(which).equals("") &&
                 item.getBrfComf(which)== null || item.getBrfAir(which).equals("") &&
                 item.getBrfCw(which)== null || item.getBrfAir(which).equals("") &&
@@ -259,14 +258,14 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         suggestionPartManager.setUvBrf(item.getBrfUv(which));
         suggestionPartManager.setUvTxt(item.getTxtUv(which));
     }
-    private void handleCityPart(WeatherItem item, BaseCityPartManager cityPartManager, int which){
+    private void handleCityPart(WeatherJson item, BaseCityPartManager cityPartManager, int which){
         cityPartManager.setCity(item.getCity(which));
         cityPartManager.setCnty(item.getCountry(which));
         cityPartManager.setID(item.getId(which));
         cityPartManager.setLat(item.getLat(which));
         cityPartManager.setLon(item.getLon(which));
     }
-    private void handleOtherPart(WeatherItem item, BaseOtherPartManager otherPartManager, int which){
+    private void handleOtherPart(WeatherJson item, BaseOtherPartManager otherPartManager, int which){
         otherPartManager.setHum(item.getHum(which));
         otherPartManager.setPcpn(item.getPcpn(which));
         otherPartManager.setPres(item.getPres(which));
@@ -313,10 +312,10 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     public void onWeatherResultEvent(WeatherResultEvent event){
         swipeRefreshLayout.setRefreshing(false);
         if (event.isSuccess()){
-            if (event.getWeatherItem()==null){
+            if (event.getWeatherJson()==null){
                 loge("网络数据解析失败");
             }else {
-                WeatherItem item = event.getWeatherItem();
+                WeatherJson item = event.getWeatherJson();
                 for (int i=0;i<item.size();i++){
                     if (item.getId(i).equals(ID)){
                         OfflineCacheHelper.saveCityOfflineData(getContext(),ID,item.getJsonObject().toString());

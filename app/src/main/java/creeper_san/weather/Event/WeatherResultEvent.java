@@ -1,21 +1,21 @@
 package creeper_san.weather.Event;
 
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.WeatherJson;
 
 public class WeatherResultEvent {
     private final boolean isSuccess;
-    private final WeatherItem weatherItem;
+    private final WeatherJson weatherJson;
 
-    public WeatherResultEvent(boolean isSuccess, WeatherItem weatherItem) {
+    public WeatherResultEvent(boolean isSuccess, WeatherJson weatherJson) {
         this.isSuccess = isSuccess;
-        this.weatherItem = weatherItem;
+        this.weatherJson = weatherJson;
     }
 
     public boolean isSuccess() {
         return isSuccess;
     }
 
-    public WeatherItem getWeatherItem() {
-        return weatherItem;
+    public WeatherJson getWeatherJson() {
+        return weatherJson;
     }
 }

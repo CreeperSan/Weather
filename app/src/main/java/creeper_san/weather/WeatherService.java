@@ -20,8 +20,8 @@ import creeper_san.weather.Flag.LanguageCode.Language_;
 import creeper_san.weather.Helper.HttpHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Interface.HttpStringCallback;
-import creeper_san.weather.Json.SearchItem;
-import creeper_san.weather.Json.WeatherItem;
+import creeper_san.weather.Json.SearchJson;
+import creeper_san.weather.Json.WeatherJson;
 import okhttp3.Call;
 
 public class WeatherService extends BaseService {
@@ -51,7 +51,7 @@ public class WeatherService extends BaseService {
             @Override
             public void onResult(Call call, String result, int requestCode) {
                 try {
-                    postEvent(new SearchResultEvent(true,new SearchItem(result)));
+                    postEvent(new SearchResultEvent(true,new SearchJson(result)));
                 } catch (JSONException | JsonDecodeException e) {
 //                    e.printStackTrace();
                     postEvent(new SearchResultEvent(true,null));
@@ -72,7 +72,7 @@ public class WeatherService extends BaseService {
             @Override
             public void onResult(Call call, String result, int requestCode) {
                 try {
-                    postEvent(new WeatherResultEvent(true,new WeatherItem(result)));
+                    postEvent(new WeatherResultEvent(true,new WeatherJson(result)));
                 } catch (JSONException | JsonDecodeException e) {
 //                    e.printStackTrace();
                     postEvent(new WeatherResultEvent(true,null));

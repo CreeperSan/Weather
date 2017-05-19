@@ -8,13 +8,16 @@ import org.json.JSONObject;
 
 import creeper_san.weather.Exctption.JsonDecodeException;
 
-public abstract class BaseItem {
+public abstract class BaseJson {
     private final String TAG = getClass().getSimpleName();
 
-    public BaseItem(String jsonStr) throws JSONException, JsonDecodeException {
+    protected BaseJson() {
+    }
+
+    public BaseJson(String jsonStr) throws JSONException, JsonDecodeException {
         this(new JSONObject(jsonStr));
     }
-    public BaseItem(JSONObject jsonObject) throws JsonDecodeException{
+    public BaseJson(JSONObject jsonObject) throws JsonDecodeException{
         analyze(jsonObject);
     }
 
