@@ -15,6 +15,5 @@
     <declare-styleable name="CatalogPref">
         <attr name="textColor"/>
         <attr name="textSize" />
-        <attr name="imageSize" format="dimension"/>
     </declare-styleable>
 </resources>

@@ -16,15 +16,9 @@ import creeper_san.weather.R;
 
 public class MainPrefFragment extends PreferenceFragment {
 
-    public MainPrefFragment() {
-        Log.d("Asdasd", "onCreateView: 构造方法");
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         addPreferencesFromResource(R.xml.pref_main);
-
-        Log.d("Asdasd", "onCreateView: 到了！");
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         return view;
@@ -42,13 +36,9 @@ public class MainPrefFragment extends PreferenceFragment {
             View mView = view.findViewById(android.R.id.list);
             if (mView!=null){
                 ((ListView)mView).setDivider(null);
-                Log.d("Asdasd", "onCreateView: 设置了！");
-            }else {
-                Log.d("Asdasd", "onCreateView: 空的！空的！");
             }
         }
         super.onResume();
-        Log.d("Asdasd", "onCreateView: onResume()!");
     }
 
     @Override

@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <creeper_san.weather.Pref.CatalogPref android:icon="@drawable/ic_settings_black_24dp" android:title="基本设置">
+    <creeper_san.weather.Pref.CatalogPref
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="基本设置">
         <SwitchPreference android:title="开启自启"/>
         <SwitchPreference android:title="自动检查更新"/>
     </creeper_san.weather.Pref.CatalogPref>
 
-    <PreferenceCategory android:title="通知设置">
+    <creeper_san.weather.Pref.CatalogPref
+        android:icon="@drawable/ic_notifications_black_24dp"
+        android:title="通知设置">
         <SwitchPreference android:title="通知栏天气"/>
         <SwitchPreference android:title="早晚天气提醒"/>
         <Preference android:title="消息通知"/>
-    </PreferenceCategory>
+    </creeper_san.weather.Pref.CatalogPref>
 
-    <PreferenceCategory android:title="主题设置">
+    <creeper_san.weather.Pref.CatalogPref
+        android:icon="@drawable/ic_color_lens_black_24dp"
+        android:title="主题设置">
         <Preference android:key="@string/prefMainPartColor" android:title="主题颜色"/>
         <Preference android:key="@string/prefMainPartHeader" android:title="天气概况"/>
         <Preference android:key="@string/prefMainPartAQI" android:title="空气质量"/>
@@ -22,7 +29,7 @@
         <Preference android:key="@string/prefMainPartCity" android:title="城市信息"/>
         <Preference android:key="@string/prefMainPartOther" android:title="其他信息"/>
         <Preference android:key="@string/prefMainPartBackground" android:title="天气背景"/>
-    </PreferenceCategory>
+    </creeper_san.weather.Pref.CatalogPref>
 
 
 

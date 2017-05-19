@@ -1,0 +1,12 @@
+{
+	"versions":[
+		{
+		"version":0,
+		"version-name":"Alpha 0.1",
+		"description":"首次发布"
+		},{
+		"version":0,
+		"version-name":"Alpha 0.1",
+		"description":"首次发布"}
+	]
+}
