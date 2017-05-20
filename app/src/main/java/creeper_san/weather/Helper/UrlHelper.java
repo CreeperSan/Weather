@@ -19,6 +19,8 @@ public class UrlHelper {
     private final static String URL_NOW = "https://free-api.heweather.com/v5/now?";//实况天气
     private final static String URL_FORECAST = "https://free-api.heweather.com/v5/forecast?";//3天天气
     private final static String URL_WEATHER = "https://free-api.heweather.com/v5/weather?";//全部天气
+    private final static String URL_UPDATE = "https://creepersan.github.io/app-version/weather.json";//版本更新地址
+    private final static String URL_UPDATE_HISTORY = "https://creepersan.github.io/app-version/weather-history.json";//版本历史
 
     //用于计算标签
     public static String decodeHead(){
@@ -102,6 +104,17 @@ public class UrlHelper {
     }
     public static String generateWeatherUrl(String cityName){
         return generateWeatherUrl(cityName,CHINESE);
+    }
+
+    /**
+     *      此方法用于生成版本检查链接
+     * @return 链接地址
+     */
+    public static String generateUpdateUrl(){
+        return URL_UPDATE;
+    }
+    public static String generateUpdateHistoryUrl(){
+        return URL_UPDATE_HISTORY;
     }
 
 }

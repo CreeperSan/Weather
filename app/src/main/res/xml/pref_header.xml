@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <creeper_san.weather.Pref.CatalogPref android:title="天气概况设置">
+        <Preference android:title="没有设置"/>
+        <Preference android:title="真的没有设置"/>
+        <Preference android:title="绝对真的没有设置"/>
+    </creeper_san.weather.Pref.CatalogPref>
+</PreferenceScreen>

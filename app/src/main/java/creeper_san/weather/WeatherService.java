@@ -12,6 +12,8 @@ import java.io.IOException;
 
 import creeper_san.weather.Base.BaseService;
 import creeper_san.weather.Event.SearchResultEvent;
+import creeper_san.weather.Event.UpdateRequestEvent;
+import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Exctption.JsonDecodeException;
@@ -33,6 +35,14 @@ public class WeatherService extends BaseService {
     @Subscribe()
     public void onWeatherRequestEvent(WeatherRequestEvent event){
         getWeather(event.getCityName());
+    }
+    @Subscribe()
+    public void onUpdateRequestEvent(UpdateRequestEvent event){
+        if (event.getType() == UpdateRequestEvent.TYPE_CHECK_UPDATE){
+            getUpdate();
+        }else if (event.getType() == UpdateRequestEvent.TYPE_CHECK_UPDATE_HISTORY){
+            getUpdateHistory();
+        }
     }
 
     /**
@@ -77,6 +87,32 @@ public class WeatherService extends BaseService {
 //                    e.printStackTrace();
                     postEvent(new WeatherResultEvent(true,null));
                 }
+            }
+        });
+    }
+    public void getUpdate(){
+        HttpHelper.httpGet(UrlHelper.generateUpdateUrl(), new HttpStringCallback() {
+            @Override
+            public void onFail(Call call, IOException e, int requestCode) {
+                postEvent(new UpdateResultEvent());
+            }
+
+            @Override
+            public void onResult(Call call, String result, int requestCode) {
+                postEvent(new UpdateResultEvent(result));
+            }
+        });
+    }
+    public void getUpdateHistory(){
+        HttpHelper.httpGet(UrlHelper.generateUpdateHistoryUrl(), new HttpStringCallback() {
+            @Override
+            public void onFail(Call call, IOException e, int requestCode) {
+                postEvent(new UpdateResultEvent());
+            }
+
+            @Override
+            public void onResult(Call call, String result, int requestCode) {
+                postEvent(new UpdateResultEvent(result));
             }
         });
     }

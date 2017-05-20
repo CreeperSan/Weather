@@ -31,6 +31,12 @@
         <Preference android:key="@string/prefMainPartBackground" android:title="天气背景"/>
     </creeper_san.weather.Pref.CatalogPref>
 
+    <creeper_san.weather.Pref.CatalogPref
+        android:icon="@drawable/ic_other_setting_black_24dp"
+        android:title="其他设置">
+        <Preference android:key="@string/prefMainCheckUpdate" android:title="检查更新"/>
+    </creeper_san.weather.Pref.CatalogPref>
+
 
 
 </PreferenceScreen>

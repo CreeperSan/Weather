@@ -162,7 +162,7 @@ public class DatabaseHelper {
     }
     //此处传入的PartItem是修改后的partItem，注意TimeStamp值应保持不变！
     public static void updatePartItemType(Context context,PartItem newPartItem){
-        log("更新！");
+//        log("更新！");
         ContentValues contentValues = new ContentValues();
         contentValues.put(KEY_TYPE,newPartItem.getType());
         getInstance(context).update(TABLE_PART,contentValues,KEY_TIME_STAMP+"=?",newPartItem.getTimeStamp());

@@ -11,5 +11,6 @@
     <string name="prefMainPartOther">prefMainPartOther</string>
     <string name="prefMainPartSuggestion">prefMainPartSuggestion</string>
     <string name="prefMainPartWind">prefMainPartWind</string>
+    <string name="prefMainCheckUpdate">prefMainCheckUpdate</string>
 
 </resources>
