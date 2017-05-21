@@ -3,6 +3,7 @@
     package="creeper_san.weather">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"/>
 
     <application
         android:name=".Application.WeatherApplication"
@@ -12,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_weather_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <service android:name=".WeatherService" />
+
         <activity
             android:name=".BootActivity">
             <intent-filter>
@@ -20,17 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity" />
-        <activity
-            android:name=".AddCityActivity"/>
-
-        <service android:name=".WeatherService" />
-
-        <activity
-            android:name=".CityManageActivity"/>
+        <activity android:name=".MainActivity" android:launchMode="singleTask" />
+        <activity android:name=".AddCityActivity"/>
+        <activity android:name=".CityManageActivity"/>
         <activity android:name=".PartManageActivity"/>
         <activity android:name=".SettingActivity"/>
+
+
     </application>
 
 </manifest>

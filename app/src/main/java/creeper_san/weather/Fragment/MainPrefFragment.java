@@ -2,6 +2,7 @@ package creeper_san.weather.Fragment;
 
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -21,32 +22,46 @@ import creeper_san.weather.R;
 public class MainPrefFragment extends BasePrefFragment {
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        addPreferencesFromResource(R.xml.pref_main);
-        return super.onCreateView(inflater, container, savedInstanceState);
+    protected int getXmlID() {
+        return R.xml.pref_main;
     }
 
     @Override
-    public void onResume() {
-        View view = getView();
-        if (view!=null){
-            View mView = view.findViewById(android.R.id.list);
-            if (mView!=null){
-                ((ListView)mView).setDivider(null);
-            }
-        }
-        super.onResume();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (preference.getKey().equals(getString(R.string.prefMainCheckUpdate))){//假如检查更新按下了
-            EventBus.getDefault().post(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
-            Toast.makeText(getActivity(), "检查更新", Toast.LENGTH_SHORT).show();
-        }else if (preference.getKey().equals(getString(R.string.prefMainPartHeader))){//天气概况按下了
-            getSettingActivity().addNewPrefFragment(new HeaderPrefFragment());
+        String key = preference.getKey();
+        if (key == null){
+            return super.onPreferenceTreeClick(preferenceScreen, preference);
         }
-        Log.i("Main","id "+preference.getKey());
+        if (key.equals(getString(R.string.prefMainPartHeader))){//天气概况按下了
+            getSettingActivity().addNewPrefFragment(new HeaderPrefFragment());
+            setActivityTitle("天气概况设置");
+        }else if (key.equals(getString(R.string.prefMainPartAQI))){//空气质量按下了
+            getSettingActivity().addNewPrefFragment(new AQIPrefFragment());
+            setActivityTitle("空气质量设置");
+        }else if (key.equals(getString(R.string.prefMainPartDaily))){//天气预报按下了
+            getSettingActivity().addNewPrefFragment(new DailyPrefFragment());
+            setActivityTitle("天气预报设置");
+        }else if (key.equals(getString(R.string.prefMainPartSuggestion))){//建议按下了
+            getSettingActivity().addNewPrefFragment(new SuggestionPrefFragment());
+            setActivityTitle("生活建议设置");
+        }else if (key.equals(getString(R.string.prefMainPartWind))){//风向信息按下了
+            getSettingActivity().addNewPrefFragment(new WindPrefFragment());
+            setActivityTitle("风向信息设置");
+        }else if (key.equals(getString(R.string.prefMainPartCity))){//城市信息按下了
+            getSettingActivity().addNewPrefFragment(new CityPrefFragment());
+            setActivityTitle("城市信息设置");
+        }else if (key.equals(getString(R.string.prefMainPartOther))){//其他信息按下了
+            getSettingActivity().addNewPrefFragment(new OtherPrefFragment());
+            setActivityTitle("其他信息设置");
+        }else if (key.equals(getString(R.string.prefMainPartBackground))){//背景信息按下了
+            getSettingActivity().addNewPrefFragment(new BackgroundPrefFragment());
+            setActivityTitle("天气背景设置");
+        }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 }

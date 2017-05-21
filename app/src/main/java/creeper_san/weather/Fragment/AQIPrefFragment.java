@@ -9,11 +9,10 @@ import android.view.ViewGroup;
 import creeper_san.weather.Base.BasePrefFragment;
 import creeper_san.weather.R;
 
-
-public class HeaderPrefFragment extends BasePrefFragment {
+public class AQIPrefFragment extends BasePrefFragment {
 
     @Override
     protected int getXmlID() {
-        return R.xml.pref_header;
+        return R.xml.pref_aqi;
     }
 }

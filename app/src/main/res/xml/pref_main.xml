@@ -15,12 +15,18 @@
         <SwitchPreference android:title="通知栏天气"/>
         <SwitchPreference android:title="早晚天气提醒"/>
         <Preference android:title="消息通知"/>
+        <ListPreference android:title="界面语言"/>
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref
         android:icon="@drawable/ic_color_lens_black_24dp"
         android:title="主题设置">
-        <Preference android:key="@string/prefMainPartColor" android:title="主题颜色"/>
+        <creeper_san.weather.Pref.ListPref android:title="主题颜色"
+            app:key="themeColor"
+            app:valueArray="@array/entriesValues"
+            app:nameArray="@array/entriesThemeColor"
+            app:defaultValue="0"
+            android:key="test"/>
         <Preference android:key="@string/prefMainPartHeader" android:title="天气概况"/>
         <Preference android:key="@string/prefMainPartAQI" android:title="空气质量"/>
         <Preference android:key="@string/prefMainPartDaily" android:title="天气预报"/>
@@ -34,7 +40,6 @@
     <creeper_san.weather.Pref.CatalogPref
         android:icon="@drawable/ic_other_setting_black_24dp"
         android:title="其他设置">
-        <Preference android:key="@string/prefMainCheckUpdate" android:title="检查更新"/>
     </creeper_san.weather.Pref.CatalogPref>
 
 

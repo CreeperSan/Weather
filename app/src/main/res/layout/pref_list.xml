@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingEnd="?android:attr/scrollbarSize">
+
+    <TextView
+        android:lines="1"
+        android:layout_marginStart="15dip"
+        android:layout_marginEnd="6dip"
+        android:layout_marginTop="6dip"
+        android:id="@+id/prefListTitle"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:ellipsize="marquee"
+        android:text="天气概况"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:maxLines="4"
+        android:layout_marginBottom="6dip"
+        android:layout_marginStart="15dip"
+        android:layout_marginEnd="6dip"
+        android:id="@+id/prefListSummery"
+        android:text="Hello"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

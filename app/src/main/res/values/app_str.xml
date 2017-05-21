@@ -64,5 +64,8 @@
     <string name="partNameBackground">Background</string>
 
     <string name="unknown">Unknown</string>
-
+    
+    <string name="themeNameDarkBlue">Dark Blue</string>
+    <string name="themeNamePink">Pink</string>
+    <string name="themeNameYellow">Yellow</string>
 </resources>

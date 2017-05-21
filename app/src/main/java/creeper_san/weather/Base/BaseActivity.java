@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import creeper_san.weather.Helper.ConfigHelper;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private final String EVENT_BUS_BASE_FINISH = "Finish";
@@ -33,6 +34,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        initTheme();
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
         inflater = LayoutInflater.from(this);
@@ -45,6 +47,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void initTheme(){
+        ConfigHelper configHelper = ConfigHelper.getInstance(this);
+
     }
 
     /**

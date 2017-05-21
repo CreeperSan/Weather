@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp">
+    
+    <RadioButton
+        android:id="@+id/prefListItemRadioButton"
+        android:layout_marginStart="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_marginStart="8dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/prefListItemTitle"
+            android:lines="1"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            android:gravity="center|start"
+            android:layout_weight="1"
+            tools:text="深蓝色"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/prefListItemDescription"
+            android:maxLines="3"
+            android:gravity="center|start"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            tools:text="#66ccff"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+    </LinearLayout>
+    
+</LinearLayout>

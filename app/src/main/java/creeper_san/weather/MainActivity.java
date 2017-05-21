@@ -1,7 +1,9 @@
 package creeper_san.weather;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,11 +16,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -28,11 +33,14 @@ import java.util.List;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
+import creeper_san.weather.Event.UpdateRequestEvent;
+import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
+import creeper_san.weather.Json.UpdateJson;
 
 public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainToolbar)Toolbar toolbar;
@@ -55,7 +63,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         initNavigation();
         initFragmentList();
         initViewPager();
-        log(UrlHelper.generateWeatherUrl("Shenzhen"));
     }
     @Override
     protected void onDestroy() {
@@ -137,6 +144,10 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                     case R.id.menuMainNavigationSetting:
                         startActivity(SettingActivity.class);
                         break;
+                    case R.id.menuMainNavigationCheckUpdate:
+                        postEvent(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
+                        Toast.makeText(context, "检查更新", Toast.LENGTH_SHORT).show();
+                        break;
                 }
                 drawerLayout.closeDrawer(Gravity.START);
                 return true;
@@ -188,7 +199,42 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             isOrderChange = true;
         }
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateEvent(UpdateResultEvent event){
+        if (event.isSuccess()){
+            UpdateJson updateJson = event.getUpdateJson();
+            if (updateJson.isHistory()){//查看更新历史
 
+            }else {//检查更新
+                PackageManager packageManager = getPackageManager();
+                int currentCode = 0;
+                String currentName = "";
+                try {
+                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
+                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (currentCode >= updateJson.getVersion(0)){
+                    toast("当前版本已经是最新啦(●'◡'●)");
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("检查更新");
+                    builder.setMessage("当前版本 "+currentName+"\n"
+                            +"新版本 "+updateJson.getVersionName(0)
+                            +"\n更新内容 :\n"+updateJson.getDescription(0));
+                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton("下次再说",null);
+                    builder.show();
+                }
+            }
+        }
+    }
 
     /**
      *      接口以及回调

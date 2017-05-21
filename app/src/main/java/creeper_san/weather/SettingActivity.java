@@ -5,6 +5,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -51,52 +52,22 @@ public class SettingActivity extends BaseActivity {
     }
 
     public void addNewPrefFragment(PreferenceFragment fragment){
+        getFragmentManager().beginTransaction().hide(fragmentStack.peek()).commit();
         fragmentStack.add(fragment);
-        getFragmentManager().beginTransaction().replace(R.id.settingLinearLayout,fragmentStack.peek()).commit();
+        getFragmentManager().beginTransaction().add(R.id.settingLinearLayout,fragment).commit();
     }
 
     @Override
     public void onBackPressed() {
-        fragmentStack.pop();
+        PreferenceFragment fragment = fragmentStack.pop();
         if (fragmentStack.empty()){
             finish();
         }else {
-            getFragmentManager().beginTransaction().replace(R.id.settingLinearLayout,fragmentStack.peek()).commit();
+            getFragmentManager().beginTransaction().remove(fragment).show(fragmentStack.peek()).commit();
+            setTitle("设置");
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateEvent(UpdateResultEvent event){
-        if (event.isSuccess()){
-            UpdateJson updateJson = event.getUpdateJson();
-            if (updateJson.isHistory()){//查看更新历史
-
-            }else {//检查更新
-                PackageManager packageManager = getPackageManager();
-                int currentCode = 0;
-                String currentName = "";
-                try {
-                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
-                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("检查更新");
-                builder.setMessage("当前版本 "+currentName+"\n"
-                    +(currentCode >= updateJson.getVersion(0)?"当前版本已是最新":"新版本 "+updateJson.getVersionName(0))
-                    +(currentCode >= updateJson.getVersion(0)?"":"\n更新内容 :\n"+updateJson.getDescription(0)));
-                builder.setPositiveButton((currentCode >= updateJson.getVersion(0) ? "确定" : "更新"), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-                builder.setNegativeButton("取消",null);
-                builder.show();
-            }
-        }
-    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
