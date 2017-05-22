@@ -6,9 +6,11 @@ import android.preference.Preference;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.StyleableRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
@@ -51,5 +53,12 @@ public abstract class BasePref extends Preference {
     protected abstract @StyleableRes int[] getAttrID();
     protected abstract @LayoutRes int getLayoutID();
     protected abstract void handleAttr(int attr,TypedArray typedArray);
+
+    protected void log(String content){
+        Log.i("Pref",content);
+    }
+    protected void toast(String content){
+        Toast.makeText(getContext(),content,Toast.LENGTH_SHORT).show();
+    }
 
 }

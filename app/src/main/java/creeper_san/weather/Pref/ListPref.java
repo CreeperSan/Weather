@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,16 +71,11 @@ public class ListPref extends BasePref {
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerView.setAdapter(adapter);
                 builder.setView(recyclerView);
-                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
                 dialog = builder.create();
                 dialog.show();
             }
         });
+        summery.setText(titles[Integer.parseInt(currentValue)]);
     }
 
 
@@ -90,6 +86,7 @@ public class ListPref extends BasePref {
             currentValue = defaultValue;
         }
         adapter = new PrefListAdapter();
+        Toast.makeText(getContext(),"default "+currentValue,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -113,7 +110,7 @@ public class ListPref extends BasePref {
                 key = typedArray.getString(attr);
                 break;
             case R.styleable.ListPref_defaultValue:
-                defaultValue = String.valueOf(typedArray.getIndex(attr));
+                defaultValue = String.valueOf(typedArray.getInt(attr,0));
                 break;
         }
     }
@@ -138,7 +135,7 @@ public class ListPref extends BasePref {
         @Override
         public void onBindViewHolder(PrefListViewHolder holder, int position) {
             holder.title.setText(titles[position]);//标题
-            if (defaultValue == values[position]){//单选按钮
+            if (Integer.valueOf(currentValue) == position){//单选按钮
                 holder.radioButton.setChecked(true);
             }else {
                 holder.radioButton.setChecked(false);
