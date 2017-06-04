@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import creeper_san.weather.Base.BaseService;
 import creeper_san.weather.Event.SearchResultEvent;
+import creeper_san.weather.Event.UpdateHistoryResultEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
@@ -23,6 +24,7 @@ import creeper_san.weather.Helper.HttpHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Interface.HttpStringCallback;
 import creeper_san.weather.Json.SearchJson;
+import creeper_san.weather.Json.UpdateJson;
 import creeper_san.weather.Json.WeatherJson;
 import okhttp3.Call;
 
@@ -107,7 +109,7 @@ public class WeatherService extends BaseService {
         HttpHelper.httpGet(UrlHelper.generateUpdateHistoryUrl(), new HttpStringCallback() {
             @Override
             public void onFail(Call call, IOException e, int requestCode) {
-                postEvent(new UpdateResultEvent());
+                postEvent(new UpdateHistoryResultEvent(false,null));
             }
 
             @Override

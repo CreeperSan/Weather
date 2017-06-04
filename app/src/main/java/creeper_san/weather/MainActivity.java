@@ -33,6 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.CityEditEvent;
+import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
@@ -129,6 +130,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             toggle.syncState();
             drawerLayout.addDrawerListener(toggle);
         }
+        initToolbarTheme(toolbar);
     }
     private void initNavigation() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -143,10 +145,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                         break;
                     case R.id.menuMainNavigationSetting:
                         startActivity(SettingActivity.class);
-                        break;
-                    case R.id.menuMainNavigationCheckUpdate:
-                        postEvent(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
-                        Toast.makeText(context, "检查更新", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 drawerLayout.closeDrawer(Gravity.START);
@@ -197,42 +195,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             adapter.notifyDataSetChanged();
         }else {
             isOrderChange = true;
-        }
-    }
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateEvent(UpdateResultEvent event){
-        if (event.isSuccess()){
-            UpdateJson updateJson = event.getUpdateJson();
-            if (updateJson.isHistory()){//查看更新历史
-
-            }else {//检查更新
-                PackageManager packageManager = getPackageManager();
-                int currentCode = 0;
-                String currentName = "";
-                try {
-                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
-                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if (currentCode >= updateJson.getVersion(0)){
-                    toast("当前版本已经是最新啦(●'◡'●)");
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("检查更新");
-                    builder.setMessage("当前版本 "+currentName+"\n"
-                            +"新版本 "+updateJson.getVersionName(0)
-                            +"\n更新内容 :\n"+updateJson.getDescription(0));
-                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.setNegativeButton("下次再说",null);
-                    builder.show();
-                }
-            }
         }
     }
 

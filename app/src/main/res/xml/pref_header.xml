@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <creeper_san.weather.Pref.CatalogPref android:title="天气概况设置">
-        <Preference android:title="没有设置"/>
-        <Preference android:title="真的没有设置"/>
-        <Preference android:title="绝对真的没有设置"/>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
+        android:icon="@drawable/ic_color_lens_black_24dp"
+        android:title="天气概况设置">
+        <creeper_san.weather.Pref.ListPref
+            android:title="显示风格"
+            app:dialogTitle="设置显示风格"
+            app:event="PartStylePrefChangeEvent"
+            app:key="@string/prefHeaderTheme"
+            app:valueArray="@array/entriesValues"
+            app:nameArray="@array/entriesPartHeaderStyleNames"
+            app:defaultValue="0"/>
     </creeper_san.weather.Pref.CatalogPref>
 </PreferenceScreen>

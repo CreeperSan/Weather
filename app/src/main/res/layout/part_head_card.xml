@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp">
+
+    <ImageView
+        android:background="#6c6c6c"
+        android:id="@+id/partHeaderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+    <ImageView
+        android:id="@+id/partHeaderWeatherImage"
+        android:layout_gravity="end|top"
+        tools:src="@drawable/ic_tornado"
+        android:alpha="0.3"
+        android:layout_width="148dp"
+        android:layout_height="148dp" />
+
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/partHeaderTmp"
+            tools:text="25℃"
+            android:textSize="64sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="4dp"
+            android:id="@+id/partHeaderWeatherTxt"
+            android:textSize="28sp"
+            tools:text="沙尘暴"
+            android:layout_below="@id/partHeaderTmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="4dp"
+            android:textSize="20sp"
+            android:layout_below="@id/partHeaderWeatherTxt"
+            tools:text="28℃"
+            android:id="@+id/partHeaderTmpFeeling"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <TextView
+        android:padding="8dp"
+        android:layout_gravity="end|bottom"
+        android:id="@+id/partHeaderUpdateTime"
+        android:text=""
+        android:lines="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package creeper_san.weather.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
@@ -16,6 +17,9 @@ import org.greenrobot.eventbus.EventBus;
 
 import creeper_san.weather.Base.BasePrefFragment;
 import creeper_san.weather.Event.UpdateRequestEvent;
+import creeper_san.weather.Helper.UrlHelper;
+import creeper_san.weather.IntroActivity;
+import creeper_san.weather.Pref.ListPref;
 import creeper_san.weather.R;
 
 
@@ -61,6 +65,13 @@ public class MainPrefFragment extends BasePrefFragment {
         }else if (key.equals(getString(R.string.prefMainPartBackground))){//背景信息按下了
             getSettingActivity().addNewPrefFragment(new BackgroundPrefFragment());
             setActivityTitle("天气背景设置");
+        }else if (key.equals(getString(R.string.prefMainVersionHistory))){//历史版本按下了
+            EventBus.getDefault().post(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE_HISTORY));
+        }else if (key.equals(getString(R.string.prefMainVersionInfo))){//当前版本说明按下了
+            startActivity(new Intent(getActivity(),IntroActivity.class));
+        }else if (key.equals(getString(R.string.prefMainCheckUpdate))){//检查更新按下了
+            EventBus.getDefault().post(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
+            Toast.makeText(getActivity(), "检查更新", Toast.LENGTH_SHORT).show();
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }

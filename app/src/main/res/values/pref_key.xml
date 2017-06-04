@@ -12,12 +12,49 @@
     <string name="prefMainPartSuggestion">prefMainPartSuggestion</string>
     <string name="prefMainPartWind">prefMainPartWind</string>
     <string name="prefMainCheckUpdate">prefMainCheckUpdate</string>
+    <string name="prefMainVersionInfo">prefMainVersionInfo</string>
+    <string name="prefMainVersionHistory">prefMainVersionHistory</string>
+    <!-- 应用程序颜色 -->
+    <string name="prefMainThemeColor">prefMainThemeColor</string>
+    <!-- 各个部件的Key -->
+    <string name="prefHeaderTheme">prefHeaderTheme</string>
+    <string name="prefAQITheme">prefAQITheme</string>
+    <string name="prefWindTheme">prefWindTheme</string>
 
     <!-- 此处存放ListPreference的数组以及值 -->
     <string-array name="entriesThemeColor">
-        <item>@string/themeNameDarkBlue</item>
+        <item>@string/themeNameDefault</item>
+        <item>@string/themeNameRed</item>
         <item>@string/themeNamePink</item>
-        <item>@string/themeNameYellow</item>
+        <item>@string/themeNamePurple</item>
+        <item>@string/themeNameDeepPurple</item>
+        <item>@string/themeNameIndigo</item>
+        <item>@string/themeNameBlue</item>
+        <item>@string/themeNameLightBlue</item>
+        <item>@string/themeNameCyan</item>
+        <item>@string/themeNameTeal</item>
+        <item>@string/themeNameGreen</item>
+        <item>@string/themeNameLightGreen</item>
+        <item>@string/themeNameLightLime</item>
+        <item>@string/themeNameLightYellow</item>
+        <item>@string/themeNameLightAmber</item>
+        <item>@string/themeNameLightOrange</item>
+        <item>@string/themeNameDeepOrange</item>
+        <item>@string/themeNameBrown</item>
+        <item>@string/themeNameGrey</item>
+        <item>@string/themeNameBlueGrey</item>
+    </string-array>
+    <string-array name="entriesPartHeaderStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartAQIStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartWindStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
     </string-array>
     <string-array name="entriesValues">
         <item>0</item>

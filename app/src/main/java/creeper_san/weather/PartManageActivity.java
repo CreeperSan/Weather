@@ -123,6 +123,7 @@ public class PartManageActivity extends BaseActivity implements View.OnClickList
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        initToolbarTheme(toolbar);
     }
 
     private void initFloatingActionButton() {

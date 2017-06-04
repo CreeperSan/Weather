@@ -43,17 +43,18 @@ public class UpdateJson extends BaseJson {
 
     @Override
     protected void analyze(JSONObject jsonObject) throws JsonDecodeException {
+        log(jsonObject.toString());
         if (jsonObject.has(KEY_VERSIONS)){
+            isHistory = true;
             JSONArray jsonArray = jsonObject.optJSONArray(KEY_VERSIONS);
-            for (int i=0;i<jsonArray.length();i++){
-                isHistory = true;
+            for (int i=0;i<jsonArray.length();i++){;
                 JSONObject json = jsonArray.optJSONObject(i);
                 if (json!=null){
                     UpdateSingleItem item = new UpdateSingleItem();
-                    item.setVersion(jsonObject.optInt(KEY_VERSION,-1));
-                    item.setUpdateTime(jsonObject.optString(KEY_UPDATE_TIME,"1970-01-01"));
-                    item.setVersionName(jsonObject.optString(KEY_VERSION_NAME,""));
-                    item.setDescription(jsonObject.optString(KEY_DESCRIPTION,""));
+                    item.setVersion(json.optInt(KEY_VERSION,-1));
+                    item.setUpdateTime(json.optString(KEY_UPDATE_TIME,"1970-01-01"));
+                    item.setVersionName(json.optString(KEY_VERSION_NAME,""));
+                    item.setDescription(json.optString(KEY_DESCRIPTION,""));
                     updateSingleItemList.add(item);
                 }
             }
@@ -87,6 +88,9 @@ public class UpdateJson extends BaseJson {
 
     public boolean isHistory() {
         return isHistory;
+    }
+    public int versionCount(){
+        return updateSingleItemList==null?0:updateSingleItemList.size();
     }
 
     private class UpdateSingleItem{

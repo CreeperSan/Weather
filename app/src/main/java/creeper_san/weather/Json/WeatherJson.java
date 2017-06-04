@@ -27,6 +27,11 @@ public class WeatherJson extends BaseJson {
     }
 
     @Override
+    public String toString() {
+        return jsonObject==null?"null":jsonObject.toString();
+    }
+
+    @Override
     protected void analyze(JSONObject jsonObject) throws JsonDecodeException {
         this.jsonObject = jsonObject;
         if (singleItemList==null){
@@ -359,7 +364,6 @@ public class WeatherJson extends BaseJson {
         private String txtTrav;
         private String brfUv;
         private String txtUv;
-
         private WeatherSingleJson(String jsonStr) throws JSONException, JsonDecodeException {
             super(jsonStr);
         }
@@ -427,43 +431,53 @@ public class WeatherJson extends BaseJson {
             //解析Suggestion
             JSONObject suggestionJson = jsonObject.optJSONObject(KEY_SUGGESTION);
             if (suggestionJson!=null){
-                JSONObject airJson = suggestionJson.optJSONObject(KEY_AIR);
-                if (airJson!=null){
-                    brfAir = airJson.optString(KEY_BRF);
-                    txtAir = airJson.optString(KEY_TXT);
-                }
+//                log("不为空！");
+//                空气建议API已被移除 2017.6.2
+//                JSONObject airJson = suggestionJson.optJSONObject(KEY_AIR);
+//                if (airJson!=null){
+//                    log("air");
+//                    brfAir = airJson.optString(KEY_BRF);
+//                    txtAir = airJson.optString(KEY_TXT);
+//                }
                 JSONObject comfJson = suggestionJson.optJSONObject(KEY_COMF);
                 if (comfJson!=null){
+//                    log("comf");
                     brfComf = comfJson.optString(KEY_BRF);
                     txtComf = comfJson.optString(KEY_TXT);
                 }
                 JSONObject cwJson = suggestionJson.optJSONObject(KEY_CW);
                 if (cwJson!=null){
+//                    log("cw");
                     brfCw = cwJson.optString(KEY_BRF);
                     txtCw = cwJson.optString(KEY_TXT);
                 }
                 JSONObject drsgJson = suggestionJson.optJSONObject(KEY_DRSG);
                 if (drsgJson!=null){
+//                    log("drsg");
                     brfDrsg = drsgJson.optString(KEY_BRF);
                     txtDrsg = drsgJson.optString(KEY_TXT);
                 }
                 JSONObject fluJson = suggestionJson.optJSONObject(KEY_FLU);
                 if (fluJson!=null){
+//                    log("flu");
                     brfFlu = fluJson.optString(KEY_BRF);
                     txtFlu = fluJson.optString(KEY_TXT);
                 }
                 JSONObject sportJson = suggestionJson.optJSONObject(KEY_SPORT);
                 if (sportJson!=null){
+//                    log("sport");
                     brfSport = sportJson.optString(KEY_BRF);
                     txtSport = sportJson.optString(KEY_TXT);
                 }
                 JSONObject travJson = suggestionJson.optJSONObject(KEY_TRAV);
                 if (travJson!=null){
+//                    log("trav");
                     brfTrav = travJson.optString(KEY_BRF);
                     txtTrav = travJson.optString(KEY_TXT);
                 }
                 JSONObject uvJson = suggestionJson.optJSONObject(KEY_UV);
                 if (uvJson!=null){
+//                    log("uv");
                     brfUv = uvJson.optString(KEY_BRF);
                     txtUv = uvJson.optString(KEY_TXT);
                 }

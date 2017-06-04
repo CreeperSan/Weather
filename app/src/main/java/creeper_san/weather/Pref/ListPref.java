@@ -19,37 +19,52 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BasePref;
+import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.R;
 
 public class ListPref extends BasePref {
-    @BindView(R.id.prefListSummery)TextView summery;
+    @BindView(R.id.prefListSummery)
+    TextView summery;
+    @BindView(R.id.prefListTitle)
+    TextView title;
+
+    private CharSequence[] names;
+    private CharSequence[] values;
+    private CharSequence[] descriptions;
+    private String key;
+    private String defaultValue;
+    private String currentValue;
+    private String dialogTitle;
+    private String eventName;
 
     private AlertDialog dialog;
-    private PrefListAdapter adapter;
-    private String key;
-    private CharSequence[] titles;
-    private CharSequence[] itemDescriptions;
-    private CharSequence[] values;
-    private String currentValue;
-    private String defaultValue;
+
 
     public ListPref(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+
         initValue();
     }
 
     public ListPref(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr,0);
+        this(context, attrs, defStyleAttr, 0);
     }
+
     public ListPref(Context context, AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
+
     public ListPref(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     @Override
@@ -60,33 +75,31 @@ public class ListPref extends BasePref {
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
-        adapter = new PrefListAdapter();
+        title.setText(getTitle());
+        summery.setText(names[Integer.parseInt(currentValue)]);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setTitle("主题选择");
+                if (dialogTitle != null) {
+                    builder.setTitle(dialogTitle);
+                }
                 RecyclerView recyclerView = new RecyclerView(getContext());
-                recyclerView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerView.setAdapter(adapter);
+                recyclerView.setAdapter(new PrefListAdapter());
                 builder.setView(recyclerView);
                 dialog = builder.create();
                 dialog.show();
             }
         });
-        summery.setText(titles[Integer.parseInt(currentValue)]);
     }
 
-
     private void initValue() {
-        if (ConfigHelper.themeHasThemeColor(getContext())){
-            currentValue = ConfigHelper.getTheme(getContext());
-        }else {
+        if (ConfigHelper.settingHasKey(getContext(), key)) {
+            currentValue = ConfigHelper.settingGetValue(getContext(), key, defaultValue);
+        } else {
             currentValue = defaultValue;
         }
-        adapter = new PrefListAdapter();
-        Toast.makeText(getContext(),"default "+currentValue,Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -96,62 +109,104 @@ public class ListPref extends BasePref {
 
     @Override
     protected void handleAttr(int attr, TypedArray typedArray) {
-        switch (attr){
-            case R.styleable.ListPref_nameArray:{
-                titles = typedArray.getTextArray(attr);
-                break;}
-            case R.styleable.ListPref_valueArray:{
+        switch (attr) {
+            case R.styleable.ListPref_nameArray: {
+                names = typedArray.getTextArray(attr);
+                break;
+            }
+            case R.styleable.ListPref_valueArray: {
                 values = typedArray.getTextArray(attr);
-                break;}
-            case R.styleable.ListPref_itemDescription:{
-                itemDescriptions = typedArray.getTextArray(attr);
-                break;}
+                break;
+            }
+            case R.styleable.ListPref_descriptionArray: {
+                descriptions = typedArray.getTextArray(attr);
+                break;
+            }
             case R.styleable.ListPref_key:
                 key = typedArray.getString(attr);
                 break;
             case R.styleable.ListPref_defaultValue:
-                defaultValue = String.valueOf(typedArray.getInt(attr,0));
+                defaultValue = typedArray.getString(attr);
+                break;
+            case R.styleable.ListPref_dialogTitle:
+                dialogTitle = typedArray.getString(attr);
+                break;
+            case R.styleable.ListPref_event:
+                eventName = typedArray.getString(attr);
                 break;
         }
     }
 
-    class PrefListViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.prefListItemRadioButton)RadioButton radioButton;
-        @BindView(R.id.prefListItemTitle)TextView title;
-        @BindView(R.id.prefListItemDescription)TextView description;
+    class PrefListViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.prefListItemRadioButton)
+        RadioButton radioButton;
+        @BindView(R.id.prefListItemTitle)
+        TextView title;
+        @BindView(R.id.prefListItemDescription)
+        TextView description;
 
         public PrefListViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
-    class PrefListAdapter extends RecyclerView.Adapter<PrefListViewHolder>{
+
+    class PrefListAdapter extends RecyclerView.Adapter<PrefListViewHolder> {
 
         @Override
         public PrefListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new PrefListViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.pref_list_list_item,parent,false));
+            return new PrefListViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.pref_list_list_item, parent, false));
         }
 
         @Override
-        public void onBindViewHolder(PrefListViewHolder holder, int position) {
-            holder.title.setText(titles[position]);//标题
-            if (Integer.valueOf(currentValue) == position){//单选按钮
+        public void onBindViewHolder(final PrefListViewHolder holder, int position) {
+            if (currentValue.equals(values[position])) {
                 holder.radioButton.setChecked(true);
-            }else {
+            } else {
                 holder.radioButton.setChecked(false);
             }
-            if (itemDescriptions == null){//描述
+            holder.title.setText(names[position]);
+            if (descriptions == null) {
                 holder.description.setVisibility(View.GONE);
-            }else {
+            } else {
                 holder.description.setVisibility(View.VISIBLE);
-                holder.description.setText(itemDescriptions[position]);
+                holder.description.setText(names[position]);
             }
+            //点击事件
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = holder.getAdapterPosition();
+                    dialog.dismiss();
+                    if (pos == Integer.valueOf(currentValue)){//如果没做出改变
+                        return;
+                    }//如果做出改变了
+                    ConfigHelper.settingSetValue(getContext(), key, values[pos].toString());
+                    if (eventName!=null){
+                        try {
+                            Class cls = Class.forName("creeper_san.weather.Event."+eventName);
+                            Class[] parameterType = {String.class,String.class,String.class};
+                            Constructor constructor = cls.getConstructor(parameterType);
+                            Object[] parameters = {values[pos].toString(),currentValue,key};
+                            EventBus.getDefault().post(constructor.newInstance(parameters));
+                        } catch (ClassNotFoundException e) {
+                            throw new IllegalStateException("类 "+eventName+" 不存在");
+                        } catch (NoSuchMethodException e) {
+                            throw new IllegalStateException("类的3个String参数的构造方法不存在");
+                        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+                            throw new IllegalStateException("构造方法执行出错");
+                        }
+                    }
+                    currentValue = values[pos].toString();
+                    notifyChanged();
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            return titles==null?0:titles.length;
+            return names.length;
         }
     }
-
 }
+

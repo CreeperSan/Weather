@@ -5,13 +5,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.widget.Toast;
 
@@ -23,7 +28,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Helper.ConfigHelper;
+import creeper_san.weather.Helper.ThemeDecodeHelper;
+import creeper_san.weather.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     private final String EVENT_BUS_BASE_FINISH = "Finish";
@@ -34,13 +42,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        initTheme();
         super.onCreate(savedInstanceState);
+        context = this;
+        initTheme();
         setContentView(getLayout());
         inflater = LayoutInflater.from(this);
         ButterKnife.bind(this);
         EventBus.getDefault().register(this);
-        context = this;
     }
 
     @Override
@@ -50,8 +58,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     private void initTheme(){
-        ConfigHelper configHelper = ConfigHelper.getInstance(this);
-
+        setTheme(ThemeDecodeHelper.getThemeID(ConfigHelper.settingGetTheme(context,"0")));
     }
 
     /**
@@ -65,6 +72,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     @Subscribe
     public void onEvent(String command){
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onThemePrefEvent(ThemePrefEvent event){
+        onThemePrefChange(event);
+    }
+    protected void onThemePrefChange(ThemePrefEvent event){
+        recreate();
+    }
+
+    /**
+     *      主题设置
+     */
+    protected void initToolbarTheme(Toolbar toolbar){
     }
     /**
      *      抽象方法

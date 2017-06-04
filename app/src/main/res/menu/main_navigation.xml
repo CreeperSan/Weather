@@ -19,18 +19,6 @@
             android:id="@+id/menuMainNavigationAbout"/>
     </group>
 
-    <group android:id="@+id/menuGroupMainNavigationOther">
-        <item android:title="检查更新"
-            android:icon="@drawable/ic_check_update_black_24dp"
-            android:id="@+id/menuMainNavigationCheckUpdate"/>
-        <item android:title="当前版本说明"
-            android:icon="@drawable/ic_assistant_photo_black_24dp"
-            android:id="@+id/menuMainNavigationVersionInfo"/>
-        <item android:id="@+id/menuMainNavigationVersionHistory"
-            android:title="版本说明"
-            android:icon="@drawable/ic_history_black_24dp"/>
-    </group>
-
     <group android:id="@+id/menuGroupMainNavigationExit">
         <item android:title="退出"
             android:id="@+id/menuMainNavigationExit"

@@ -1,6 +1,8 @@
 package creeper_san.weather.Helper;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 
 import creeper_san.weather.R;
@@ -130,6 +132,147 @@ public class ResHelper {
             case 6:return context.getString(R.string.partNameOther);
             case 7:return context.getString(R.string.partNameBackground);
             default:return context.getString(R.string.unknown);
+        }
+    }
+
+    public static @ColorInt int getColorFromWeatherCode(String code){
+
+        switch (code){
+            case "100":
+                return Color.parseColor("#63a1d7");
+            case "101":
+            case "102":
+            case "103":
+            case "104":
+                return Color.parseColor("#6f8fc0");
+            case "200":
+            case "201":
+            case "202":
+            case "203":
+            case "204":
+            case "205":
+                return Color.parseColor("#E7E7E7");
+            case "206":
+            case "207":
+            case "208":
+                return Color.parseColor("#dbdbdb");
+            case "209":
+            case "210":
+            case "211":
+            case "212":
+            case "213":
+                return Color.parseColor("#c0c0c0");
+            case "300":
+            case "301":
+            case "302":
+            case "303":
+            case "304":
+            case "305":
+            case "306":
+            case "307":
+            case "308":
+            case "309":
+            case "310":
+            case "311":
+            case "312":
+            case "313":
+                return Color.parseColor("#9db4c5");
+            case "400":
+            case "401":
+            case "402":
+            case "403":
+            case "404":
+            case "405":
+            case "406":
+            case "407":
+                return Color.parseColor("#6f8fc0");
+            case "500":
+            case "501":
+            case "502":
+                return Color.parseColor("#6f8fc0");
+            case "503":
+            case "504":
+            case "505":
+            case "506":
+            case "507":
+            case "508":
+                return Color.parseColor("#e19e36");
+            case "900":
+                return Color.parseColor("#ff7d29");
+            case "901":
+                return Color.parseColor("#afdee4");
+            default:
+                return Color.parseColor("#ffffff");
+        }
+    }
+    public static @ColorInt int getContentColorFromWeatherCode(String code){
+
+        switch (code){
+            case "100":
+                return Color.WHITE;
+            case "101":
+            case "102":
+            case "103":
+            case "104":
+                return Color.WHITE;
+            case "200":
+            case "201":
+            case "202":
+            case "203":
+            case "204":
+            case "205":
+                return Color.BLACK;
+            case "206":
+            case "207":
+            case "208":
+                return Color.BLACK;
+            case "209":
+            case "210":
+            case "211":
+            case "212":
+            case "213":
+                return Color.WHITE;
+            case "300":
+            case "301":
+            case "302":
+            case "303":
+            case "304":
+            case "305":
+            case "306":
+            case "307":
+            case "308":
+            case "309":
+            case "310":
+            case "311":
+            case "312":
+            case "313":
+                return Color.WHITE;
+            case "400":
+            case "401":
+            case "402":
+            case "403":
+            case "404":
+            case "405":
+            case "406":
+            case "407":
+                return Color.WHITE;
+            case "500":
+            case "501":
+            case "502":
+                return Color.WHITE;
+            case "503":
+            case "504":
+            case "505":
+            case "506":
+            case "507":
+            case "508":
+                return Color.WHITE;
+            case "900":
+                return Color.WHITE;
+            case "901":
+                return Color.BLACK;
+            default:
+                return Color.BLACK;
         }
     }
 }

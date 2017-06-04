@@ -20,8 +20,10 @@
     <declare-styleable name="ListPref">
         <attr name="nameArray" format="integer"/>
         <attr name="valueArray" format="integer"/>
-        <attr name="itemDescription" format="integer"/>
+        <attr name="descriptionArray" format="integer"/>
         <attr name="key" format="string"/>
         <attr name="defaultValue" format="integer"/>
+        <attr name="dialogTitle" format="string"/>
+        <attr name="event" format="string"/>
     </declare-styleable>
 </resources>

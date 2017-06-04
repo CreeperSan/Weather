@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="基本设置">
         <SwitchPreference android:title="开启自启"/>
@@ -10,23 +11,26 @@
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_notifications_black_24dp"
         android:title="通知设置">
         <SwitchPreference android:title="通知栏天气"/>
         <SwitchPreference android:title="早晚天气提醒"/>
         <Preference android:title="消息通知"/>
-        <ListPreference android:title="界面语言"/>
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_color_lens_black_24dp"
         android:title="主题设置">
-        <creeper_san.weather.Pref.ListPref android:title="主题颜色"
-            app:key="themeColor"
+        <creeper_san.weather.Pref.ListPref
+            android:title="主题颜色"
+            app:dialogTitle="设置主题颜色"
+            app:key="@string/prefMainThemeColor"
+            app:event="ThemePrefEvent"
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesThemeColor"
-            app:defaultValue="0"
-            android:key="test"/>
+            app:defaultValue="0"/>
         <Preference android:key="@string/prefMainPartHeader" android:title="天气概况"/>
         <Preference android:key="@string/prefMainPartAQI" android:title="空气质量"/>
         <Preference android:key="@string/prefMainPartDaily" android:title="天气预报"/>
@@ -38,8 +42,12 @@
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_other_setting_black_24dp"
         android:title="其他设置">
+        <Preference android:key="@string/prefMainCheckUpdate" android:title="检查更新"/>
+        <Preference android:key="@string/prefMainVersionInfo" android:title="当前版本说明"/>
+        <Preference android:key="@string/prefMainVersionHistory" android:title="历史版本说明"/>
     </creeper_san.weather.Pref.CatalogPref>
 
 

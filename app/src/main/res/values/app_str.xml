@@ -65,7 +65,28 @@
 
     <string name="unknown">Unknown</string>
     
-    <string name="themeNameDarkBlue">Dark Blue</string>
+    <string name="themeNameDefault">Default</string>
+    <string name="themeNameRed">Red</string>
     <string name="themeNamePink">Pink</string>
-    <string name="themeNameYellow">Yellow</string>
+    <string name="themeNamePurple">Purple</string>
+    <string name="themeNameDeepPurple">Deep Purple</string>
+    <string name="themeNameIndigo">Indigo</string>
+    <string name="themeNameBlue">Blue</string>
+    <string name="themeNameLightBlue">Light Blue</string>
+    <string name="themeNameCyan">Cyan</string>
+    <string name="themeNameTeal">Teal</string>
+    <string name="themeNameGreen">Green</string>
+    <string name="themeNameLightGreen">Light Green</string>
+    <string name="themeNameLightLime">Light Lime</string>
+    <string name="themeNameLightYellow">Light Yellow</string>
+    <string name="themeNameLightAmber">Light Amber</string>
+    <string name="themeNameLightOrange">Light Orange</string>
+    <string name="themeNameDeepOrange">Deep Orange</string>
+    <string name="themeNameBrown">Brown</string>
+    <string name="themeNameGrey">Grey</string>
+    <string name="themeNameBlueGrey">Blue Grey</string>
+    
+    <string name="partStyleSimple">Simple</string>
+    <string name="partStyleCard">Card</string>
+    <string name="partStyleAnimation">Animation</string>
 </resources>

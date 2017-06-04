@@ -84,6 +84,7 @@ public class AddCityActivity extends BaseActivity implements TextWatcher,Service
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        initToolbarTheme(toolbar);
     }
 
     @Override

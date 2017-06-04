@@ -1,27 +1,26 @@
 package creeper_san.weather;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Stack;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
+import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Fragment.MainPrefFragment;
 import creeper_san.weather.Json.UpdateJson;
@@ -36,25 +35,101 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initToolbar();
-        fragmentStack = new Stack<>();
-        fragmentStack.add(new MainPrefFragment());
-        getFragmentManager().beginTransaction().add(R.id.settingLinearLayout,fragmentStack.peek()).commit();
+        if (fragmentStack==null){
+            fragmentStack = new Stack<>();
+            fragmentStack.add(new MainPrefFragment());
+            getFragmentManager().beginTransaction().add(R.id.settingLinearLayout,fragmentStack.peek()).commit();
+        }
     }
 
+
+
+
     private void initToolbar() {
-        toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
+//        toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         setTitle("设置");
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        initToolbarTheme(toolbar);
     }
 
     public void addNewPrefFragment(PreferenceFragment fragment){
         getFragmentManager().beginTransaction().hide(fragmentStack.peek()).commit();
         fragmentStack.add(fragment);
         getFragmentManager().beginTransaction().add(R.id.settingLinearLayout,fragment).commit();
+    }
+
+    /**
+     *      EventBus
+     */
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateEvent(UpdateResultEvent event){
+        if (event.isSuccess()){
+            UpdateJson updateJson = event.getUpdateJson();
+            if (updateJson.isHistory()){//查看更新历史
+                dialogHistoryVersion(updateJson);
+            }else {//检查更新
+                PackageManager packageManager = getPackageManager();
+                int currentCode = 0;
+                String currentName = "";
+                try {
+                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
+                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (currentCode >= updateJson.getVersion(0)){
+                    toast("当前版本已经是最新啦(●'◡'●)");
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("检查更新");
+                    builder.setMessage("当前版本 "+currentName+"\n"
+                            +"新版本 "+updateJson.getVersionName(0)
+                            +"\n更新内容 :\n"+updateJson.getDescription(0));
+                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton("下次再说",null);
+                    builder.show();
+                }
+            }
+        }
+    }
+    private void dialogHistoryVersion(UpdateJson json){
+        log("dialog");
+        if (json.getResult() == UpdateJson.RESULT_FAIL){
+            toast("连接失败，请检查你的网络连接");
+            return;
+        }else if (json.getResult() == UpdateJson.RESULT_DECODE_ERR){
+            toast("数据解析失败，请重试或联系开发者");
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("历史更新");
+        StringBuffer buffer = new StringBuffer("\n");
+        for (int i=0;i<json.versionCount();i++){
+            buffer.append(json.getVersionName(i)+"\n");
+            buffer.append(json.getUpdateTime(i)+"\n");
+            buffer.append(json.getDescription(i)+"\n");
+            buffer.append("\n");
+            buffer.append("\n");
+        }
+        builder.setMessage(buffer.toString());
+        builder.show();
+    }
+
+    @Override
+    public void recreate() {
+        super.recreate();
+        getFragmentManager().beginTransaction().remove(fragmentStack.pop()).commit();
+        ((LinearLayout)findViewById(R.id.settingLinearLayout)).removeAllViews();
     }
 
     @Override
@@ -71,7 +146,7 @@ public class SettingActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
-            finish();
+            onBackPressed();
         }
         return super.onOptionsItemSelected(item);
     }

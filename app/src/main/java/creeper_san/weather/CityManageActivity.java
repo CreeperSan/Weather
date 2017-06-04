@@ -132,6 +132,7 @@ public class CityManageActivity extends BaseActivity {
         if (actionBar!=null){
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        initToolbarTheme(toolbar);
     }
     private void initRecyclerView(){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
