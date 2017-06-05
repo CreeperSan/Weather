@@ -1,5 +1,6 @@
 package creeper_san.weather.Part;
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.CardView;
@@ -51,7 +52,6 @@ public class WindPartManagerCard extends BaseWindPartManager {
         pointerAnime.loop(true);
         pointerAnime.playAnimation();
         windmillsAnime.loop(true);
-        windmillsAnime.playAnimation();
     }
 
     @Override
@@ -71,6 +71,10 @@ public class WindPartManagerCard extends BaseWindPartManager {
     @Override
     public void setSc(String content) {
         levelText.setText(content+" 级");
+        try {
+            int speed = Integer.valueOf(content.substring(0,1));
+            setLottieAnimeDuration(windmillsAnime,1000-speed*100);
+        } catch (NumberFormatException e) {}
     }
 
     @Override
@@ -86,5 +90,20 @@ public class WindPartManagerCard extends BaseWindPartManager {
     @Override
     public void setEmpty() {
 
+    }
+
+    private void setLottieAnimeDuration(final LottieAnimationView view, int duration){
+
+        ValueAnimator animator = ValueAnimator.ofFloat(0f,1f).setDuration(duration);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                view.setProgress((Float) animation.getAnimatedValue());
+            }
+        });
+        animator.setRepeatMode(ValueAnimator.RESTART);
+        animator.setRepeatCount(ValueAnimator.INFINITE);
+        animator.setInterpolator(null);
+        animator.start();
     }
 }

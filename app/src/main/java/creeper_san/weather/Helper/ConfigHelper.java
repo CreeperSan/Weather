@@ -55,6 +55,10 @@ public class ConfigHelper {
     public static String settingGetWindTheme(Context context,String defaultValue){
         return getInstance(context).settingPref.getString("prefWindTheme",defaultValue);
     }
+    public static String settingGetCityTheme(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefCityTheme",defaultValue);
+    }
+
 
     /**
      *      设置Pref

@@ -20,6 +20,7 @@
     <string name="prefHeaderTheme">prefHeaderTheme</string>
     <string name="prefAQITheme">prefAQITheme</string>
     <string name="prefWindTheme">prefWindTheme</string>
+    <string name="prefCityTheme">prefCityTheme</string>
 
     <!-- 此处存放ListPreference的数组以及值 -->
     <string-array name="entriesThemeColor">
@@ -53,6 +54,10 @@
         <item>@string/partStyleCard</item>
     </string-array>
     <string-array name="entriesPartWindStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartCityStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>

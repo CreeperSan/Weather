@@ -39,6 +39,7 @@ import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.Part.AqiPartManagerCard;
 import creeper_san.weather.Part.AqiPartManagerSimple;
 import creeper_san.weather.Part.BackgroundManagerSimple;
+import creeper_san.weather.Part.CityPartManagerCard;
 import creeper_san.weather.Part.CityPartManagerSimple;
 import creeper_san.weather.Part.DailyPartManagerSimple;
 import creeper_san.weather.Part.HeaderPartManagerCard;
@@ -117,7 +118,11 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
             case PART_SUGGESTION:
                 return new SuggestionPartManagerSimple(inflater,viewGroup);
             case PART_CITY:
-                return new CityPartManagerSimple(inflater,viewGroup);
+                switch (ConfigHelper.settingGetCityTheme(getContext(),"0")){
+                    case "0":return new CityPartManagerSimple(inflater,viewGroup);
+                    case "1":return new CityPartManagerCard(inflater,viewGroup);
+                    default:return new CityPartManagerSimple(inflater,viewGroup);
+                }
             case PART_OTHER:
                 return new OtherPartManagerSimple(inflater,viewGroup);
             default:

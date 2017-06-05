@@ -27,7 +27,7 @@
         android:layout_height="match_parent">
         <TextView
             android:id="@+id/partHeaderTmp"
-            tools:text="25℃"
+            android:text="简介"
             android:textSize="64sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
