@@ -20,6 +20,10 @@ allprojects {
     }
 }
 
+repositories {
+    mavenCentral() // jcenter() works as well because it pulls from Maven Central
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

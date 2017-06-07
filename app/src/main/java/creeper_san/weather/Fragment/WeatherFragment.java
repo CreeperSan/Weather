@@ -41,10 +41,13 @@ import creeper_san.weather.Part.AqiPartManagerSimple;
 import creeper_san.weather.Part.BackgroundManagerSimple;
 import creeper_san.weather.Part.CityPartManagerCard;
 import creeper_san.weather.Part.CityPartManagerSimple;
+import creeper_san.weather.Part.DailyPartManagerCard;
 import creeper_san.weather.Part.DailyPartManagerSimple;
 import creeper_san.weather.Part.HeaderPartManagerCard;
 import creeper_san.weather.Part.HeaderPartManagerSimple;
+import creeper_san.weather.Part.OtherPartManagerCard;
 import creeper_san.weather.Part.OtherPartManagerSimple;
+import creeper_san.weather.Part.SuggestionPartManagerCard;
 import creeper_san.weather.Part.SuggestionPartManagerSimple;
 import creeper_san.weather.Part.WindPartManagerCard;
 import creeper_san.weather.Part.WindPartManagerSimple;
@@ -68,8 +71,6 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         swipeRefreshLayout.setOnRefreshListener(this);
         //初始化各个Manager
         clearPartManagerList();
-        //此处装载背景
-        frameLayout.addView(new BackgroundManagerSimple(getActivity().getLayoutInflater(), (ViewGroup) rootView).getView());
         //此处装载部分
         List<PartItem> partItemList = DatabaseHelper.getPartItemList(getContext());
         for (PartItem partItem:partItemList){
@@ -108,7 +109,11 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                     default:return new AqiPartManagerSimple(inflater,viewGroup);
                 }
             case PART_DAILY:
-                return new DailyPartManagerSimple(inflater,viewGroup);
+                switch (ConfigHelper.settingGetDailyTheme(getContext(),"0")){
+                    case "0":return new DailyPartManagerSimple(inflater,viewGroup);
+                    case "1":return new DailyPartManagerCard(inflater,viewGroup);
+                    default:return new DailyPartManagerSimple(inflater,viewGroup);
+                }
             case PART_WIND:
                 switch (ConfigHelper.settingGetWindTheme(getContext(),"0")){
                     case "0":return new WindPartManagerSimple(inflater,viewGroup);
@@ -116,7 +121,11 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                     default:return new WindPartManagerSimple(inflater,viewGroup);
                 }
             case PART_SUGGESTION:
-                return new SuggestionPartManagerSimple(inflater,viewGroup);
+                switch (ConfigHelper.settingGetSuggestionTheme(getContext(),"0")){
+                    case "0":return new SuggestionPartManagerSimple(inflater,viewGroup);
+                    case "1":return new SuggestionPartManagerCard(inflater,viewGroup);
+                    default:return new SuggestionPartManagerSimple(inflater,viewGroup);
+                }
             case PART_CITY:
                 switch (ConfigHelper.settingGetCityTheme(getContext(),"0")){
                     case "0":return new CityPartManagerSimple(inflater,viewGroup);
@@ -124,7 +133,11 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                     default:return new CityPartManagerSimple(inflater,viewGroup);
                 }
             case PART_OTHER:
-                return new OtherPartManagerSimple(inflater,viewGroup);
+                switch (ConfigHelper.settingGetOtherTheme(getContext(),"0")){
+                    case "0":return new OtherPartManagerSimple(inflater,viewGroup);
+                    case "1":return new OtherPartManagerCard(inflater,viewGroup);
+                    default:return new OtherPartManagerSimple(inflater,viewGroup);
+                }
             default:
                 return null;
         }

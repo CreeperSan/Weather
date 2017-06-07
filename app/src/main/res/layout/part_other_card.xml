@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:id="@+id/partOtherCard">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/partOtherImage"
+            android:padding="16dp"
+            android:src="@drawable/ic_part_other"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+        <GridLayout
+            android:layout_margin="16dp"
+            android:columnCount="2"
+            android:rowCount="4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView android:text="能见度" android:id="@+id/partOtherVisTxt" android:layout_rowWeight="1" android:gravity="center"/>
+            <TextView android:text="10km" android:id="@+id/partOtherVis" android:layout_gravity="end|center"/>
+            <TextView android:text="气压" android:id="@+id/partOtherPresTxt" android:layout_rowWeight="1" android:gravity="center"/>
+            <TextView android:text="1004pa" android:id="@+id/partOtherPres" android:layout_gravity="end|center"/>
+            <TextView android:text="降水量" android:id="@+id/partOtherPcpnTxt" android:layout_rowWeight="1" android:gravity="center"/>
+            <TextView android:text="0mm" android:id="@+id/partOtherPcpn" android:layout_gravity="end|center"/>
+            <TextView android:text="相对湿度" android:id="@+id/partOtherHumTxt" android:layout_rowWeight="1" android:gravity="center"/>
+            <TextView android:text="76%" android:id="@+id/partOtherHum" android:layout_gravity="end|center"/>
+        </GridLayout>
+    </LinearLayout>
+
+    
+</android.support.v7.widget.CardView>

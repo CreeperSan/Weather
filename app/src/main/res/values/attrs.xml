@@ -21,9 +21,21 @@
         <attr name="nameArray" format="integer"/>
         <attr name="valueArray" format="integer"/>
         <attr name="descriptionArray" format="integer"/>
-        <attr name="key" format="string"/>
         <attr name="defaultValue" format="integer"/>
         <attr name="dialogTitle" format="string"/>
+        <attr name="key" format="string"/>
         <attr name="event" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="ColorPickerPref">
+        <attr name="colorPickEvent" format="string"/>
+        <attr name="colorPickerKey" format="string"/>
+        <attr name="colorPickerDialogTitle" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="FilePickerPref">
+        <attr name="filePickerDialogTitle" format="string"/>
+        <attr name="filePickerFilter" format="string"/>
+        <attr name="filePickerKey" format="string"/>
     </declare-styleable>
 </resources>

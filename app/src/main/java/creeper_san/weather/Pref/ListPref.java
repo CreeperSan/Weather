@@ -1,23 +1,16 @@
 package creeper_san.weather.Pref;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.TypedArray;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.support.annotation.LayoutRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,7 +20,6 @@ import java.lang.reflect.InvocationTargetException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BasePref;
-import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.R;
 
@@ -181,7 +173,7 @@ public class ListPref extends BasePref {
                     if (pos == Integer.valueOf(currentValue)){//如果没做出改变
                         return;
                     }//如果做出改变了
-                    ConfigHelper.settingSetValue(getContext(), key, values[pos].toString());
+                    ConfigHelper.settingSetThemeValue(getContext(), key, values[pos].toString());
                     if (eventName!=null){
                         try {
                             Class cls = Class.forName("creeper_san.weather.Event."+eventName);

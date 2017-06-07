@@ -21,6 +21,12 @@
     <string name="prefAQITheme">prefAQITheme</string>
     <string name="prefWindTheme">prefWindTheme</string>
     <string name="prefCityTheme">prefCityTheme</string>
+    <string name="prefOtherTheme">prefOtherTheme</string>
+    <string name="prefSuggestionTheme">prefSuggestionTheme</string>
+    <string name="prefDailyTheme">prefDailyTheme</string>
+    <string name="prefBackgroundTheme">prefBackgroundTheme</string>
+    <string name="prefBackgroundColor">prefBackgroundColor</string>
+    <string name="prefBackgroundBingImageSize">prefBackgroundBingImageSize</string>
 
     <!-- 此处存放ListPreference的数组以及值 -->
     <string-array name="entriesThemeColor">
@@ -60,6 +66,27 @@
     <string-array name="entriesPartCityStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartOtherStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartSuggestionStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartDailyStyleNames">
+        <item>@string/partStyleSimple</item>
+        <item>@string/partStyleCard</item>
+    </string-array>
+    <string-array name="entriesPartBackgroundStyleNames">
+        <item>@string/prefBgPureColor</item>
+        <item>@string/prefBgImage</item>
+        <item>@string/prefBgBingImage</item>
+    </string-array>
+    <string-array name="entriesPartBackgroundBingImageSize">
+        <item>@string/partBgBingImageSize768p</item>
+        <item>@string/partBgBingImageSize1080p</item>
     </string-array>
     <string-array name="entriesValues">
         <item>0</item>

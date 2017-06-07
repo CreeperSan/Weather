@@ -1,6 +1,8 @@
 package creeper_san.weather.Base;
 
+import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,18 @@ public abstract class BasePartManager {
 
     public View getView() {
         return partRootView;
+    }
+    protected LayoutInflater getLayoutInflater(){
+        return LayoutInflater.from(getView().getContext());
+    }
+    protected Context getContext(){
+        return getView().getContext();
+    }
+    protected View getViewByID(@LayoutRes int id,@Nullable ViewGroup viewGroup){
+        return getLayoutInflater().inflate(id,viewGroup);
+    }
+    protected View getViewByID(@LayoutRes int id,@Nullable ViewGroup viewGroup,boolean isAttachToRoot){
+        return getLayoutInflater().inflate(id,viewGroup,isAttachToRoot);
     }
 
     public void initViewData(WeatherJson weatherJson,int which){}

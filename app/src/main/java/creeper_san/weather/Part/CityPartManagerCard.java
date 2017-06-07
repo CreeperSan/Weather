@@ -1,5 +1,8 @@
 package creeper_san.weather.Part;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseCityPartManager;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.ViewHelper;
 import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
 
@@ -36,6 +40,7 @@ public class CityPartManagerCard extends BaseCityPartManager {
         latText.setTextColor(contentColor);
         lonText.setTextColor(contentColor);
         idText.setTextColor(contentColor);
+        ViewHelper.initImageViewContentTint(imageView,contentColor);
     }
 
     @Override

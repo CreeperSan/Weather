@@ -54,6 +54,13 @@ public abstract class BasePref extends Preference {
     protected abstract @LayoutRes int getLayoutID();
     protected abstract void handleAttr(int attr,TypedArray typedArray);
 
+    protected LayoutInflater getLayoutInflater(){
+        return LayoutInflater.from(getContext());
+    }
+    protected View getViewByLayout(@LayoutRes int layout,ViewGroup parent,boolean isArrachToRoot){
+        return getLayoutInflater().inflate(layout,parent,isArrachToRoot);
+    }
+
     protected void log(String content){
         Log.i("Pref",content);
     }

@@ -21,6 +21,8 @@ public class UrlHelper {
     private final static String URL_WEATHER = "https://free-api.heweather.com/v5/weather?";//全部天气
     private final static String URL_UPDATE = "https://creepersan.github.io/app-version/weather.json";//版本更新地址
     private final static String URL_UPDATE_HISTORY = "https://creepersan.github.io/app-version/weather-history.json";//版本历史
+    private final static String URL_BING_IMAGE_768P = "https://www.dujin.org/sys/bing/1366.php";
+    private final static String URL_BING_IMAGE_1080P = "https://www.dujin.org/sys/bing/1920.php";
 
     //用于计算标签
     public static String decodeHead(){
@@ -115,6 +117,17 @@ public class UrlHelper {
     }
     public static String generateUpdateHistoryUrl(){
         return URL_UPDATE_HISTORY;
+    }
+
+    /**
+     *      此方法用于生成bing背景图片链接
+     * @return
+     */
+    public static String generateBingImage768pUrl(){
+        return URL_BING_IMAGE_768P;
+    }
+    public static String generateBingImage1080pUrl(){
+        return URL_BING_IMAGE_1080P;
     }
 
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:id="@+id/partSuggestionCard">
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/partSuggestionHintText"
+        android:layout_margin="8dp"
+        android:text="所选地区暂不支持生活建议数据"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/partSuggestionRecyclerView"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</android.support.v7.widget.CardView>

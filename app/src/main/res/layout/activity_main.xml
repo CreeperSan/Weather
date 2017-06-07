@@ -9,6 +9,13 @@
     tools:context="creeper_san.weather.BootActivity">
 
     <FrameLayout
+        android:id="@+id/mainBackgroundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </FrameLayout>
+
+    <FrameLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

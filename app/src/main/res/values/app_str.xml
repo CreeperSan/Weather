@@ -89,4 +89,11 @@
     <string name="partStyleSimple">Simple</string>
     <string name="partStyleCard">Card</string>
     <string name="partStyleAnimation">Animation</string>
+
+    <string name="prefBgPureColor">Pure Color</string>
+    <string name="prefBgImage">Local Image</string>
+    <string name="prefBgBingImage">Bing Image</string>
+
+    <string name="partBgBingImageSize768p">768p</string>
+    <string name="partBgBingImageSize1080p">1080p</string>
 </resources>

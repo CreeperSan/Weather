@@ -1,6 +1,7 @@
 package creeper_san.weather.Base;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import creeper_san.weather.Json.WeatherJson;

@@ -71,15 +71,31 @@ public class WindPartManagerCard extends BaseWindPartManager {
     @Override
     public void setSc(String content) {
         levelText.setText(content+" 级");
-        try {
-            int speed = Integer.valueOf(content.substring(0,1));
-            setLottieAnimeDuration(windmillsAnime,1000-speed*100);
-        } catch (NumberFormatException e) {}
     }
 
     @Override
     public void setSpd(String content) {
         speedText.setText(content+" Km/h");
+        try {
+            int speed = Integer.valueOf(content);
+            if (speed>100){
+                setLottieAnimeDuration(windmillsAnime,200);
+            }else if (speed>80){
+                setLottieAnimeDuration(windmillsAnime,400);
+            }else if (speed>50){
+                setLottieAnimeDuration(windmillsAnime,500);
+            }else if (speed>30){
+                setLottieAnimeDuration(windmillsAnime,800);
+            }else if (speed>20){
+                setLottieAnimeDuration(windmillsAnime,1000);
+            }else if (speed>10){
+                setLottieAnimeDuration(windmillsAnime,1500);
+            }else if (speed>5){
+                setLottieAnimeDuration(windmillsAnime,3000);
+            }else if (speed>0){
+                setLottieAnimeDuration(windmillsAnime,5000);
+            }
+        } catch (NumberFormatException e) {}
     }
 
     @Override
@@ -94,7 +110,7 @@ public class WindPartManagerCard extends BaseWindPartManager {
 
     private void setLottieAnimeDuration(final LottieAnimationView view, int duration){
 
-        ValueAnimator animator = ValueAnimator.ofFloat(0f,1f).setDuration(duration);
+        ValueAnimator animator = ValueAnimator.ofFloat(0f,0.97f).setDuration(duration);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

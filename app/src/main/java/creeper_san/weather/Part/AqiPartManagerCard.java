@@ -24,10 +24,12 @@ import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseAqiPartManager;
 import creeper_san.weather.Helper.DimensionHelper;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.ViewHelper;
 import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
 
 public class AqiPartManagerCard extends BaseAqiPartManager {
+    @BindView(R.id.partAqiImage)ImageView imageView;
     @BindView(R.id.partAqiCard)CardView cardView;
     @BindView(R.id.partAqiTitle)TextView titleText;
     @BindView(R.id.partAqiGrid)RecyclerView contentGrid;
@@ -80,7 +82,7 @@ public class AqiPartManagerCard extends BaseAqiPartManager {
     public void initViewFinish() {
         if (aqiCardAdapter==null){
             aqiCardAdapter = new AqiCardAdapter();
-            contentGrid.setLayoutManager(new GridLayoutManager(getView().getContext(),3){
+            contentGrid.setLayoutManager(new GridLayoutManager(getView().getContext(),2){
                 //复写LayoutManager，禁止滑动
                 @Override
                 public boolean canScrollVertically() {
@@ -95,17 +97,18 @@ public class AqiPartManagerCard extends BaseAqiPartManager {
         }else {
             aqiCardAdapter.notifyDataSetChanged();
         }
-        if (itemList!=null){
-            if (itemList.size()%3!=0){
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
-                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-64),0,0);
-                titleText.setLayoutParams(params);
-            }else {
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
-                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-8),0,0);
-                titleText.setLayoutParams(params);
-            }
-        }
+        ViewHelper.initImageViewContentTint(imageView,contentColor);
+//        if (itemList!=null){
+//            if (itemList.size()%3!=0){
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
+//                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-64),0,0);
+//                titleText.setLayoutParams(params);
+//            }else {
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
+//                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-8),0,0);
+//                titleText.setLayoutParams(params);
+//            }
+//        }
     }
 
     @Override

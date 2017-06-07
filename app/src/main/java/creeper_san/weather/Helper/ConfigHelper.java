@@ -3,6 +3,8 @@ package creeper_san.weather.Helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.support.annotation.ColorInt;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,7 +60,33 @@ public class ConfigHelper {
     public static String settingGetCityTheme(Context context,String defaultValue){
         return getInstance(context).settingPref.getString("prefCityTheme",defaultValue);
     }
-
+    public static String settingGetOtherTheme(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefOtherTheme",defaultValue);
+    }
+    public static String settingGetSuggestionTheme(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefSuggestionTheme",defaultValue);
+    }
+    public static String settingGetDailyTheme(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefDailyTheme",defaultValue);
+    }
+    public static String settingGetBgTheme(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefBackgroundTheme",defaultValue);
+    }
+    public static @ColorInt int settingGetBgColor(Context context, @ColorInt int defaultColor){
+        return getInstance(context).settingPref.getInt("prefBackgroundColor",defaultColor);
+    }
+    public static String settingGetBackgroundColor(Context context,String defaultColor){
+        String tempColorHex = getInstance(context).settingPref.getString("prefBackgroundColor",defaultColor);
+        try {
+            Color.parseColor("#"+tempColorHex);
+            return tempColorHex;
+        }catch (Exception e){
+            return defaultColor;
+        }
+    }
+    public static String settingGetBackgroundBingImageSize(Context context,String defaultSize){
+        return getInstance(context).settingPref.getString("prefBackgroundBingImageSize",defaultSize);
+    }
 
     /**
      *      设置Pref
@@ -69,11 +97,14 @@ public class ConfigHelper {
     public static String settingGetValue(Context context,String key,String defaultValue){
         return getInstance(context).settingPref.getString(key,defaultValue);
     }
-    public static void settingSetValue(Context context,String key,String value){
+    public static void settingSetThemeValue(Context context, String key, String value){
         getInstance(context).settingPref.edit().putString(key,value).commit();
         if (key.equals(context.getString(R.string.prefMainThemeColor))){
             EventBus.getDefault().post(new ThemeChangeEvent(value));
         }
+    }
+    public static void settingSetBackgroundColor(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefBackgroundColor",value).commit();
     }
 
     public static boolean isFirstBoot(Context context,PackageManager packageManager){

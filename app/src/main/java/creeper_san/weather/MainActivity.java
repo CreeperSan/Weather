@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +22,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,24 +34,31 @@ import java.util.List;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
+import creeper_san.weather.Base.BaseBackgroundPartManager;
+import creeper_san.weather.Event.BackgroundChangeEvent;
 import creeper_san.weather.Event.CityEditEvent;
+import creeper_san.weather.Event.PartStylePrefChangeEvent;
 import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
+import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
 import creeper_san.weather.Json.UpdateJson;
+import creeper_san.weather.Part.BackgroundManagerBing;
+import creeper_san.weather.Part.BackgroundManagerSimple;
 
 public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainToolbar)Toolbar toolbar;
     @BindView(R.id.mainNavigationBar)NavigationView navigationView;
     @BindView(R.id.mainDrawerLayout)DrawerLayout drawerLayout;
     @BindView(R.id.mainViewPager)ViewPager viewPager;
+    @BindView(R.id.mainBackgroundLayout)FrameLayout backgroundLayout;
 
-    private WeatherFragment fragment;
+    private BaseBackgroundPartManager backgroundPartManager;
     private WeatherService weatherService;
     private List<WeatherFragment> weatherFragmentList;
     private WeatherAdapter adapter;
@@ -64,12 +73,14 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         initNavigation();
         initFragmentList();
         initViewPager();
+        initBackground();
     }
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbindService(this);
-        log("onDestroy();");
     }
     @Override
     protected void onResume() {
@@ -156,6 +167,23 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         bindService(WeatherService.class,this);
         startService(WeatherService.class);
     }
+    private void initBackground() {
+        switch (ConfigHelper.settingGetBgTheme(this,"0")){
+            case "0":
+                backgroundPartManager = new BackgroundManagerSimple(getLayoutInflater(),backgroundLayout);
+                break;
+            case "1":
+                break;
+            case "2":
+                backgroundPartManager = new BackgroundManagerBing(getLayoutInflater(),backgroundLayout);
+                break;
+            default:
+                backgroundPartManager = new BackgroundManagerSimple(getLayoutInflater(),backgroundLayout);
+                break;
+        }
+        backgroundPartManager.initViewData(null,0);
+        backgroundLayout.addView(backgroundPartManager.getView());
+    }
 
 
 
@@ -195,6 +223,32 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             adapter.notifyDataSetChanged();
         }else {
             isOrderChange = true;
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBackgroundChangeEvent(BackgroundChangeEvent event){
+        String key = event.getKey();
+        if (key.equals(getString(R.string.prefBackgroundBingImageSize))){
+            if (backgroundPartManager instanceof BackgroundManagerBing){
+                ((BackgroundManagerBing)backgroundPartManager).initViewData(null,0);
+            }
+        }else if (key.equals(getString(R.string.prefBackgroundColor))){
+            if (backgroundPartManager instanceof BackgroundManagerSimple){
+                ((BackgroundManagerSimple)backgroundPartManager).setColor(Color.parseColor("#"+event.getCurrent()));
+            }
+        }
+
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onPartStylePrefChangeEvent(PartStylePrefChangeEvent event){
+        String keyStr = event.getKey();
+        if(keyStr.equals(context.getString(R.string.prefBackgroundTheme))){
+            backgroundLayout.removeAllViews();
+            initBackground();
+        }else if (keyStr.equals(context.getString(R.string.prefBackgroundBingImageSize))){
+            if (backgroundPartManager instanceof BackgroundManagerBing){
+                ((BackgroundManagerBing)backgroundPartManager).initViewData(null,0);
+            }
         }
     }
 
