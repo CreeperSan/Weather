@@ -3,8 +3,10 @@ package creeper_san.weather.Helper;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -15,6 +17,7 @@ public class ConfigHelper {
     private final static String PREF_NAME = "Config";
     private final static String PREF_SETTING = "Setting";
     private final static String PREF_INFO = "Info";
+    private final static String PREF_UPDATE_TIME = "UpdateTime";
 
     private final static String KEY_THEME = "theme";
     private final static String KEY_VERSION = "version";
@@ -25,11 +28,13 @@ public class ConfigHelper {
     private SharedPreferences configPref;
     private SharedPreferences settingPref;
     private SharedPreferences infoPref;
+    private SharedPreferences updateTimePref;
 
     private ConfigHelper(Context context) {
         configPref = context.getApplicationContext().getSharedPreferences(PREF_NAME,Context.MODE_PRIVATE);
         settingPref = context.getApplicationContext().getSharedPreferences(PREF_SETTING,Context.MODE_PRIVATE);
         infoPref = context.getApplicationContext().getSharedPreferences(PREF_INFO,Context.MODE_PRIVATE);
+        updateTimePref = context.getApplicationContext().getSharedPreferences(PREF_UPDATE_TIME,Context.MODE_PRIVATE);
     }
 
     public static synchronized ConfigHelper getInstance(Context context){
@@ -41,6 +46,15 @@ public class ConfigHelper {
         return configHelper;
     }
 
+    /**
+     *      写入城市更新的时间
+     */
+    public static void setCityWeatherUpdateTime(Context context,String cityID,long updateTimeStamp){
+        getInstance(context).updateTimePref.edit().putLong(cityID,updateTimeStamp).commit();
+    }
+    public static long getCityWeatherUpdateTime(Context context,String cityID,long defaultReturn){
+        return getInstance(context).updateTimePref.getLong(cityID,defaultReturn);
+    }
 
     /**
      *      获取指定的值

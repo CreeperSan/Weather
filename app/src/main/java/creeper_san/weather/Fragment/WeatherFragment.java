@@ -173,6 +173,16 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 }
             }
         }
+        //检查是否需要更新
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - ConfigHelper.getCityWeatherUpdateTime(getContext(),getID(),0)>1000*60*60){
+            setRefreshState(true);
+            postEvent(new WeatherRequestEvent(getID(),getCityName()));
+        }
+    }
+
+    public void setRefreshState(boolean isRefreshing){
+        swipeRefreshLayout.setRefreshing(isRefreshing);
     }
 
     @Nullable
@@ -365,6 +375,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                         setWeatherData(item,i);
                     }
                 }
+                ConfigHelper.setCityWeatherUpdateTime(getContext(),getID(),System.currentTimeMillis());
             }
         }else {
             toast("连接到服务器失败，请检查你的网络连接。");

@@ -205,6 +205,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                 break;
             case R.id.menuMainToolbarRefreshWeather:
                 WeatherFragment fragment = weatherFragmentList.get(viewPager.getCurrentItem());
+                fragment.setRefreshState(true);
                 postEvent(new WeatherRequestEvent(fragment.getID(),fragment.getCityName()));
                 break;
             case R.id.menuMainToolbarTest:
