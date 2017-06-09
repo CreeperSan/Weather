@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BasePref;
+import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.PermissionHelper;
 import creeper_san.weather.R;
 
@@ -46,12 +47,29 @@ public class FilePickerPref extends BasePref {
         this(context,null);
     }
 
+    public String getPathStr() {
+        return pathStr;
+    }
+    public void setPathStr(String pathStr) {
+        this.pathStr = pathStr;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
 
     @Override
     protected void onBindView(View view) {
         super.onBindView(view);
         //界面
         titleText.setText(getTitle());
+        pathStr = ConfigHelper.settingGetFilePickerPath(getContext(),key);
+        if (pathStr==null){
+            pathText.setText("尚未设置一个文件");
+        }else {
+            pathText.setText(pathStr);
+        }
         //详细逻辑
         view.setOnClickListener(new View.OnClickListener() {
             private ImageView backImage;
@@ -62,6 +80,15 @@ public class FilePickerPref extends BasePref {
 
             private File file;
             private FileAdapter adapter;
+            private AlertDialog dialog;
+
+            private String makeupFilePath(){
+                String path = "";
+                for (String pathTemp:pathStack){
+                    path =  pathTemp+"/"+path ;
+                }
+                return path;
+            }
 
             @Override
             public void onClick(View v) {
@@ -110,19 +137,17 @@ public class FilePickerPref extends BasePref {
                             toast("已经到顶啦");
                         }else {
                             pathStack.pop();
-                            String path = "";
-                            for (String pathTemp:pathStack){
-                                path =  pathTemp+"/"+path ;
-                            }
-                            toast(path+"\n"+pathStack.size());
+                            String path = makeupFilePath();
+                            pathText.setText(path);
                             file = new File(path);
                             adapter.notifyDataSetChanged();
                         }
                     }
                 });
-
+                pathText.setText(makeupFilePath());
                 builder.setView(dialogView);
-                builder.show();
+                dialog = builder.create();
+                dialog.show();
             }
 
             class FileAdapter extends RecyclerView.Adapter<FileHolder>{
@@ -136,7 +161,8 @@ public class FilePickerPref extends BasePref {
                 public void onBindViewHolder(FileHolder holder, int position) {
                     final File tempFile = file.listFiles()[position];
                     holder.titleText.setText(tempFile.getName());
-                    holder.descriptionText.setText(((Float.valueOf(tempFile.length()))/1024f/1024f)+"M");
+                    String descriptionText = (tempFile.isHidden()?"隐藏 ":"")+(tempFile.isDirectory()?"文件夹 ":"文件 ");
+                    holder.descriptionText.setText(descriptionText);
                     if (tempFile.isDirectory()){
                         holder.fileImage.setImageResource(R.drawable.ic_folder_open_black_24dp);
                     }else {
@@ -156,14 +182,13 @@ public class FilePickerPref extends BasePref {
                         public void onClick(View v) {
                             if (tempFile.isDirectory()){
                                 pathStack.push(tempFile.getName());
-                                String path = "/";
-                                for (String pathTemp:pathStack){
-                                    path = path + "/" + pathTemp;
-                                }
+                                String path = makeupFilePath();
                                 file = new File(path);
+                                pathText.setText(path);
                                 adapter.notifyDataSetChanged();
                             }else {
-                                toast("选定文件 "+tempFile.getAbsolutePath());
+                                dialog.dismiss();
+                                onFilePicker(tempFile);
                             }
                         }
                     });
@@ -199,6 +224,13 @@ public class FilePickerPref extends BasePref {
         });
     }
 
+    protected void onFilePicker(File file){
+        ConfigHelper.settingSetFilePickerPath(getContext(),key,file.getAbsolutePath());
+        pathStr = file.getAbsolutePath();
+        pathText.setText(pathStr);
+        notifyChanged();
+    }
+
     @Override
     protected int[] getAttrID() {
         return R.styleable.FilePickerPref;
@@ -215,10 +247,6 @@ public class FilePickerPref extends BasePref {
                 key = typedArray.getString(attr);break;
             case R.styleable.FilePickerPref_filePickerDialogTitle:
                 dialogTitle = typedArray.getString(attr);break;
-            case R.styleable.FilePickerPref_filePickerFilter:
-                String filter = typedArray.getString(attr);
-                String[] filterArray = filter.split(",");
-                break;
         }
     }
 }

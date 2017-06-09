@@ -17,6 +17,9 @@ public abstract class BaseBackgroundPartManager extends BasePartManager {
     }
 
     @Override
+    protected void initAlpha() {}//背景透明度永远是100，所以此处清空父类代码
+
+    @Override
     public int getType() {
         return TYPE;
     }

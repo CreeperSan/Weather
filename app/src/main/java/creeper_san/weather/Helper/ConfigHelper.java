@@ -6,9 +6,12 @@ import android.content.pm.PackageManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.Calendar;
 
 import creeper_san.weather.Event.ThemeChangeEvent;
 import creeper_san.weather.R;
@@ -21,6 +24,7 @@ public class ConfigHelper {
 
     private final static String KEY_THEME = "theme";
     private final static String KEY_VERSION = "version";
+    private final static String KEY_BING_UPDATE_DATE = "BingImageUpdateDate";
     private final static String VALUE_THEME_DEFAULT = "0";
 
     private static ConfigHelper configHelper;
@@ -101,6 +105,20 @@ public class ConfigHelper {
     public static String settingGetBackgroundBingImageSize(Context context,String defaultSize){
         return getInstance(context).settingPref.getString("prefBackgroundBingImageSize",defaultSize);
     }
+    public static @Nullable String settingGetFilePickerPath(Context context, String key){
+        String path = getInstance(context).configPref.getString(key,"");
+        if (path.equals("")){
+            return null;
+        }else {
+            return path;
+        }
+    }
+    public static String settingGetBingImageUpdateDate(Context context){
+        return getInstance(context).updateTimePref.getString(KEY_BING_UPDATE_DATE,"");
+    }
+    public static String settingGetThemeAlpha(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefMainThemeAlpha",defaultValue);
+    }
 
     /**
      *      设置Pref
@@ -120,6 +138,20 @@ public class ConfigHelper {
     public static void settingSetBackgroundColor(Context context,String value){
         getInstance(context).settingPref.edit().putString("prefBackgroundColor",value).commit();
     }
+    public static void settingSetFilePickerPath(Context context,String key,String path){
+        getInstance(context).configPref.edit().putString(key,path).commit();
+    }
+    public static void settingSetBingImageUpdateDate(Context context){
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String dateStr = String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
+        getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,dateStr).commit();
+    }//设置必应图片更新的日并保存
+    public static void settingSetBingImageUpdateDate(Context context,String value){
+        getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,value).commit();
+    }//设置必应图片更新的日并保存制定的值
 
     public static boolean isFirstBoot(Context context,PackageManager packageManager){
         try {

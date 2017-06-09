@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
+import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Json.WeatherJson;
 
 import static creeper_san.weather.Flag.PartCode.*;
@@ -20,9 +22,18 @@ public abstract class BasePartManager {
 
     public BasePartManager(LayoutInflater inflater, ViewGroup container) {
         partRootView = inflater.inflate(getLayout(),container,false);
+        initAlpha();
         ButterKnife.bind(this,partRootView);
         initView(partRootView,container);
         onViewInflated();
+    }
+
+    protected void initAlpha() {
+        try {
+            Integer alphaLevel = Integer.valueOf(ConfigHelper.settingGetThemeAlpha(getContext(),"0"));
+            getView().setAlpha(1f-Float.valueOf(alphaLevel)*0.1f);
+        } catch (NumberFormatException e) {}
+
     }
 
     public View getView() {
@@ -56,5 +67,8 @@ public abstract class BasePartManager {
 
     protected void log(String content){
         Log.i(TAG,content);
+    }
+    protected void toast(String content){
+        Toast.makeText(getContext(),content,Toast.LENGTH_SHORT).show();
     }
 }

@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import creeper_san.weather.Event.ApplicationExitEvent;
 import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.ThemeDecodeHelper;
@@ -76,6 +77,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onThemePrefEvent(ThemePrefEvent event){
         onThemePrefChange(event);
+    }
+    @Subscribe()
+    public void onApplicationExitEvent(ApplicationExitEvent event){
+        finish();
     }
     protected void onThemePrefChange(ThemePrefEvent event){
         recreate();

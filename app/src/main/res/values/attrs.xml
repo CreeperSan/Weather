@@ -35,7 +35,6 @@
 
     <declare-styleable name="FilePickerPref">
         <attr name="filePickerDialogTitle" format="string"/>
-        <attr name="filePickerFilter" format="string"/>
         <attr name="filePickerKey" format="string"/>
     </declare-styleable>
 </resources>

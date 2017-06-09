@@ -30,11 +30,13 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Base.BaseBackgroundPartManager;
+import creeper_san.weather.Event.ApplicationExitEvent;
 import creeper_san.weather.Event.BackgroundChangeEvent;
 import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.PartStylePrefChangeEvent;
@@ -42,6 +44,7 @@ import creeper_san.weather.Event.ThemePrefEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
+import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
@@ -49,6 +52,7 @@ import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Item.CityItem;
 import creeper_san.weather.Json.UpdateJson;
 import creeper_san.weather.Part.BackgroundManagerBing;
+import creeper_san.weather.Part.BackgroundManagerLocal;
 import creeper_san.weather.Part.BackgroundManagerSimple;
 
 public class MainActivity extends BaseActivity implements ServiceConnection{
@@ -59,7 +63,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     @BindView(R.id.mainBackgroundLayout)FrameLayout backgroundLayout;
 
     private BaseBackgroundPartManager backgroundPartManager;
-    private WeatherService weatherService;
     private List<WeatherFragment> weatherFragmentList;
     private WeatherAdapter adapter;
     private boolean isOrderChange = false;
@@ -126,6 +129,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             @Override
             public void onPageSelected(int position) {
                 setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
+                weatherFragmentList.get(viewPager.getCurrentItem()).checkIsNeedUpdate();
             }
             @Override
             public void onPageScrollStateChanged(int state) {}
@@ -157,6 +161,12 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                     case R.id.menuMainNavigationSetting:
                         startActivity(SettingActivity.class);
                         break;
+                    case R.id.menuMainNavigationAbout:
+                        startActivity(AboutActivity.class);
+                        break;
+                    case R.id.menuMainNavigationExit:
+                        postEvent(new ApplicationExitEvent());
+                        break;
                 }
                 drawerLayout.closeDrawer(Gravity.START);
                 return true;
@@ -173,6 +183,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                 backgroundPartManager = new BackgroundManagerSimple(getLayoutInflater(),backgroundLayout);
                 break;
             case "1":
+                backgroundPartManager = new BackgroundManagerLocal(getLayoutInflater(),backgroundLayout);
                 break;
             case "2":
                 backgroundPartManager = new BackgroundManagerBing(getLayoutInflater(),backgroundLayout);
@@ -231,11 +242,15 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         String key = event.getKey();
         if (key.equals(getString(R.string.prefBackgroundBingImageSize))){
             if (backgroundPartManager instanceof BackgroundManagerBing){
-                ((BackgroundManagerBing)backgroundPartManager).initViewData(null,0);
+                ((BackgroundManagerBing)backgroundPartManager).checkIsNeedUpdateBingImage(context);
             }
         }else if (key.equals(getString(R.string.prefBackgroundColor))){
-            if (backgroundPartManager instanceof BackgroundManagerSimple){
+            if (backgroundPartManager instanceof BackgroundManagerSimple){//纯色背景颜色更新
                 ((BackgroundManagerSimple)backgroundPartManager).setColor(Color.parseColor("#"+event.getCurrent()));
+            }
+        }else if (key.equals(getString(R.string.prefBackgroundBingImageSize))){//本地图片更新
+            if (backgroundPartManager instanceof  BackgroundManagerLocal){
+                ((BackgroundManagerLocal)backgroundPartManager).setImage();
             }
         }
 
@@ -252,13 +267,18 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             }
         }
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onWeatherResultEvent(WeatherResultEvent event){
+        if (!event.isSuccess()){
+            toast("连接到服务器失败，请检查你的网络连接。");
+        }
+    }
 
     /**
      *      接口以及回调
      */
     @Override
     public void onServiceConnected(ComponentName name, IBinder binder) {
-        weatherService = ((WeatherService.WeatherServiceBinder)binder).getService();
     }
     @Override
     public void onServiceDisconnected(ComponentName name) {}

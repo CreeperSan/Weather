@@ -31,6 +31,14 @@
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesThemeColor"
             app:defaultValue="0"/>
+        <creeper_san.weather.Pref.ListPref
+            android:title="透明度设置"
+            app:dialogTitle="设置内容透明度"
+            app:key="@string/prefMainThemeAlpha"
+            app:event="ThemeAlphaChangeEvent"
+            app:valueArray="@array/entriesValues"
+            app:nameArray="@array/entriesThemeAlpha"
+            app:defaultValue="0"/>
         <Preference android:key="@string/prefMainPartHeader" android:title="天气概况"/>
         <Preference android:key="@string/prefMainPartAQI" android:title="空气质量"/>
         <Preference android:key="@string/prefMainPartDaily" android:title="天气预报"/>

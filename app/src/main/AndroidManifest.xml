@@ -31,6 +31,7 @@
         <activity android:name=".PartManageActivity"/>
         <activity android:name=".SettingActivity"/>
         <activity android:name=".IntroActivity" android:theme="@style/Theme.Intro"/>
+        <activity android:name=".AboutActivity"/>
 
 
     </application>

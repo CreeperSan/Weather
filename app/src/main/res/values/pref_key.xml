@@ -14,8 +14,9 @@
     <string name="prefMainCheckUpdate">prefMainCheckUpdate</string>
     <string name="prefMainVersionInfo">prefMainVersionInfo</string>
     <string name="prefMainVersionHistory">prefMainVersionHistory</string>
-    <!-- 应用程序颜色 -->
+    <!-- 主题设置 -->
     <string name="prefMainThemeColor">prefMainThemeColor</string>
+    <string name="prefMainThemeAlpha">prefMainThemeAlpha</string>
     <!-- 各个部件的Key -->
     <string name="prefHeaderTheme">prefHeaderTheme</string>
     <string name="prefAQITheme">prefAQITheme</string>
@@ -27,8 +28,9 @@
     <string name="prefBackgroundTheme">prefBackgroundTheme</string>
     <string name="prefBackgroundColor">prefBackgroundColor</string>
     <string name="prefBackgroundBingImageSize">prefBackgroundBingImageSize</string>
+    <string name="prefBackgroundLocalImageKey">prefBackgroundLocalImageKey</string>
 
-    <!-- 此处存放ListPreference的数组以及值 -->
+    <!-- 主题 -->
     <string-array name="entriesThemeColor">
         <item>@string/themeNameDefault</item>
         <item>@string/themeNameRed</item>
@@ -51,43 +53,70 @@
         <item>@string/themeNameGrey</item>
         <item>@string/themeNameBlueGrey</item>
     </string-array>
+    <!-- 透明度列表选项 -->
+    <string-array name="entriesThemeAlpha">
+        <item>100</item>
+        <item>90</item>
+        <item>80</item>
+        <item>70</item>
+        <item>60</item>
+        <item>50</item>
+        <item>40</item>
+        <item>30</item>
+        <item>20</item>
+        <item>10</item>
+    </string-array>
+    <!-- 头部主题 -->
     <string-array name="entriesPartHeaderStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 空气质量主题 -->
     <string-array name="entriesPartAQIStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 风向信息主题 -->
     <string-array name="entriesPartWindStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 城市信息主题 -->
     <string-array name="entriesPartCityStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 其他信息主题 -->
     <string-array name="entriesPartOtherStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 生活建议主题 -->
     <string-array name="entriesPartSuggestionStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 天气预报主题 -->
     <string-array name="entriesPartDailyStyleNames">
         <item>@string/partStyleSimple</item>
         <item>@string/partStyleCard</item>
     </string-array>
+    <!-- 背景样式主题 -->
     <string-array name="entriesPartBackgroundStyleNames">
         <item>@string/prefBgPureColor</item>
         <item>@string/prefBgImage</item>
         <item>@string/prefBgBingImage</item>
     </string-array>
+    <!-- 背景样式 - 必应图片 - 尺寸大小 -->
     <string-array name="entriesPartBackgroundBingImageSize">
         <item>@string/partBgBingImageSize768p</item>
         <item>@string/partBgBingImageSize1080p</item>
     </string-array>
+
+
+
+
+    <!-- 值 -->
     <string-array name="entriesValues">
         <item>0</item>
         <item>1</item>

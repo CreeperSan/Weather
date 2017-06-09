@@ -30,7 +30,8 @@
         app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_color_lens_black_24dp"
         android:title="本地图片背景设置">
-        <creeper_san.weather.Pref.FilePickerPref
+        <creeper_san.weather.Pref.ImageFilePickerPref
+            app:filePickerKey="@string/prefBackgroundLocalImageKey"
             android:title="设置图片"/>
     </creeper_san.weather.Pref.CatalogPref>
 

@@ -29,6 +29,7 @@ import creeper_san.weather.Base.BaseSuggestionPartManager;
 import creeper_san.weather.Base.BaseWindPartManager;
 import creeper_san.weather.Event.PartEditEvent;
 import creeper_san.weather.Event.PartStylePrefChangeEvent;
+import creeper_san.weather.Event.ThemeAlphaChangeEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Helper.ConfigHelper;
@@ -173,6 +174,9 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 }
             }
         }
+    }
+
+    public void checkIsNeedUpdate(){
         //检查是否需要更新
         long currentTime = System.currentTimeMillis();
         if (currentTime - ConfigHelper.getCityWeatherUpdateTime(getContext(),getID(),0)>1000*60*60){
@@ -378,8 +382,6 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 ConfigHelper.setCityWeatherUpdateTime(getContext(),getID(),System.currentTimeMillis());
             }
         }else {
-            toast("连接到服务器失败，请检查你的网络连接。");
-            loge("连接到服务器失败，请检查你的网络连接。");
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -388,6 +390,10 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPartStylePrefChangeEvent(PartStylePrefChangeEvent event){
+        isNeedRefresh = true;
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onThemeAlphaChangeEvent(ThemeAlphaChangeEvent event){
         isNeedRefresh = true;
     }
 }
