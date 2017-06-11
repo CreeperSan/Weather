@@ -13,6 +13,7 @@ import butterknife.BindView;
 import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseHeaderPartManager;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.UnitHelper;
 import creeper_san.weather.R;
 
 
@@ -30,7 +31,16 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
 
     @Override
     public void setTmp(String content) {
-        temperatureTxt.setText(content+ WeatherApplication.getContext().getString(R.string.unitTemperature));
+        if (getUnit().equals("0")){
+            temperatureTxt.setText(content+getContext().getString(R.string.unitTemperature));
+        }else {
+            try {
+                int celsius = Integer.valueOf(content);
+                temperatureTxt.setText(UnitHelper.celsiusToFahrenheit(celsius)+getContext().getString(R.string.unitTemperature));
+            } catch (NumberFormatException e) {
+                temperatureTxt.setText(content+getContext().getString(R.string.unitTemperature));
+            }
+        }
     }
 
     @Override
@@ -50,7 +60,16 @@ public class HeaderPartManagerSimple extends BaseHeaderPartManager implements Vi
 
     @Override
     public void setFl(String content) {
-        temperatureFeelingTxt.setText(content+WeatherApplication.getContext().getString(R.string.unitTemperature));
+        if (getUnit().equals("0")){
+            temperatureFeelingTxt.setText(content+getContext().getString(R.string.unitTemperature));
+        }else {
+            try {
+                int celsius = Integer.valueOf(content);
+                temperatureFeelingTxt.setText(UnitHelper.celsiusToFahrenheit(celsius)+getContext().getString(R.string.unitTemperature));
+            } catch (NumberFormatException e) {
+                temperatureFeelingTxt.setText(content+getContext().getString(R.string.unitTemperature));
+            }
+        }
     }
 
     @Override

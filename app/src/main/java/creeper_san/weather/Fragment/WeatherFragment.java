@@ -29,6 +29,7 @@ import creeper_san.weather.Base.BaseSuggestionPartManager;
 import creeper_san.weather.Base.BaseWindPartManager;
 import creeper_san.weather.Event.PartEditEvent;
 import creeper_san.weather.Event.PartStylePrefChangeEvent;
+import creeper_san.weather.Event.TemperatureUnitChangeEvent;
 import creeper_san.weather.Event.ThemeAlphaChangeEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
@@ -65,6 +66,8 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     private List<BasePartManager> partManagerList;
     private String cityName;
     private String ID;
+    private WeatherJson weatherJson;
+    private int which;
 
     @Override
     protected void initView(View rootView) {
@@ -207,6 +210,8 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     }
 
     public void setWeatherData(WeatherJson item, int which){
+        this.weatherJson = item;
+        this.which = which;
         for (BasePartManager basePartManager:partManagerList){
             switch (basePartManager.getType()){
                 case PART_HEAD:
@@ -395,5 +400,21 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onThemeAlphaChangeEvent(ThemeAlphaChangeEvent event){
         isNeedRefresh = true;
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTemperatureUnitChangeEvent(TemperatureUnitChangeEvent event){
+        if (event.getKey().equals(getString(R.string.prefHeaderTemperatureUnit))){
+            for (BasePartManager basePartManager:partManagerList){
+                if (basePartManager instanceof BaseHeaderPartManager){
+                    handleHeadPart(weatherJson,(BaseHeaderPartManager) basePartManager,which);
+                }
+            }
+        }else if (event.getKey().equals(getString(R.string.prefDailyTemperatureUnit))){
+            for (BasePartManager basePartManager:partManagerList){
+                if (basePartManager instanceof BaseDailyPartManager){
+                    handleDailyPart(weatherJson,(BaseDailyPartManager) basePartManager,which);
+                }
+            }
+        }
     }
 }

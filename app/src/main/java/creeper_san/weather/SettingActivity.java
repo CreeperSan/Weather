@@ -45,9 +45,6 @@ public class SettingActivity extends BaseActivity {
         }
     }
 
-
-
-
     private void initToolbar() {
 //        toolbar.setNavigationIcon(R.drawable.ic_close_black_24dp);
         setSupportActionBar(toolbar);
@@ -69,64 +66,6 @@ public class SettingActivity extends BaseActivity {
      *      EventBus
      */
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onUpdateEvent(UpdateResultEvent event){
-        if (event.isSuccess()){
-            UpdateJson updateJson = event.getUpdateJson();
-            if (updateJson.isHistory()){//查看更新历史
-                dialogHistoryVersion(updateJson);
-            }else {//检查更新
-                PackageManager packageManager = getPackageManager();
-                int currentCode = 0;
-                String currentName = "";
-                try {
-                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
-                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-                if (currentCode >= updateJson.getVersion(0)){
-                    toast("当前版本已经是最新啦(●'◡'●)");
-                }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("检查更新");
-                    builder.setMessage("当前版本 "+currentName+"\n"
-                            +"新版本 "+updateJson.getVersionName(0)
-                            +"\n更新内容 :\n"+updateJson.getDescription(0));
-                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    });
-                    builder.setNegativeButton("下次再说",null);
-                    builder.show();
-                }
-            }
-        }
-    }
-    private void dialogHistoryVersion(UpdateJson json){
-        log("dialog");
-        if (json.getResult() == UpdateJson.RESULT_FAIL){
-            toast("连接失败，请检查你的网络连接");
-            return;
-        }else if (json.getResult() == UpdateJson.RESULT_DECODE_ERR){
-            toast("数据解析失败，请重试或联系开发者");
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("历史更新");
-        StringBuffer buffer = new StringBuffer("\n");
-        for (int i=0;i<json.versionCount();i++){
-            buffer.append(json.getVersionName(i)+"\n");
-            buffer.append(json.getUpdateTime(i)+"\n");
-            buffer.append(json.getDescription(i)+"\n");
-            buffer.append("\n");
-            buffer.append("\n");
-        }
-        builder.setMessage(buffer.toString());
-        builder.show();
-    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRequirePermissionEvent(RequirePermissionEvent event){
         if (event.getTypeID() == 0){

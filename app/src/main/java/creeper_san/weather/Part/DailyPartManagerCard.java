@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseDailyPartManager;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.UnitHelper;
 import creeper_san.weather.Helper.ViewHelper;
 import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
@@ -40,6 +41,7 @@ public class DailyPartManagerCard extends BaseDailyPartManager {
 
     @Override
     public void initViewData(WeatherJson weatherJson, int which) {
+        super.initViewData(weatherJson,which);
         backgroundColor = ResHelper.getColorFromWeatherCode(weatherJson.getCode(which));
         contentColor = ResHelper.getContentColorFromWeatherCode(weatherJson.getCode(which));
         ViewHelper.initImageViewContentTint(imageView,contentColor);
@@ -51,18 +53,44 @@ public class DailyPartManagerCard extends BaseDailyPartManager {
         }
     }
 
+
+
     @Override
     public void setData(WeatherJson weatherJson, int which) {
         Calendar calendar = Calendar.getInstance();
-        for (int i=0;i<weatherJson.dailySize(which);i++){
-            CardItem item = new CardItem(
-                    calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DAY_OF_MONTH)
-                    ,getContext().getString(ResHelper.getStringIDFromWeatherCode(weatherJson.getDailyCodeD(which,i)))
-                    ,weatherJson.getDailyTmpMin(which,i)+"°",weatherJson.getDailyTmpMax(which,i)+"°"
-                    ,ResHelper.getWeatherImageWeatherCode(weatherJson.getDailyCodeD(which,i))
-            );
-            cardItemList.add(item);
-            calendar.add(Calendar.DAY_OF_YEAR,1);
+        if (getUnit().equals("0")){//摄氏度
+            for (int i=0;i<weatherJson.dailySize(which);i++){
+                CardItem item = new CardItem(
+                        calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DAY_OF_MONTH)
+                        ,getContext().getString(ResHelper.getStringIDFromWeatherCode(weatherJson.getDailyCodeD(which,i)))
+                        ,weatherJson.getDailyTmpMin(which,i)+"°",weatherJson.getDailyTmpMax(which,i)+"°"
+                        ,ResHelper.getWeatherImageWeatherCode(weatherJson.getDailyCodeD(which,i))
+                );
+                cardItemList.add(item);
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
+        }else {//华氏度
+            for (int i=0;i<weatherJson.dailySize(which);i++){
+                boolean isCatch = false;
+                int fMax = 0;
+                int fMin = 0;
+                try {
+                    fMax = UnitHelper.celsiusToFahrenheit(Integer.valueOf(weatherJson.getDailyTmpMax(which,i)));
+                    fMin = UnitHelper.celsiusToFahrenheit(Integer.valueOf(weatherJson.getDailyTmpMin(which,i)));
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    isCatch = true;
+                }
+                CardItem item = new CardItem(
+                        calendar.get(Calendar.MONTH)+"/"+calendar.get(Calendar.DAY_OF_MONTH)
+                        ,getContext().getString(ResHelper.getStringIDFromWeatherCode(weatherJson.getDailyCodeD(which,i)))
+                        ,isCatch?weatherJson.getDailyTmpMin(which,i)+"℃":fMin+"°"
+                        ,isCatch?weatherJson.getDailyTmpMax(which,i)+"℃":fMax+"°"
+                        ,ResHelper.getWeatherImageWeatherCode(weatherJson.getDailyCodeD(which,i))
+                );
+                cardItemList.add(item);
+                calendar.add(Calendar.DAY_OF_YEAR,1);
+            }
         }
     }
 

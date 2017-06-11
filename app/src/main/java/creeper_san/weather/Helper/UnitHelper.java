@@ -3,7 +3,7 @@ package creeper_san.weather.Helper;
 
 import android.content.Context;
 
-public class DimensionHelper {
+public class UnitHelper {
 
     /**
      * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
@@ -19,6 +19,10 @@ public class DimensionHelper {
     public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static int celsiusToFahrenheit(int celsius){
+        return (int) (32 + celsius*1.8);
     }
 
 }

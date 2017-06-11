@@ -10,6 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseHeaderPartManager;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.UnitHelper;
 import creeper_san.weather.R;
 
 
@@ -27,7 +28,16 @@ public class HeaderPartManagerCard extends BaseHeaderPartManager {
 
     @Override
     public void setTmp(String content) {
-        tempText.setText(content+"℃");
+        if (getUnit().equals("0")){
+            tempText.setText(content+"℃");
+        }else {
+            try {
+                int celsius = Integer.valueOf(content);
+                tempText.setText(UnitHelper.celsiusToFahrenheit(celsius)+"℉");
+            } catch (NumberFormatException e) {
+                tempText.setText(content+"℃");
+            }
+        }
     }
 
     @Override
@@ -153,7 +163,16 @@ public class HeaderPartManagerCard extends BaseHeaderPartManager {
 
     @Override
     public void setFl(String content) {
-        tempFeelingText.setText(content+"℃");
+        if (getUnit().equals("0")){
+            tempFeelingText.setText(content+"℃");
+        }else {
+            try {
+                int celsius = Integer.valueOf(content);
+                tempFeelingText.setText(UnitHelper.celsiusToFahrenheit(celsius)+"℉");
+            } catch (NumberFormatException e) {
+                tempFeelingText.setText(content+"℃");
+            }
+        }
     }
 
     @Override

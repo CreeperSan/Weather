@@ -10,10 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseAqiPartManager;
-import creeper_san.weather.Helper.DimensionHelper;
+import creeper_san.weather.Helper.UnitHelper;
 import creeper_san.weather.Helper.ResHelper;
 import creeper_san.weather.Helper.ViewHelper;
 import creeper_san.weather.Json.WeatherJson;
@@ -72,7 +69,7 @@ public class AqiPartManagerCard extends BaseAqiPartManager {
     public void setEmpty() {
         contentGrid.setVisibility(View.GONE);
         cardView.setBackgroundColor(backgroundColor);
-        titleText.setTextSize(DimensionHelper.dip2px(getView().getContext(),10));
+        titleText.setTextSize(UnitHelper.dip2px(getView().getContext(),10));
         titleText.setGravity(Gravity.START);
         titleText.setAlpha(1f);
         titleText.setText("此地区暂不支持空气质量数据");
@@ -98,17 +95,6 @@ public class AqiPartManagerCard extends BaseAqiPartManager {
             aqiCardAdapter.notifyDataSetChanged();
         }
         ViewHelper.initImageViewContentTint(imageView,contentColor);
-//        if (itemList!=null){
-//            if (itemList.size()%3!=0){
-//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
-//                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-64),0,0);
-//                titleText.setLayoutParams(params);
-//            }else {
-//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)titleText.getLayoutParams();
-//                params.setMargins(0,DimensionHelper.dip2px(getView().getContext(),-8),0,0);
-//                titleText.setLayoutParams(params);
-//            }
-//        }
     }
 
     @Override

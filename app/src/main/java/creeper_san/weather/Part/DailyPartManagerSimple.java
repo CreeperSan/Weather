@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import creeper_san.weather.Base.BaseDailyPartManager;
 import creeper_san.weather.Helper.ResHelper;
+import creeper_san.weather.Helper.UnitHelper;
 import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.R;
 import creeper_san.weather.View.SimpleLineChartView;
@@ -38,8 +39,13 @@ public class DailyPartManagerSimple extends BaseDailyPartManager {
             float max;
             float min;
             try {
-                max = Float.parseFloat(weatherJson.getDailyTmpMax(which,i));
-                min = Float.parseFloat(weatherJson.getDailyTmpMin(which,i));
+                if (getUnit().equals("0")){
+                    max = Float.parseFloat(weatherJson.getDailyTmpMax(which,i));
+                    min = Float.parseFloat(weatherJson.getDailyTmpMin(which,i));
+                }else {
+                    max = UnitHelper.celsiusToFahrenheit(Integer.valueOf(weatherJson.getDailyTmpMax(which,i)));
+                    min = UnitHelper.celsiusToFahrenheit(Integer.valueOf(weatherJson.getDailyTmpMin(which,i)));
+                }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
                 max = 0;

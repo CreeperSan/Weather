@@ -34,6 +34,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Base.BaseBackgroundPartManager;
 import creeper_san.weather.Event.ApplicationExitEvent;
@@ -87,6 +88,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     }
     @Override
     protected void onResume() {
+
         super.onResume();
         if (isOrderChange){
             isOrderChange =false;
@@ -273,6 +275,40 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             toast("连接到服务器失败，请检查你的网络连接。");
         }
     }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUpdateEvent(UpdateResultEvent event){
+        if (event.isSuccess()){
+            UpdateJson updateJson = event.getUpdateJson();
+            if (!updateJson.isHistory()){//查看更新历史
+                PackageManager packageManager = getPackageManager();
+                int currentCode = 0;
+                String currentName = "";
+                try {
+                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
+                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (currentCode >= updateJson.getVersion(0)){
+                    toast("当前版本已经是最新啦(●'◡'●)");
+                }else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("检查更新");
+                    builder.setMessage("当前版本 "+currentName+"\n"
+                            +"新版本 "+updateJson.getVersionName(0)
+                            +"\n更新内容 :\n"+updateJson.getDescription(0));
+                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    builder.setNegativeButton("下次再说",null);
+                    builder.show();
+                }
+            }
+        }
+    }
 
     /**
      *      接口以及回调
@@ -282,6 +318,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     }
     @Override
     public void onServiceDisconnected(ComponentName name) {}
+
 
     /**
      *      内部类

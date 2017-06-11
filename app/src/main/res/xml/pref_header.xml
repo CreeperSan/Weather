@@ -13,5 +13,13 @@
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesPartHeaderStyleNames"
             app:defaultValue="0"/>
+        <creeper_san.weather.Pref.ListPref
+            android:title="显示单位"
+            app:dialogTitle="设置显示单位"
+            app:event="TemperatureUnitChangeEvent"
+            app:key="@string/prefHeaderTemperatureUnit"
+            app:valueArray="@array/entriesValues"
+            app:nameArray="@array/entriesPartTemperatureUnit"
+            app:defaultValue="0"/>
     </creeper_san.weather.Pref.CatalogPref>
 </PreferenceScreen>

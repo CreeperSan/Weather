@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Preference的键 -->
     <!-- 此处存放Preference的Key -->
     <string name="prefMainPartColor">prefMainPartColor</string>
     <string name="prefMainPartHeader">prefMainPartHeader</string>
@@ -29,7 +30,10 @@
     <string name="prefBackgroundColor">prefBackgroundColor</string>
     <string name="prefBackgroundBingImageSize">prefBackgroundBingImageSize</string>
     <string name="prefBackgroundLocalImageKey">prefBackgroundLocalImageKey</string>
+    <string name="prefHeaderTemperatureUnit">prefHeaderTemperatureUnit</string>
+    <string name="prefDailyTemperatureUnit">prefDailyTemperatureUnit</string>
 
+    <!-- 设置数组键 -->
     <!-- 主题 -->
     <string-array name="entriesThemeColor">
         <item>@string/themeNameDefault</item>
@@ -111,6 +115,11 @@
     <string-array name="entriesPartBackgroundBingImageSize">
         <item>@string/partBgBingImageSize768p</item>
         <item>@string/partBgBingImageSize1080p</item>
+    </string-array>
+    <!-- 温度单位 -->
+    <string-array name="entriesPartTemperatureUnit">
+        <item>@string/partTemperatureUnitC</item>
+        <item>@string/partTemperatureUnitF</item>
     </string-array>
 
 

@@ -66,6 +66,7 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 log("加载失败");
+                toast("背景图片加载失败");
                 ConfigHelper.settingSetBingImageUpdateDate(getContext(),"");
                 return false;
             }

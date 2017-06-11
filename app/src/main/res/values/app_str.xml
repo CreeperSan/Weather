@@ -96,4 +96,7 @@
 
     <string name="partBgBingImageSize768p">768p</string>
     <string name="partBgBingImageSize1080p">1080p</string>
+
+    <string name="partTemperatureUnitC">Celsius( ℃ )</string>
+    <string name="partTemperatureUnitF">Fahrenheit( ℉ )</string>
 </resources>

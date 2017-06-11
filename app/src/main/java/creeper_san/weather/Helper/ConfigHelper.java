@@ -119,6 +119,12 @@ public class ConfigHelper {
     public static String settingGetThemeAlpha(Context context,String defaultValue){
         return getInstance(context).settingPref.getString("prefMainThemeAlpha",defaultValue);
     }
+    public static String settingGetHeaderTemperatureUnit(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefHeaderTemperatureUnit",defaultValue);
+    }
+    public static String settingGetDailyTemperatureUnit(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString("prefDailyTemperatureUnit",defaultValue);
+    }
 
     /**
      *      设置Pref
