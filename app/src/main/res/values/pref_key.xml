@@ -15,6 +15,7 @@
     <string name="prefMainCheckUpdate">prefMainCheckUpdate</string>
     <string name="prefMainVersionInfo">prefMainVersionInfo</string>
     <string name="prefMainVersionHistory">prefMainVersionHistory</string>
+    <string name="prefMainAutoCheckUpdate">prefMainAutoCheckUpdate</string>
     <!-- 主题设置 -->
     <string name="prefMainThemeColor">prefMainThemeColor</string>
     <string name="prefMainThemeAlpha">prefMainThemeAlpha</string>

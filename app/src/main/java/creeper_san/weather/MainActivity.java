@@ -42,6 +42,7 @@ import creeper_san.weather.Event.BackgroundChangeEvent;
 import creeper_san.weather.Event.CityEditEvent;
 import creeper_san.weather.Event.PartStylePrefChangeEvent;
 import creeper_san.weather.Event.ThemePrefEvent;
+import creeper_san.weather.Event.UpdateApkDownloadEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
@@ -78,8 +79,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         initFragmentList();
         initViewPager();
         initBackground();
+        initAutoCheckUpdate();
     }
-
 
     @Override
     protected void onDestroy() {
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
             @Override
             public void onPageSelected(int position) {
                 setTitle(weatherFragmentList.get(viewPager.getCurrentItem()).getCityName());
-                weatherFragmentList.get(viewPager.getCurrentItem()).checkIsNeedUpdate();
+//                weatherFragmentList.get(viewPager.getCurrentItem()).checkIsNeedUpdate();
             }
             @Override
             public void onPageScrollStateChanged(int state) {}
@@ -197,6 +198,13 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         backgroundPartManager.initViewData(null,0);
         backgroundLayout.addView(backgroundPartManager.getView());
     }
+    private void initAutoCheckUpdate() {
+        if (ConfigHelper.settingGetIsAutoCheckUpdate(this,true)){
+            WeatherApplication.setIsNeedMissUpdate(true);
+            postStickyEvent(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
+        }
+    }
+
 
 
 
@@ -220,8 +228,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                 WeatherFragment fragment = weatherFragmentList.get(viewPager.getCurrentItem());
                 fragment.setRefreshState(true);
                 postEvent(new WeatherRequestEvent(fragment.getID(),fragment.getCityName()));
-                break;
-            case R.id.menuMainToolbarTest:
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -277,6 +283,9 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUpdateEvent(UpdateResultEvent event){
+        if (!WeatherApplication.isNotifyUpdate()){
+            return;
+        }
         if (event.isSuccess()){
             UpdateJson updateJson = event.getUpdateJson();
             if (!updateJson.isHistory()){//查看更新历史
@@ -290,8 +299,15 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                     e.printStackTrace();
                 }
                 if (currentCode >= updateJson.getVersion(0)){
-                    toast("当前版本已经是最新啦(●'◡'●)");
+                    if (WeatherApplication.isNeedMissUpdate()){
+                        WeatherApplication.setIsNeedMissUpdate(false);
+                    }else {
+                        toast("当前版本已经是最新啦(●'◡'●)");
+                    }
                 }else {
+                    if (!WeatherApplication.isNotifyUpdate()){
+                        return;
+                    }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("检查更新");
                     builder.setMessage("当前版本 "+currentName+"\n"
@@ -300,7 +316,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                     builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-
+                            postEvent(new UpdateApkDownloadEvent());
+                            toast("开始下载");
                         }
                     });
                     builder.setNegativeButton("下次再说",null);

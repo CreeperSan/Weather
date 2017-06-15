@@ -73,6 +73,8 @@ public class AqiPartManagerCard extends BaseAqiPartManager {
         titleText.setGravity(Gravity.START);
         titleText.setAlpha(1f);
         titleText.setText("此地区暂不支持空气质量数据");
+        titleText.setTextSize(UnitHelper.dip2px(getContext(),16));
+        imageView.setVisibility(View.GONE);
     }
 
     @Override

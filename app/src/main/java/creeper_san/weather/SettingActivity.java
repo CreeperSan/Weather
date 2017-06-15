@@ -15,15 +15,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.Stack;
 
 import butterknife.BindView;
+import creeper_san.weather.Application.WeatherApplication;
 import creeper_san.weather.Base.BaseActivity;
 import creeper_san.weather.Event.RequirePermissionEvent;
 import creeper_san.weather.Event.ThemePrefEvent;
+import creeper_san.weather.Event.UpdateApkDownloadEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Fragment.MainPrefFragment;
 import creeper_san.weather.Json.UpdateJson;
@@ -70,6 +73,44 @@ public class SettingActivity extends BaseActivity {
     public void onRequirePermissionEvent(RequirePermissionEvent event){
         if (event.getTypeID() == 0){
             ActivityCompat.requestPermissions(SettingActivity.this,new String[]{event.getPermission()},0);
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,priority = 1)
+    public void onUpdateEvent(UpdateResultEvent event){
+        if (!WeatherApplication.isNotifyUpdate()){
+            log("return");
+            return;
+        }
+        if (event.isSuccess()){
+            UpdateJson updateJson = event.getUpdateJson();
+            if (!updateJson.isHistory()){//查看更新历史
+                PackageManager packageManager = getPackageManager();
+                int currentCode = 0;
+                String currentName = "";
+                try {
+                    currentCode = packageManager.getPackageInfo(getPackageName(),0).versionCode;
+                    currentName = packageManager.getPackageInfo(getPackageName(),0).versionName;
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                if (currentCode < updateJson.getVersion(0)){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("检查更新");
+                    builder.setMessage("当前版本 "+currentName+"\n"
+                            +"新版本 "+updateJson.getVersionName(0)
+                            +"\n更新内容 :\n"+updateJson.getDescription(0));
+                    builder.setPositiveButton("更新", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            postEvent(new UpdateApkDownloadEvent());
+                            toast("开始下载");
+                        }
+                    });
+                    builder.setNegativeButton("下次再说",null);
+                    builder.show();
+                    WeatherApplication.setIsNotifyUpdate(false);
+                }
+            }
         }
     }
 

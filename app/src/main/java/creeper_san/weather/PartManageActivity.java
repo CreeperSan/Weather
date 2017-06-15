@@ -34,7 +34,7 @@ public class PartManageActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.partManageRecyclerView)RecyclerView recyclerView;
     @BindView(R.id.partManageFloatingActionButton)FloatingActionButton fab;
 
-    private final static int TYPES[] = {PART_HEAD,PART_AQI,PART_DAILY,PART_WIND,PART_SUGGESTION,
+    public final static int TYPES[] = {PART_HEAD,PART_AQI,PART_DAILY,PART_WIND,PART_SUGGESTION,
             PART_CITY,PART_OTHER};
     private List<PartItem> partItemList;
     private PartAdapter adapter;

@@ -6,17 +6,12 @@
         app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="基本设置">
-        <SwitchPreference android:title="开启自启"/>
-        <SwitchPreference android:title="自动检查更新"/>
-    </creeper_san.weather.Pref.CatalogPref>
-
-    <creeper_san.weather.Pref.CatalogPref
-        app:textColor="?attr/colorAccent"
-        android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="通知设置">
-        <SwitchPreference android:title="通知栏天气"/>
-        <SwitchPreference android:title="早晚天气提醒"/>
-        <Preference android:title="消息通知"/>
+        <SwitchPreference
+            android:summaryOff="已关闭自动更新"
+            android:summary="打开应用时自动检查更新"
+            android:key="@string/prefMainAutoCheckUpdate"
+            android:defaultValue="true"
+            android:title="自动检查更新"/>
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref

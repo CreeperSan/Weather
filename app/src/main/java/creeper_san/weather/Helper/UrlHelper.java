@@ -23,6 +23,8 @@ public class UrlHelper {
     private final static String URL_UPDATE_HISTORY = "https://creepersan.github.io/app-version/weather-history.json";//版本历史
     private final static String URL_BING_IMAGE_768P = "https://www.dujin.org/sys/bing/1366.php";
     private final static String URL_BING_IMAGE_1080P = "https://www.dujin.org/sys/bing/1920.php";
+    private final static String URL_APK_DOWNLOAD = "https://creepersan.github.io/app-version/weather.apk";
+//    private final static String URL_APK_DOWNLOAD = "https://creepersan.github.io/app-version/weather.json";
 
     //用于计算标签
     public static String decodeHead(){
@@ -128,6 +130,10 @@ public class UrlHelper {
     }
     public static String generateBingImage1080pUrl(){
         return URL_BING_IMAGE_1080P;
+    }
+
+    public static String generateDownloadAddress(){
+        return URL_APK_DOWNLOAD;
     }
 
 }

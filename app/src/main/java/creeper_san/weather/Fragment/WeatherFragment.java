@@ -153,6 +153,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     public void onResume() {
         super.onResume();
+        checkIsNeedUpdate();
         if (isNeedRefresh){
             isNeedRefresh = false;
             //清空数据

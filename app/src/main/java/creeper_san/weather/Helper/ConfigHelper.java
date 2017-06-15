@@ -17,15 +17,14 @@ import creeper_san.weather.Event.ThemeChangeEvent;
 import creeper_san.weather.R;
 
 public class ConfigHelper {
-    private final static String PREF_NAME = "Config";
-    private final static String PREF_SETTING = "Setting";
-    private final static String PREF_INFO = "Info";
-    private final static String PREF_UPDATE_TIME = "UpdateTime";
+    public final static String PREF_NAME = "Config";
+    public final static String PREF_SETTING = "Setting";
+    public final static String PREF_INFO = "Info";
+    public final static String PREF_UPDATE_TIME = "UpdateTime";
 
-    private final static String KEY_THEME = "theme";
     private final static String KEY_VERSION = "version";
     private final static String KEY_BING_UPDATE_DATE = "BingImageUpdateDate";
-    private final static String VALUE_THEME_DEFAULT = "0";
+    private final static String KEY_IS_FIRST_BOOT = "isFirstBoot";
 
     private static ConfigHelper configHelper;
 
@@ -64,37 +63,37 @@ public class ConfigHelper {
      *      获取指定的值
      */
     public static String settingGetTheme(Context context,String defaultTheme){
-        return getInstance(context).settingPref.getString("prefMainThemeColor",defaultTheme);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefMainThemeColor),defaultTheme);
     }
     public static String settingGetHeaderStyle(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefHeaderTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefHeaderTheme),defaultValue);
     }
     public static String settingGetAQITheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefAQITheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefAQITheme),defaultValue);
     }
     public static String settingGetWindTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefWindTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefWindTheme),defaultValue);
     }
     public static String settingGetCityTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefCityTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefCityTheme),defaultValue);
     }
     public static String settingGetOtherTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefOtherTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefOtherTheme),defaultValue);
     }
     public static String settingGetSuggestionTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefSuggestionTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefSuggestionTheme),defaultValue);
     }
     public static String settingGetDailyTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefDailyTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefDailyTheme),defaultValue);
     }
     public static String settingGetBgTheme(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefBackgroundTheme",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefBackgroundTheme),defaultValue);
     }
     public static @ColorInt int settingGetBgColor(Context context, @ColorInt int defaultColor){
-        return getInstance(context).settingPref.getInt("prefBackgroundColor",defaultColor);
+        return getInstance(context).settingPref.getInt(context.getString(R.string.prefBackgroundColor),defaultColor);
     }
     public static String settingGetBackgroundColor(Context context,String defaultColor){
-        String tempColorHex = getInstance(context).settingPref.getString("prefBackgroundColor",defaultColor);
+        String tempColorHex = getInstance(context).settingPref.getString(context.getString(R.string.prefBackgroundColor),defaultColor);
         try {
             Color.parseColor("#"+tempColorHex);
             return tempColorHex;
@@ -103,7 +102,7 @@ public class ConfigHelper {
         }
     }
     public static String settingGetBackgroundBingImageSize(Context context,String defaultSize){
-        return getInstance(context).settingPref.getString("prefBackgroundBingImageSize",defaultSize);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefBackgroundBingImageSize),defaultSize);
     }
     public static @Nullable String settingGetFilePickerPath(Context context, String key){
         String path = getInstance(context).configPref.getString(key,"");
@@ -117,13 +116,19 @@ public class ConfigHelper {
         return getInstance(context).updateTimePref.getString(KEY_BING_UPDATE_DATE,"");
     }
     public static String settingGetThemeAlpha(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefMainThemeAlpha",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefMainThemeAlpha),defaultValue);
     }
     public static String settingGetHeaderTemperatureUnit(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefHeaderTemperatureUnit",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefHeaderTemperatureUnit),defaultValue);
     }
     public static String settingGetDailyTemperatureUnit(Context context,String defaultValue){
-        return getInstance(context).settingPref.getString("prefDailyTemperatureUnit",defaultValue);
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefDailyTemperatureUnit),defaultValue);
+    }
+    public static boolean settingGetIsAutoCheckUpdate(Context context,boolean defaultValue){
+        return getInstance(context).settingPref.getBoolean(context.getString(R.string.prefMainAutoCheckUpdate),defaultValue);
+    }
+    public static boolean infoIsFirstBoot(Context context,boolean defaultValue){
+        return getInstance(context).infoPref.getBoolean(KEY_IS_FIRST_BOOT,defaultValue);
     }
 
     /**
@@ -158,6 +163,9 @@ public class ConfigHelper {
     public static void settingSetBingImageUpdateDate(Context context,String value){
         getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,value).commit();
     }//设置必应图片更新的日并保存制定的值
+    public static void infoSetFirstBoot(Context context,boolean value){
+        getInstance(context).infoPref.edit().putBoolean(KEY_IS_FIRST_BOOT,value).commit();
+    }
 
     public static boolean isFirstBoot(Context context,PackageManager packageManager){
         try {

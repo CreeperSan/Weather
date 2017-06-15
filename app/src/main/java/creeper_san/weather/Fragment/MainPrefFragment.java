@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import creeper_san.weather.Base.BasePrefFragment;
 import creeper_san.weather.Event.UpdateRequestEvent;
+import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.IntroActivity;
 import creeper_san.weather.Pref.ListPref;
@@ -34,6 +35,7 @@ public class MainPrefFragment extends BasePrefFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getPreferenceManager().setSharedPreferencesName(ConfigHelper.PREF_SETTING);
     }
 
     @Override
