@@ -127,6 +127,9 @@ public class ConfigHelper {
     public static boolean settingGetIsAutoCheckUpdate(Context context,boolean defaultValue){
         return getInstance(context).settingPref.getBoolean(context.getString(R.string.prefMainAutoCheckUpdate),defaultValue);
     }
+    public static String settingGetBackgroundBlur(Context context,String defaultValue){
+        return getInstance(context).settingPref.getString(context.getString(R.string.prefBackgroundBingImageBlur),defaultValue);
+    }
     public static boolean infoIsFirstBoot(Context context,boolean defaultValue){
         return getInstance(context).infoPref.getBoolean(KEY_IS_FIRST_BOOT,defaultValue);
     }
@@ -163,6 +166,9 @@ public class ConfigHelper {
     public static void settingSetBingImageUpdateDate(Context context,String value){
         getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,value).commit();
     }//设置必应图片更新的日并保存制定的值
+    public static void settingSetBackgroundBlur(Context context,String value){
+        getInstance(context).updateTimePref.edit().putString("prefBackgroundBingImageBlur",value).commit();
+    }
     public static void infoSetFirstBoot(Context context,boolean value){
         getInstance(context).infoPref.edit().putBoolean(KEY_IS_FIRST_BOOT,value).commit();
     }

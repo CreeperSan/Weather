@@ -30,6 +30,7 @@
     <string name="prefBackgroundTheme">prefBackgroundTheme</string>
     <string name="prefBackgroundColor">prefBackgroundColor</string>
     <string name="prefBackgroundBingImageSize">prefBackgroundBingImageSize</string>
+    <string name="prefBackgroundBingImageBlur">prefBackgroundBingImageBlur</string>
     <string name="prefBackgroundLocalImageKey">prefBackgroundLocalImageKey</string>
     <string name="prefHeaderTemperatureUnit">prefHeaderTemperatureUnit</string>
     <string name="prefDailyTemperatureUnit">prefDailyTemperatureUnit</string>
@@ -70,6 +71,14 @@
         <item>30</item>
         <item>20</item>
         <item>10</item>
+    </string-array>
+    <string-array name="entriesBackgroundBlur">
+        <item>0</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>25</item>
     </string-array>
     <!-- 头部主题 -->
     <string-array name="entriesPartHeaderStyleNames">

@@ -47,5 +47,21 @@
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesPartBackgroundBingImageSize"
             app:defaultValue="0"/>
+
+    </creeper_san.weather.Pref.CatalogPref>
+
+
+    <creeper_san.weather.Pref.CatalogPref
+        app:textColor="?attr/colorAccent"
+        android:icon="@drawable/ic_color_lens_black_24dp"
+        android:title="通用设置">
+        <creeper_san.weather.Pref.ListPref
+            android:title="模糊度设定"
+            app:dialogTitle="设置内容透明度"
+            app:key="@string/prefBackgroundBingImageBlur"
+            app:event="BackgroundChangeEvent"
+            app:valueArray="@array/entriesValues"
+            app:nameArray="@array/entriesBackgroundBlur"
+            app:defaultValue="0"/>
     </creeper_san.weather.Pref.CatalogPref>
 </PreferenceScreen>
