@@ -2,9 +2,14 @@ package creeper_san.weather.Part;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,10 +20,17 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Calendar;
 
 import butterknife.BindView;
 import creeper_san.weather.Base.BaseBackgroundPartManager;
+import creeper_san.weather.Event.BingImageResultEvent;
+import creeper_san.weather.Helper.BingImageSaveHelper;
+import creeper_san.weather.Helper.BitmapHelper;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Json.WeatherJson;
@@ -30,6 +42,12 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
 
     public BackgroundManagerBing(LayoutInflater inflater, ViewGroup container) {
         super(inflater, container);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onBackgroundRemove() {
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -39,99 +57,51 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
 
     @Override
     public void initViewData(WeatherJson weatherJson, int which) {
-        checkIsNeedUpdateBingImage(getContext());
-    }
-
-    public void checkIsNeedUpdateBingImage(Context context) {
-        if (ConfigHelper.settingGetBgTheme(context,"0").equals("2")){
-            //当前是bing天气
-            //生成今天的日期数据
-            Calendar calendar = Calendar.getInstance();
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            String dateStr = String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
-            if (!ConfigHelper.settingGetBingImageUpdateDate(context).equals(dateStr)){
-                new Thread(){
-                    @Override
-                    public void run() {
-                        super.run();
-                        Glide.get(getContext()).clearDiskCache();
-                    }
-                }.start();
-                Glide.get(getContext()).clearMemory();
-                ConfigHelper.settingSetBingImageUpdateDate(context);
-            }
+        boolean isNeed1080P = ConfigHelper.settingGetBackgroundBingImageSize(getContext(),"0").equals("1");
+        if (BingImageSaveHelper.INSTANCE.isNewestPicture(getContext())){
+            log("文件夹根目录 " + Environment.getDataDirectory().getAbsolutePath());
+            log("不是最新的背景图片");
+            BingImageSaveHelper.INSTANCE.getNewestPicture(UrlHelper.generateBingImageGuoLinUrl());
+        }else {
+            log("是最新的背景图片");
+            loadImageToImageView(BingImageSaveHelper.INSTANCE.getCacheBingPicData(getContext()));
         }
-        //初始化监听器
-        final RequestListener<String,GlideDrawable> listener = new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                log("加载失败");
-                toast("背景图片加载失败");
-                ConfigHelper.settingSetBingImageUpdateDate(getContext(),"");
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                return false;
-            }
-        };
-//        final RequestListener<Drawable> listener = new RequestListener<Drawable>() {
-//            @Override
-//            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                log("加载失败");
-//                toast("背景图片加载失败");
-//                ConfigHelper.settingSetBingImageUpdateDate(getContext(),"");
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                return false;
-//            }
-//        };
-        //加载请求
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (ConfigHelper.settingGetBackgroundBingImageSize(getContext(),"0").equals("0")){
-                    setImageToBackground(UrlHelper.generateBingImage768pUrl(),listener);
-                }else {
-                    Glide.with(getContext()).load(UrlHelper.generateBingImage1080pUrl()).listener(listener).into(imageView);
-                }
-            }
-        },500);
     }
 
-    private void setImageToBackground(String utl,RequestListener listener){
-        switch (ConfigHelper.settingGetBackgroundBlur(getContext(),"0")){
-            case "1":
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),5)).into(imageView);
-                break;
-            case "2":
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),10)).into(imageView);
-                break;
-            case "3":
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),15)).into(imageView);
-                break;
-            case "4":
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),20)).into(imageView);
-                break;
-            case "5":
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),25)).into(imageView);
-                break;
-            default:
-                Glide.with(getContext()).load(UrlHelper.generateBingImage768pUrl()).listener(listener).crossFade(1000).into(imageView);
-                break;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBingImageResultEvent(BingImageResultEvent event){
+        log("收到Service返回的结果");
+        if (event.getType() == BingImageResultEvent.ResultType.INSTANCE.getTYPE_SUCCESS()){
+            log("收到Service返回的结果：成功");
+            imageView.setImageBitmap(event.getImageData());
+            loadImageToImageView(event.getImageData());
+            BingImageSaveHelper.INSTANCE.savePictureAsNewest(event.getImageData(),getContext());
+            log("图片流程完毕！");
+        }else {
+            log("收到Service返回的结果：失败");
+            toast("获取背景失败");
+        }
+    }
+
+
+    private void loadImageToImageView(Bitmap imageData){
+        if (imageData==null){
+            imageView.setBackgroundColor(Color.YELLOW);
+            return;
+        }
+        String blurStatus = ConfigHelper.settingGetBackgroundBlur(getContext(),"0");
+        switch (blurStatus){
+            case "1":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,5,getContext()));break;
+            case "2":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,10,getContext()));break;
+            case "3":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,15,getContext()));break;
+            case "4":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,20,getContext()));break;
+            case "5":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,25,getContext()));break;
+            default:imageView.setImageBitmap(imageData);break;
         }
     }
 
     @Override
-    public void setWeather(int which, WeatherJson weatherJson) {
-
-    }
+    public void setWeather(int which, WeatherJson weatherJson) {}
 
     @Override
     protected int getLayout() {

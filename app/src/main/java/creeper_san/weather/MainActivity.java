@@ -247,21 +247,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBackgroundChangeEvent(BackgroundChangeEvent event){
-        String key = event.getKey();
-        if (key.equals(getString(R.string.prefBackgroundBingImageSize))){
-            if (backgroundPartManager instanceof BackgroundManagerBing){
-                ((BackgroundManagerBing)backgroundPartManager).checkIsNeedUpdateBingImage(context);
-            }
-        }else if (key.equals(getString(R.string.prefBackgroundColor))){
-            if (backgroundPartManager instanceof BackgroundManagerSimple){//纯色背景颜色更新
-                ((BackgroundManagerSimple)backgroundPartManager).setColor(Color.parseColor("#"+event.getCurrent()));
-            }
-        }else if (key.equals(getString(R.string.prefBackgroundBingImageSize))){//本地图片更新
-            if (backgroundPartManager instanceof  BackgroundManagerLocal){
-                ((BackgroundManagerLocal)backgroundPartManager).setImage();
-            }
-        }
-
+        backgroundPartManager.onBackgroundRemove();
+        initBackground();
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPartStylePrefChangeEvent(PartStylePrefChangeEvent event){

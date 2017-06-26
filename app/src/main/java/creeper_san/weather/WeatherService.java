@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
@@ -16,12 +17,15 @@ import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
 
 import creeper_san.weather.Base.BaseService;
+import creeper_san.weather.Event.BingImageEvent;
+import creeper_san.weather.Event.BingImageResultEvent;
 import creeper_san.weather.Event.SearchResultEvent;
 import creeper_san.weather.Event.UpdateApkDownloadEvent;
 import creeper_san.weather.Event.UpdateHistoryResultEvent;
@@ -34,11 +38,13 @@ import creeper_san.weather.Flag.LanguageCode;
 import creeper_san.weather.Flag.LanguageCode.Language_;
 import creeper_san.weather.Helper.HttpHelper;
 import creeper_san.weather.Helper.UrlHelper;
+import creeper_san.weather.Interface.HttpBitmapCallback;
 import creeper_san.weather.Interface.HttpStringCallback;
 import creeper_san.weather.Json.SearchJson;
 import creeper_san.weather.Json.UpdateJson;
 import creeper_san.weather.Json.WeatherJson;
 import okhttp3.Call;
+import okhttp3.Response;
 
 public class WeatherService extends BaseService {
     private DownloadApkReceiver downloadApkReceiver;
@@ -82,6 +88,43 @@ public class WeatherService extends BaseService {
         request.setMimeType("application/vnd.android.package-archive");
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         downloadID = downloadManager.enqueue(request);
+    }
+    @Subscribe(sticky = true)
+    public void onBingImageEvent(BingImageEvent event){
+        log("收到必应图片请求");
+        HttpHelper.httpGet(event.getUrl(), new HttpStringCallback() {
+            @Override
+            public void onFail(Call call, IOException e, int requestCode) {
+                loge("获取图片地址失败");
+                postEvent(new BingImageResultEvent(BingImageResultEvent.ResultType.INSTANCE.getTYPE_FAIL(),null));
+            }
+
+            @Override
+            public void onResult(Call call, String result, int requestCode) {
+                if (result.startsWith("http")){
+                    loge("成功获取图片地址，发送获取图片请求");
+                    loge("获取到的地址为 "+result);
+                    HttpHelper.httpGetImage(result, new HttpBitmapCallback() {
+                        @Override
+                        public void onFail(@NotNull Call call, @NotNull IOException e) {
+                            loge("图片服务器返回必应图片失败");
+                            postEvent(new BingImageResultEvent(BingImageResultEvent.ResultType.INSTANCE.getTYPE_FAIL(),null));
+                        }
+
+                        @Override
+                        public void onResult(@NotNull Call call, @NotNull Response response, @NotNull Bitmap bitmap) {
+                            log("图片服务器成功返回必应图片");
+                            postEvent(new BingImageResultEvent(BingImageResultEvent.ResultType.INSTANCE.getTYPE_SUCCESS(),bitmap));
+                            log("已向管理器发送返回结果");
+                        }
+                    });
+                }else {
+                    postEvent(new BingImageResultEvent(BingImageResultEvent.ResultType.INSTANCE.getTYPE_FAIL(),null));
+                }
+            }
+        });
+        log("已向图片服务器发出必应图片请求");
+        EventBus.getDefault().removeStickyEvent(event);
     }
 
     /**

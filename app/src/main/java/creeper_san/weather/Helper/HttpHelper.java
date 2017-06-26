@@ -2,8 +2,13 @@ package creeper_san.weather.Helper;
 
 //用于Api数据获取
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+
 import java.io.IOException;
 
+import creeper_san.weather.Interface.HttpBitmapCallback;
 import creeper_san.weather.Interface.HttpCallback;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -54,6 +59,23 @@ public class HttpHelper {
     }
     public static void httpGet(String url,int requestCode,HttpCallback callback){
         getInstance()._httpGet(url,requestCode,callback);
+    }
+    public static void httpGetImage(String url, final HttpBitmapCallback callback){
+        Request request = new Request.Builder().url(url).build();
+        Call call = getInstance().httpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                callback.onFail(call, e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                byte[] bytes = response.body().bytes();
+                final Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                callback.onResult(call,response,bmp);
+            }
+        });
     }
 
 }

@@ -155,14 +155,6 @@ public class ConfigHelper {
     public static void settingSetFilePickerPath(Context context,String key,String path){
         getInstance(context).configPref.edit().putString(key,path).commit();
     }
-    public static void settingSetBingImageUpdateDate(Context context){
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String dateStr = String.valueOf(year)+String.valueOf(month)+String.valueOf(day);
-        getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,dateStr).commit();
-    }//设置必应图片更新的日并保存
     public static void settingSetBingImageUpdateDate(Context context,String value){
         getInstance(context).updateTimePref.edit().putString(KEY_BING_UPDATE_DATE,value).commit();
     }//设置必应图片更新的日并保存制定的值

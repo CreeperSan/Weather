@@ -16,6 +16,8 @@ public abstract class BaseBackgroundPartManager extends BasePartManager {
         super(inflater, container);
     }
 
+    public void onBackgroundRemove(){}
+
     @Override
     protected void initAlpha() {}//背景透明度永远是100，所以此处清空父类代码
 
