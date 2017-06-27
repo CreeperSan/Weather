@@ -101,9 +101,6 @@ public class ConfigHelper {
             return defaultColor;
         }
     }
-    public static String settingGetBackgroundBingImageSize(Context context,String defaultSize){
-        return getInstance(context).settingPref.getString(context.getString(R.string.prefBackgroundBingImageSize),defaultSize);
-    }
     public static @Nullable String settingGetFilePickerPath(Context context, String key){
         String path = getInstance(context).configPref.getString(key,"");
         if (path.equals("")){
@@ -132,6 +129,9 @@ public class ConfigHelper {
     }
     public static boolean infoIsFirstBoot(Context context,boolean defaultValue){
         return getInstance(context).infoPref.getBoolean(KEY_IS_FIRST_BOOT,defaultValue);
+    }
+    public static boolean settingGetWeatherNotificationEnable(Context context,boolean defaultValue){
+        return getInstance(context).settingPref.getBoolean("prefMainNotificationWeather",defaultValue);
     }
 
     /**

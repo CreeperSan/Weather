@@ -17,6 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import creeper_san.weather.Base.BasePrefFragment;
 import creeper_san.weather.Event.UpdateRequestEvent;
+import creeper_san.weather.Event.WeatherNotificationEvent;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.IntroActivity;
@@ -74,7 +75,9 @@ public class MainPrefFragment extends BasePrefFragment {
             startActivity(new Intent(getActivity(),IntroActivity.class));
         }else if (key.equals(getString(R.string.prefMainCheckUpdate))){//检查更新按下了
             EventBus.getDefault().post(new UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE));
-            Toast.makeText(getActivity(), "检查更新", Toast.LENGTH_SHORT).show();
+            toast("检查更新");
+        }else if (key.equals("prefMainNotificationWeather")){//通知栏天气按下了
+            poseEvent(new WeatherNotificationEvent(ConfigHelper.settingGetWeatherNotificationEnable(getActivity(),false)));
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }

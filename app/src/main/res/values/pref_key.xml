@@ -29,7 +29,6 @@
     <string name="prefDailyTheme">prefDailyTheme</string>
     <string name="prefBackgroundTheme">prefBackgroundTheme</string>
     <string name="prefBackgroundColor">prefBackgroundColor</string>
-    <string name="prefBackgroundBingImageSize">prefBackgroundBingImageSize</string>
     <string name="prefBackgroundBingImageBlur">prefBackgroundBingImageBlur</string>
     <string name="prefBackgroundLocalImageKey">prefBackgroundLocalImageKey</string>
     <string name="prefHeaderTemperatureUnit">prefHeaderTemperatureUnit</string>

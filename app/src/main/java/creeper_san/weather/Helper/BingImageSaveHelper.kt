@@ -22,6 +22,8 @@ object BingImageSaveHelper {
         val month = calender.get(Calendar.MONTH)
         val day = calender.get(Calendar.DAY_OF_MONTH)
         val updateTimeValue = "$year$month$day"
+        println("记录的时间 : ${ConfigHelper.settingGetBingImageUpdateDate(context)}")
+        println("当前理论的时间 : $updateTimeValue")
         return ConfigHelper.settingGetBingImageUpdateDate(context) != updateTimeValue
     }
 

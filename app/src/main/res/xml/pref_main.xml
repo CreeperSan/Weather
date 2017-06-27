@@ -12,6 +12,12 @@
             android:key="@string/prefMainAutoCheckUpdate"
             android:defaultValue="true"
             android:title="自动检查更新"/>
+        <SwitchPreference
+            android:summaryOff="已关闭通知栏天气"
+            android:summaryOn="已开启通知栏天气"
+            android:title="通知栏天气"
+            android:defaultValue="false"
+            android:key="prefMainNotificationWeather"/>
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref

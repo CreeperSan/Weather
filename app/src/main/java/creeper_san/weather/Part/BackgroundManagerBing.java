@@ -38,6 +38,7 @@ import creeper_san.weather.R;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class BackgroundManagerBing extends BaseBackgroundPartManager {
+    private Handler handler = new Handler(getContext().getMainLooper());
     @BindView(R.id.partBackgroundBingImage)ImageView imageView;
 
     public BackgroundManagerBing(LayoutInflater inflater, ViewGroup container) {
@@ -57,15 +58,20 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
 
     @Override
     public void initViewData(WeatherJson weatherJson, int which) {
-        boolean isNeed1080P = ConfigHelper.settingGetBackgroundBingImageSize(getContext(),"0").equals("1");
-        if (BingImageSaveHelper.INSTANCE.isNewestPicture(getContext())){
-            log("文件夹根目录 " + Environment.getDataDirectory().getAbsolutePath());
-            log("不是最新的背景图片");
-            BingImageSaveHelper.INSTANCE.getNewestPicture(UrlHelper.generateBingImageGuoLinUrl());
-        }else {
-            log("是最新的背景图片");
-            loadImageToImageView(BingImageSaveHelper.INSTANCE.getCacheBingPicData(getContext()));
-        }
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                if (BingImageSaveHelper.INSTANCE.isNewestPicture(getContext())){
+                    log("文件夹根目录 " + Environment.getDataDirectory().getAbsolutePath());
+                    log("不是最新的背景图片");
+                    BingImageSaveHelper.INSTANCE.getNewestPicture(UrlHelper.generateBingImageGuoLinUrl());
+                }else {
+                    log("是最新的背景图片");
+                    loadImageToImageView(BingImageSaveHelper.INSTANCE.getCacheBingPicData(getContext()));
+                }
+            }
+        }.start();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -84,20 +90,24 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
     }
 
 
-    private void loadImageToImageView(Bitmap imageData){
+    private void loadImageToImageView(final Bitmap imageData){
         if (imageData==null){
             imageView.setBackgroundColor(Color.YELLOW);
             return;
         }
-        String blurStatus = ConfigHelper.settingGetBackgroundBlur(getContext(),"0");
-        switch (blurStatus){
-            case "1":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,5,getContext()));break;
-            case "2":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,10,getContext()));break;
-            case "3":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,15,getContext()));break;
-            case "4":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,20,getContext()));break;
-            case "5":imageView.setImageBitmap(BitmapHelper.INSTANCE.blur(imageData,25,getContext()));break;
-            default:imageView.setImageBitmap(imageData);break;
-        }
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                switch (ConfigHelper.settingGetBackgroundBlur(getContext(),"0")){
+                    case "1":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),5)).into(imageView);break;
+                    case "2":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),10)).into(imageView);break;
+                    case "3":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),15)).into(imageView);break;
+                    case "4":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),20)).into(imageView);break;
+                    case "5":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),25)).into(imageView);break;
+                    default:Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).into(imageView);break;
+                }
+            }
+        });
     }
 
     @Override

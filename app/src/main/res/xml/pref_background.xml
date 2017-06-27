@@ -38,22 +38,6 @@
     <creeper_san.weather.Pref.CatalogPref
         app:textColor="?attr/colorAccent"
         android:icon="@drawable/ic_color_lens_black_24dp"
-        android:title="必应图片背景设置">
-        <creeper_san.weather.Pref.ListPref
-            android:title="图片分辨率"
-            app:dialogTitle="设置图片分辨率"
-            app:event="BackgroundChangeEvent"
-            app:key="@string/prefBackgroundBingImageSize"
-            app:valueArray="@array/entriesValues"
-            app:nameArray="@array/entriesPartBackgroundBingImageSize"
-            app:defaultValue="0"/>
-
-    </creeper_san.weather.Pref.CatalogPref>
-
-
-    <creeper_san.weather.Pref.CatalogPref
-        app:textColor="?attr/colorAccent"
-        android:icon="@drawable/ic_color_lens_black_24dp"
         android:title="通用设置">
         <creeper_san.weather.Pref.ListPref
             android:title="模糊度设定"

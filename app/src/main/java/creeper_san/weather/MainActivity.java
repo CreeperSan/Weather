@@ -48,6 +48,7 @@ import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
+import creeper_san.weather.Helper.BingImageSaveHelper;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Helper.DatabaseHelper;
@@ -229,6 +230,10 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
                 fragment.setRefreshState(true);
                 postEvent(new WeatherRequestEvent(fragment.getID(),fragment.getCityName()));
                 break;
+            case R.id.menuMainToolbarTest:
+                BingImageSaveHelper.INSTANCE.clearCache(this);
+                BingImageSaveHelper.INSTANCE.getNewestPicture(UrlHelper.generateBingImageGuoLinUrl());
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -256,10 +261,6 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         if(keyStr.equals(context.getString(R.string.prefBackgroundTheme))){
             backgroundLayout.removeAllViews();
             initBackground();
-        }else if (keyStr.equals(context.getString(R.string.prefBackgroundBingImageSize))){
-            if (backgroundPartManager instanceof BackgroundManagerBing){
-                ((BackgroundManagerBing)backgroundPartManager).initViewData(null,0);
-            }
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)

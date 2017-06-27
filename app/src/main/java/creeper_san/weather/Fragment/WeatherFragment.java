@@ -336,7 +336,6 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
 
     private void clearPartManagerList(){
         if (partManagerList==null){
-//            loge("List初始化");
             partManagerList = new ArrayList<>();
         }else {
             partManagerList.clear();

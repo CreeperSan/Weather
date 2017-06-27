@@ -4,4 +4,6 @@
         android:id="@+id/menuMainToolbarAddCity"/>
     <item android:title="刷新数据"
         android:id="@+id/menuMainToolbarRefreshWeather"/>
+    <item android:title="测试"
+        android:id="@+id/menuMainToolbarTest"/>
 </menu>

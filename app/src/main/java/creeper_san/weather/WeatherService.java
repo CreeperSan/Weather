@@ -1,6 +1,8 @@
 package creeper_san.weather;
 
 import android.app.DownloadManager;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,9 +12,10 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
-import android.support.v4.content.FileProvider;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,26 +25,34 @@ import org.json.JSONException;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import creeper_san.weather.Base.BaseService;
 import creeper_san.weather.Event.BingImageEvent;
 import creeper_san.weather.Event.BingImageResultEvent;
+import creeper_san.weather.Event.CityEditEvent;
+import creeper_san.weather.Event.OfflineDataSaveCompleteEvent;
 import creeper_san.weather.Event.SearchResultEvent;
 import creeper_san.weather.Event.UpdateApkDownloadEvent;
 import creeper_san.weather.Event.UpdateHistoryResultEvent;
 import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
+import creeper_san.weather.Event.WeatherNotificationEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
 import creeper_san.weather.Exctption.JsonDecodeException;
 import creeper_san.weather.Flag.LanguageCode;
 import creeper_san.weather.Flag.LanguageCode.Language_;
+import creeper_san.weather.Helper.ConfigHelper;
+import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Helper.HttpHelper;
+import creeper_san.weather.Helper.OfflineCacheHelper;
+import creeper_san.weather.Helper.ResHelper;
 import creeper_san.weather.Helper.UrlHelper;
 import creeper_san.weather.Interface.HttpBitmapCallback;
 import creeper_san.weather.Interface.HttpStringCallback;
+import creeper_san.weather.Item.CityItem;
 import creeper_san.weather.Json.SearchJson;
-import creeper_san.weather.Json.UpdateJson;
 import creeper_san.weather.Json.WeatherJson;
 import okhttp3.Call;
 import okhttp3.Response;
@@ -51,6 +62,14 @@ public class WeatherService extends BaseService {
     private String downloadApkName = "0";
 
     long downloadID = 0;
+
+    private int foregroundID = 65536;
+    private RemoteViews foregroundRemoteViews;
+    private Notification foregroundNotification;
+    private NotificationManager notificationManager;
+    private String notificationCityID = "";
+    private Handler handler = new Handler();
+    private boolean isShowNotification = false;
 
     /**
      *      EventBus
@@ -126,6 +145,68 @@ public class WeatherService extends BaseService {
         log("已向图片服务器发出必应图片请求");
         EventBus.getDefault().removeStickyEvent(event);
     }
+    @Subscribe()
+    public void onWeatherNotificationEvent(WeatherNotificationEvent event){
+        if (event.getEnable()){
+            isShowNotification = true;
+            notifyForegroundNotification();
+        }else {
+            isShowNotification = false;
+            stopForeground(true);
+        }
+
+    }
+    private void notifyForegroundNotification(){
+        Notification.Builder builder = new Notification.Builder(this);
+        foregroundRemoteViews = new RemoteViews(getPackageName(),R.layout.notification_weather);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            builder.setCustomContentView(foregroundRemoteViews);
+        }else {
+            builder.setContent(foregroundRemoteViews);
+        }
+        builder.setSmallIcon(R.drawable.ic_sunny);
+        foregroundNotification = builder.build();
+        startForeground(foregroundID,foregroundNotification);
+        refreshNotificationData();
+    }
+    private void refreshNotificationData(){
+        if (notificationManager==null){
+            notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        }
+        List<CityItem> cityItemList = DatabaseHelper.getCityList(this);
+        if (cityItemList.size()!=0){
+            CityItem cityItem = cityItemList.get(0);
+            notificationCityID = cityItem.getId();
+            foregroundRemoteViews.setTextViewText(R.id.notificationCityName,cityItem.getCity());
+            WeatherJson weatherJson = OfflineCacheHelper.getWeatherItemFromCache(this,cityItem.getId());
+            if (weatherJson!=null){
+                foregroundRemoteViews.setImageViewResource(R.id.notificationImage, ResHelper.getWeatherImageWeatherCode(weatherJson.getCode(0)));
+                String weatherText = getString(ResHelper.getStringIDFromWeatherCode(weatherJson.getCode(0))) +
+                        " "+weatherJson.getTmp(0)+"℃ 空气质量"+weatherJson.getAqi(0);
+                foregroundRemoteViews.setTextViewText(R.id.notificationInfo,weatherText);
+                notificationManager.notify(foregroundID,foregroundNotification);
+                return;
+            }
+        }
+        foregroundRemoteViews.setImageViewResource(R.id.notificationImage,R.drawable.ic_unknown);
+        foregroundRemoteViews.setTextViewText(R.id.notificationInfo,"天气数据未知");
+        notificationManager.notify(foregroundID,foregroundNotification);
+    }
+    @Subscribe()
+    public void onOfflineDataSaveCompleteEvent(OfflineDataSaveCompleteEvent event){
+        if (isShowNotification){
+            if (event.getCityID().equals(notificationCityID)){
+                refreshNotificationData();
+            }
+        }
+    }
+    @Subscribe
+    public void onCityEditEvent(CityEditEvent editEvent){
+        if (isShowNotification){
+            refreshNotificationData();
+        }
+    }
+
 
     /**
      *      生命周期
@@ -135,6 +216,10 @@ public class WeatherService extends BaseService {
         super.onCreate();
         downloadApkReceiver = new DownloadApkReceiver();
         registerReceiver(downloadApkReceiver,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        if (ConfigHelper.settingGetWeatherNotificationEnable(this,false)){
+            isShowNotification = true;
+            notifyForegroundNotification();
+        }
     }
 
     @Override
@@ -180,7 +265,8 @@ public class WeatherService extends BaseService {
             @Override
             public void onResult(Call call, String result, int requestCode) {
                 try {
-                    postEvent(new WeatherResultEvent(true,new WeatherJson(result)));
+                    WeatherJson weatherJson = new WeatherJson(result);
+                    postEvent(new WeatherResultEvent(true,weatherJson));
                 } catch (JSONException | JsonDecodeException e) {
 //                    e.printStackTrace();
                     postEvent(new WeatherResultEvent(true,null));

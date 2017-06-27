@@ -3,6 +3,7 @@ package creeper_san.weather.Helper;
 import android.content.Context;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 import java.io.File;
@@ -11,26 +12,22 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import creeper_san.weather.Event.OfflineDataSaveCompleteEvent;
 import creeper_san.weather.Exctption.JsonDecodeException;
 import creeper_san.weather.Json.WeatherJson;
 
 public class OfflineCacheHelper {
     private final static String FILE_PATH = "/Offline/";
+    private boolean isRegisterToEventBus = false;
 
-    private static OfflineCacheHelper instance;
-
-    private OfflineCacheHelper() {
-        init();
-    }
-
-    private void init() {
-
+    private void checkRegister(){
+        if (!isRegisterToEventBus){
+            EventBus.getDefault().register(this);
+        }
     }
 
     public static void saveCityOfflineData(Context context, String cityID ,String jsonStr){
         File file = new File(context.getApplicationContext().getFilesDir()+FILE_PATH+cityID);
-//        log(file.getAbsolutePath());
-//        log(file.getParent());
         if (!file.exists()){
             try {
                 if (!file.getParentFile().exists()){
@@ -52,6 +49,7 @@ public class OfflineCacheHelper {
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(jsonStr.getBytes());
             fos.close();
+            EventBus.getDefault().post(new OfflineDataSaveCompleteEvent(cityID, jsonStr));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             log("缓存文件没有找到");
@@ -69,6 +67,7 @@ public class OfflineCacheHelper {
                 byte[] buffer = new byte[(int) length];
                 fis.read(buffer);
                 fis.close();
+
                 return new WeatherJson(new String(buffer));
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -90,12 +89,5 @@ public class OfflineCacheHelper {
 
     private static void log(String content){
         Log.e("FileHelper",content);
-    }
-
-    public static OfflineCacheHelper getInstance(){
-        if (instance == null){
-            instance = new OfflineCacheHelper();
-        }
-        return instance;
     }
 }

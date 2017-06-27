@@ -8,6 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import org.greenrobot.eventbus.EventBus;
 
 import creeper_san.weather.SettingActivity;
 
@@ -41,4 +44,10 @@ public abstract class BasePrefFragment extends PreferenceFragment {
 
     protected abstract @XmlRes int getXmlID();
 
+    protected void toast(String content){
+        Toast.makeText(getActivity(),content,Toast.LENGTH_SHORT).show();
+    }
+    protected void poseEvent(Object object){
+        EventBus.getDefault().post(object);
+    }
 }
