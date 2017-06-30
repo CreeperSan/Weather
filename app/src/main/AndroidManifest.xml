@@ -37,6 +37,13 @@
         <activity android:name=".AboutActivity" />
         <activity android:name=".VersionHistoryActivity"/>
 
+        <receiver android:name=".WeatherWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider" android:resource="@xml/widget_weather"/>
+        </receiver>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="creeper_san.weather.fileprovider"

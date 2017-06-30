@@ -47,6 +47,7 @@ import creeper_san.weather.Event.UpdateRequestEvent;
 import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
+import creeper_san.weather.Event.WidgetEvent;
 import creeper_san.weather.Fragment.WeatherFragment;
 import creeper_san.weather.Helper.BingImageSaveHelper;
 import creeper_san.weather.Helper.ConfigHelper;
@@ -249,6 +250,8 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         }else {
             isOrderChange = true;
         }
+        //此处通知小部件更新
+        postEvent(new WidgetEvent(WidgetEvent.WidgetType.INSTANCE.getTYPE_BASE(),WidgetEvent.EventType.INSTANCE.getTYPE_UPDATE()));
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onBackgroundChangeEvent(BackgroundChangeEvent event){

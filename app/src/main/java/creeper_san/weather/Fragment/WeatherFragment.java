@@ -33,6 +33,7 @@ import creeper_san.weather.Event.TemperatureUnitChangeEvent;
 import creeper_san.weather.Event.ThemeAlphaChangeEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
+import creeper_san.weather.Event.WidgetEvent;
 import creeper_san.weather.Helper.ConfigHelper;
 import creeper_san.weather.Helper.DatabaseHelper;
 import creeper_san.weather.Helper.OfflineCacheHelper;
@@ -377,7 +378,6 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 loge("网络数据解析失败");
             }else {
                 WeatherJson item = event.getWeatherJson();
-
                 for (int i=0;i<item.size();i++){
                     if (item.getId(i).equals(ID)){
                         OfflineCacheHelper.saveCityOfflineData(getContext(),ID,item.getJsonObject().toString());
@@ -385,8 +385,9 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                     }
                 }
                 ConfigHelper.setCityWeatherUpdateTime(getContext(),getID(),System.currentTimeMillis());
+                //此处通知小部件更新
+                postEvent(new WidgetEvent(WidgetEvent.WidgetType.INSTANCE.getTYPE_BASE(),WidgetEvent.EventType.INSTANCE.getTYPE_UPDATE()));
             }
-        }else {
         }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_centerInParent="true"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:clickable="true"
+            android:id="@+id/widgetWeatherImage"
+            android:src="@drawable/ic_unknown"
+            android:tint="#ffffff"
+            android:layout_margin="8dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp" />
+
+        <LinearLayout
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/widgetCityName"
+                android:layout_gravity="center"
+                android:layout_weight="1.5"
+                android:text="--"
+                android:textSize="20sp"
+                android:textColor="#ffffff"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+
+
+            <TextView
+                android:id="@+id/widgetWeatherTextAndTemperature"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:textColor="#ffffff"
+                android:text="点击刷新小部件"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

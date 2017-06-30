@@ -3,7 +3,9 @@ package creeper_san.weather;
 import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.appwidget.AppWidgetManager;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -40,6 +42,7 @@ import creeper_san.weather.Event.UpdateResultEvent;
 import creeper_san.weather.Event.WeatherNotificationEvent;
 import creeper_san.weather.Event.WeatherRequestEvent;
 import creeper_san.weather.Event.WeatherResultEvent;
+import creeper_san.weather.Event.WidgetEvent;
 import creeper_san.weather.Exctption.JsonDecodeException;
 import creeper_san.weather.Flag.LanguageCode;
 import creeper_san.weather.Flag.LanguageCode.Language_;
@@ -206,6 +209,18 @@ public class WeatherService extends BaseService {
             refreshNotificationData();
         }
     }
+    @Subscribe(sticky = true)
+    public void onWidgetEvent(WidgetEvent event){
+        if (event.getWidgetType() == WidgetEvent.WidgetType.INSTANCE.getTYPE_BASE()){//如果是基本的widget
+            if (event.getEventType()!=WidgetEvent.EventType.INSTANCE.getTYPE_DISABLE()){
+                RemoteViews remoteViews = WeatherWidget.Companion.generateBaseWidgetRemoteView(this);
+                AppWidgetManager manager = AppWidgetManager.getInstance(this);
+                ComponentName componentName = new ComponentName(this,WeatherWidget.class);
+                manager.updateAppWidget(componentName,remoteViews);
+            }
+        }
+        EventBus.getDefault().removeStickyEvent(event);
+    }
 
 
     /**
@@ -221,7 +236,6 @@ public class WeatherService extends BaseService {
             notifyForegroundNotification();
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -299,6 +313,13 @@ public class WeatherService extends BaseService {
                 postEvent(new UpdateResultEvent(result));
             }
         });
+    }
+
+    /**
+     *      快捷操作
+     */
+    private void notifyBaseWidgetChange(){
+        postEvent(new WidgetEvent(WidgetEvent.WidgetType.INSTANCE.getTYPE_BASE(),WidgetEvent.EventType.INSTANCE.getTYPE_UPDATE()));
     }
 
     @Nullable

@@ -90,7 +90,14 @@ open class VersionHistoryActivity : BaseActivity(),View.OnClickListener {
 
         override fun onBindViewHolder(holder: VersionHolder, position: Int) {
             val item = versionList.get(position)
-            holder.getDescription()?.text = item.getDescription()
+            val descriptionBuilder = StringBuilder("")
+            val descriptionItemArray = item.getDescription().split("+")
+            for (descriptItem in descriptionItemArray){
+                if (descriptItem.isNotEmpty() && descriptItem.isNotBlank()){
+                    descriptionBuilder.append("· $descriptItem \n")
+                }
+            }
+            holder.getDescription()?.text = descriptionBuilder.toString()
             holder.getTime()?.text = item.getUpdateTime()
             holder.getTitle()?.text = item.getVersionName()
         }
