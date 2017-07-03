@@ -98,13 +98,17 @@ public class BackgroundManagerBing extends BaseBackgroundPartManager {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                switch (ConfigHelper.settingGetBackgroundBlur(getContext(),"0")){
-                    case "1":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),5)).into(imageView);break;
-                    case "2":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),10)).into(imageView);break;
-                    case "3":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),15)).into(imageView);break;
-                    case "4":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),20)).into(imageView);break;
-                    case "5":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),25)).into(imageView);break;
-                    default:Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).into(imageView);break;
+                try {
+                    switch (ConfigHelper.settingGetBackgroundBlur(getContext(),"0")){
+                        case "1":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),5)).into(imageView);break;
+                        case "2":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),10)).into(imageView);break;
+                        case "3":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),15)).into(imageView);break;
+                        case "4":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),20)).into(imageView);break;
+                        case "5":Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).crossFade(1000).bitmapTransform(new BlurTransformation(getContext(),25)).into(imageView);break;
+                        default:Glide.with(getContext()).load(BitmapHelper.INSTANCE.bitmapToByteArraySteam(imageData).toByteArray()).into(imageView);break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         });

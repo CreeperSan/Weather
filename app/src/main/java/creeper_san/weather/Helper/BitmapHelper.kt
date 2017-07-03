@@ -13,7 +13,6 @@ object BitmapHelper {
 
     fun blur(bitmap: Bitmap,radius:Float,context: Context):Bitmap{
         val longLength = if (bitmap.width>bitmap.height) bitmap.width else bitmap.height
-        val times = longLength.toFloat()/240f
         val output:Bitmap
         if (longLength>240){
 //            output = Bitmap.createBitmap(bitmap.width, bitmap.height,Bitmap.Config.RGB_565)

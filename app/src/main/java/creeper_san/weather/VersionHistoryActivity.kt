@@ -42,7 +42,9 @@ open class VersionHistoryActivity : BaseActivity(),View.OnClickListener {
         val actionBar = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
         loadingText?.setOnClickListener(this)
-        recyclerView?.layoutManager = LinearLayoutManager(this)
+        val linearLayout = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,true)
+        linearLayout.stackFromEnd = true
+        recyclerView?.layoutManager = linearLayout
         recyclerView?.adapter = adapter
         //发送请求
         postEvent(UpdateRequestEvent(UpdateRequestEvent.TYPE_CHECK_UPDATE_HISTORY))

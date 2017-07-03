@@ -14,10 +14,11 @@ public class BootActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        startService(WeatherService.class);
         if (ConfigHelper.infoIsFirstBoot(this,true)){
             initFirstBoot();
             startActivity(MainActivity.class,true);
-            startActivity(IntroActivity.class);
+            startActivity(GuideActivity.class);
             ConfigHelper.infoSetFirstBoot(this,false);
         }else {
             startActivity(MainActivity.class,true);
@@ -27,14 +28,6 @@ public class BootActivity extends BaseActivity {
     private void initFirstBoot() {
         DatabaseHelper.insertCityItem(this,new CityItem("深圳","中国","CN101280601","22.54700089","114.08594513","广东"));
         DatabaseHelper.insertCityItem(this,new CityItem("北京","中国","CN101010100","39.90498734","116.40528870","北京"));
-        long currentMillis = System.currentTimeMillis();
-        int i=0;
-        for (int type:PartManageActivity.TYPES){
-            PartItem partItem = new PartItem(this,type);
-            partItem.setTimeStamp(String.valueOf(currentMillis+i));
-            DatabaseHelper.insertPartItem(this,partItem);
-            i++;
-        }
     }
 
 

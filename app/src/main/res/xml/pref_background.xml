@@ -12,7 +12,7 @@
             app:key="@string/prefBackgroundTheme"
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesPartBackgroundStyleNames"
-            app:defaultValue="0"/>
+            app:defaultValue="2"/>
     </creeper_san.weather.Pref.CatalogPref>
 
     <creeper_san.weather.Pref.CatalogPref

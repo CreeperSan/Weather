@@ -65,6 +65,9 @@ public class ResHelper {
         }
     }
     public static int getWeatherImageWeatherCode(String code){
+        if (code.equals("") || code==null){
+            return R.drawable.ic_unknown;
+        }
         switch (code){
             case "100": return R.drawable.ic_sunny;
             case "101": return R.drawable.ic_cloudy;

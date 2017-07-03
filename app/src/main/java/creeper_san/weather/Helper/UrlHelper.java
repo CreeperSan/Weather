@@ -123,7 +123,6 @@ public class UrlHelper {
 
     /**
      *      此方法用于生成bing背景图片链接
-     * @return
      */
     @Deprecated
     public static String generateBingImage768pUrl(){

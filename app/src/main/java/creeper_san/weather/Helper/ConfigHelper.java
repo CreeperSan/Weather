@@ -65,7 +65,7 @@ public class ConfigHelper {
     public static String settingGetTheme(Context context,String defaultTheme){
         return getInstance(context).settingPref.getString(context.getString(R.string.prefMainThemeColor),defaultTheme);
     }
-    public static String settingGetHeaderStyle(Context context,String defaultValue){
+    public static String settingGetHeaderTheme(Context context, String defaultValue){
         return getInstance(context).settingPref.getString(context.getString(R.string.prefHeaderTheme),defaultValue);
     }
     public static String settingGetAQITheme(Context context,String defaultValue){
@@ -163,6 +163,36 @@ public class ConfigHelper {
     }
     public static void infoSetFirstBoot(Context context,boolean value){
         getInstance(context).infoPref.edit().putBoolean(KEY_IS_FIRST_BOOT,value).commit();
+    }
+    public static void settingSetHeaderTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefHeaderTheme",value).commit();
+    }
+    public static void settingSetAQITheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefAQITheme",value).commit();
+    }
+    public static void settingSetWindTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefWindTheme",value).commit();
+    }
+    public static void settingSetCityWindTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefCityTheme",value).commit();
+    }
+    public static void settingSetOtherTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefOtherTheme",value).commit();
+    }
+    public static void settingSetSuggestionTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefSuggestionTheme",value).commit();
+    }
+    public static void settingSetDailyTheme(Context context,String value){
+        getInstance(context).settingPref.edit().putString("prefDailyTheme",value).commit();
+    }
+    public static void settingSetAllPartTheme(Context context,String value){
+        settingSetHeaderTheme(context,value);
+        settingSetAQITheme(context, value);
+        settingSetWindTheme(context, value);
+        settingSetCityWindTheme(context,value);
+        settingSetOtherTheme(context, value);
+        settingSetSuggestionTheme(context, value);
+        settingSetDailyTheme(context, value);
     }
 
     public static boolean isFirstBoot(Context context,PackageManager packageManager){

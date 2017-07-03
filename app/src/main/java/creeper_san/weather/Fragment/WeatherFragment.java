@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -41,7 +42,6 @@ import creeper_san.weather.Item.PartItem;
 import creeper_san.weather.Json.WeatherJson;
 import creeper_san.weather.Part.AqiPartManagerCard;
 import creeper_san.weather.Part.AqiPartManagerSimple;
-import creeper_san.weather.Part.BackgroundManagerSimple;
 import creeper_san.weather.Part.CityPartManagerCard;
 import creeper_san.weather.Part.CityPartManagerSimple;
 import creeper_san.weather.Part.DailyPartManagerCard;
@@ -102,7 +102,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     private BasePartManager getPartManagerFromTypeCode(int type,LayoutInflater inflater,ViewGroup viewGroup){
         switch (type){
             case PART_HEAD:
-                switch(ConfigHelper.settingGetHeaderStyle(getContext(),"0")){
+                switch(ConfigHelper.settingGetHeaderTheme(getContext(),"0")){
                     case "0":return new HeaderPartManagerSimple(inflater,viewGroup);
                     case "1":return new HeaderPartManagerCard(inflater,viewGroup);
                     default:return new HeaderPartManagerSimple(inflater,viewGroup);
@@ -185,8 +185,8 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
         //检查是否需要更新
         long currentTime = System.currentTimeMillis();
         if (currentTime - ConfigHelper.getCityWeatherUpdateTime(getContext(),getID(),0)>1000*60*60){
-            setRefreshState(true);
-            postEvent(new WeatherRequestEvent(getID(),getCityName()));
+//            setRefreshState(true);
+            postStickyEvent(new WeatherRequestEvent(getID(),getCityName()));
         }
     }
 
@@ -370,7 +370,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
     /**
      *      EventBus
      */
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN , sticky = true)
     public void onWeatherResultEvent(WeatherResultEvent event){
         swipeRefreshLayout.setRefreshing(false);
         if (event.isSuccess()){
@@ -389,6 +389,7 @@ public class WeatherFragment extends BaseFragment implements SwipeRefreshLayout.
                 postEvent(new WidgetEvent(WidgetEvent.WidgetType.INSTANCE.getTYPE_BASE(),WidgetEvent.EventType.INSTANCE.getTYPE_UPDATE()));
             }
         }
+        EventBus.getDefault().removeStickyEvent(event);
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTypeEditEvent(PartEditEvent event){

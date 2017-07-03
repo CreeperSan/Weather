@@ -30,7 +30,7 @@ public abstract class BasePartManager {
 
     protected void initAlpha() {
         try {
-            Integer alphaLevel = Integer.valueOf(ConfigHelper.settingGetThemeAlpha(getContext(),"0"));
+            Integer alphaLevel = Integer.valueOf(ConfigHelper.settingGetThemeAlpha(getContext(),"2"));
             getView().setAlpha(1f-Float.valueOf(alphaLevel)*0.1f);
         } catch (NumberFormatException e) {}
 

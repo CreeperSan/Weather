@@ -39,7 +39,7 @@
             app:event="ThemeAlphaChangeEvent"
             app:valueArray="@array/entriesValues"
             app:nameArray="@array/entriesThemeAlpha"
-            app:defaultValue="0"/>
+            app:defaultValue="2"/>
         <Preference android:key="@string/prefMainPartHeader" android:title="天气概况"/>
         <Preference android:key="@string/prefMainPartAQI" android:title="空气质量"/>
         <Preference android:key="@string/prefMainPartDaily" android:title="天气预报"/>

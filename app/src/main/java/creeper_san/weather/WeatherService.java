@@ -273,17 +273,17 @@ public class WeatherService extends BaseService {
         HttpHelper.httpGet(UrlHelper.generateWeatherUrl(cityName), new HttpStringCallback() {
             @Override
             public void onFail(Call call, IOException e, int requestCode) {
-                postEvent(new WeatherResultEvent(false,null));
+                postStickyEvent(new WeatherResultEvent(false,null));
             }
 
             @Override
             public void onResult(Call call, String result, int requestCode) {
                 try {
                     WeatherJson weatherJson = new WeatherJson(result);
-                    postEvent(new WeatherResultEvent(true,weatherJson));
+                    postStickyEvent(new WeatherResultEvent(true,weatherJson));
                 } catch (JSONException | JsonDecodeException e) {
 //                    e.printStackTrace();
-                    postEvent(new WeatherResultEvent(true,null));
+                    postStickyEvent(new WeatherResultEvent(true,null));
                 }
             }
         });
@@ -310,6 +310,7 @@ public class WeatherService extends BaseService {
 
             @Override
             public void onResult(Call call, String result, int requestCode) {
+//                log("更新历史\n"+result);
                 postEvent(new UpdateResultEvent(result));
             }
         });

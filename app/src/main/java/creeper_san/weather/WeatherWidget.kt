@@ -37,10 +37,10 @@ class WeatherWidget : AppWidgetProvider(){
                     setRemoteViewHintEmpty(remoteView)
                 }else{
                     val weatherJson = OfflineCacheHelper.getWeatherItemFromCache(context,cityName)
-                    remoteView.setImageViewResource(R.id.widgetWeatherImage,ResHelper.getWeatherImageWeatherCode(weatherJson.getCode(0)))
+                    remoteView.setImageViewResource(R.id.widgetWeatherImage,ResHelper.getWeatherImageWeatherCode(weatherJson?.getCode(0)))
                     remoteView.setTextViewText(R.id.widgetCityName,cityList[0].city)
                     remoteView.setTextViewText(R.id.widgetWeatherTextAndTemperature,
-                            "${context.getString(ResHelper.getStringIDFromWeatherCode(weatherJson.getCode(0)))} ${weatherJson.getTmp(0)}℃")
+                            "${context.getString(ResHelper.getStringIDFromWeatherCode(weatherJson?.getCode(0)))} ${weatherJson?.getTmp(0)}℃")
                 }
             }
             return remoteView

@@ -183,7 +183,7 @@ public class MainActivity extends BaseActivity implements ServiceConnection{
         startService(WeatherService.class);
     }
     private void initBackground() {
-        switch (ConfigHelper.settingGetBgTheme(this,"0")){
+        switch (ConfigHelper.settingGetBgTheme(this,"2")){
             case "0":
                 backgroundPartManager = new BackgroundManagerSimple(getLayoutInflater(),backgroundLayout);
                 break;
